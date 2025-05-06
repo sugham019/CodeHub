@@ -1,22 +1,21 @@
 package com.example.backend.controller;
 
 import com.example.backend.model.DataType;
-import com.example.backend.service.CodeTemplateService;
+import com.example.backend.service.TemplateService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/template")
-public class CodeTemplateController {
+public class TemplateController {
 
-    private final CodeTemplateService codeTemplateService;
+    private final TemplateService codeTemplateService;
 
-    public CodeTemplateController(CodeTemplateService codeTemplateService){
+    public TemplateController(TemplateService codeTemplateService){
         this.codeTemplateService = codeTemplateService;
     }
 
     @GetMapping("/generate")
     public String generate(@RequestParam DataType inputType, @RequestParam DataType outputType){
-        System.out.println("Hit");
         return codeTemplateService.generate(inputType, outputType);
     }
 }

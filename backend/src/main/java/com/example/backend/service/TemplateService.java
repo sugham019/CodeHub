@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 
 @Service
-public class CodeTemplateService {
+public class TemplateService {
 
     private final HashMap<DataType, String> types;
 
-    public CodeTemplateService(){
+    public TemplateService(){
          types = new HashMap<>();
          types.put(DataType.INT_ARRAY, "int[]");
          types.put(DataType.STRING, "String");
