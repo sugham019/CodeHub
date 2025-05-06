@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class CodeController {
 
     @PostMapping("/compile")
-    public CompileResult compile(RequestBody code){
+    public CompileResult compile(@RequestBody String code){
         // Todo
         return null;
     }
