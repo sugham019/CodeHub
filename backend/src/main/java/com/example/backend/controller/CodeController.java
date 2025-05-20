@@ -1,18 +1,26 @@
 package com.example.backend.controller;
 
-import com.example.backend.model.CompileResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.backend.model.CodeInput;
+import com.example.backend.model.CodeSubmitResult;
+import com.example.backend.model.Language;
+import com.example.backend.service.CodeService;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 @RestController
 @RequestMapping("/code")
 public class CodeController {
 
-    @PostMapping("/compile")
-    public CompileResult compile(@RequestBody String code){
-        // Todo
-        return null;
+    private final Map<String, CodeService> codeServiceMap;
+
+    public CodeController(Map<String, CodeService> codeServiceMap){
+        this.codeServiceMap = codeServiceMap;
+    }
+
+    @PostMapping("/compileAndRun")
+    public CodeSubmitResult compileAndRun(@RequestParam Language language, @RequestBody CodeInput codeInput){
+        CodeService codeService = codeServiceMap.get(language.toString());
+        return codeService.submit(codeInput);
     }
 }
