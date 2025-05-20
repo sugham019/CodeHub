@@ -1,6 +1,7 @@
 package com.example.backend.controller;
 
 import com.example.backend.model.DataType;
+import com.example.backend.model.Language;
 import com.example.backend.service.TemplateService;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,7 +16,10 @@ public class TemplateController {
     }
 
     @GetMapping("/generate")
-    public String generate(@RequestParam DataType inputType, @RequestParam DataType outputType){
-        return codeTemplateService.generate(inputType, outputType);
+    public String generate(@RequestParam DataType inputType, @RequestParam DataType outputType, @RequestParam Language language){
+        if(language == Language.JAVA){
+            return codeTemplateService.generateJavaTemplate(inputType, outputType);
+        }
+        return null;
     }
 }
