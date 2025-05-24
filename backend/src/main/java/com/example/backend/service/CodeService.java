@@ -1,9 +1,10 @@
 package com.example.backend.service;
 
-import com.example.backend.model.CodeInput;
-import com.example.backend.model.CodeSubmitResult;
+import com.example.backend.dto.CodeSubmitDTO;
+import com.example.backend.dto.CodeResultDTO;
 
 public interface CodeService {
 
-    CodeSubmitResult submit(CodeInput codeInput);
+    CodeResultDTO submit(CodeSubmitDTO codeInput);
+
 }

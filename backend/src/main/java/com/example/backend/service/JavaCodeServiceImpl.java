@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
-import com.example.backend.model.CodeInput;
-import com.example.backend.model.CodeSubmitResult;
+import com.example.backend.dto.CodeSubmitDTO;
+import com.example.backend.dto.CodeResultDTO;
 import com.example.backend.model.DataType;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
@@ -10,17 +10,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
-// Todo: Support for memory monitor support
-
+// Todo: Support for memory usage monitor
 @Service("JAVA")
-public class JavaCodeService implements CodeService{
+public class JavaCodeServiceImpl implements CodeService{
 
-    public CodeSubmitResult submit(CodeInput codeInput) {
+    public CodeResultDTO submit(CodeSubmitDTO codeInput) {
         try{
             Path tempDir = Files.createTempDirectory("temp_java_run");
             String mainFile = getAppropriateMainFile(codeInput.getInputType(), codeInput.getOutputType());
             if(!compile(tempDir, mainFile, codeInput.getCode())){
-                return new CodeSubmitResult(false, "Compilation failed", 0);
+                return new CodeResultDTO(false, "Compilation failed", 0);
             }
             String[] inputs = codeInput.getInputs();
             String[] expectedOutputs = codeInput.getExpectedOutputs();
@@ -34,10 +33,10 @@ public class JavaCodeService implements CodeService{
             }
             long endTime = System.currentTimeMillis();
             long executionTimeInMs = endTime - startTime;
-            return new CodeSubmitResult(totalTestPass == codeInput.getTotalTests(), "Total Test Case Passed: "+
+            return new CodeResultDTO(totalTestPass == codeInput.getTotalTests(), "Total Test Case Passed: "+
                     totalTestPass+"/"+codeInput.getTotalTests(), executionTimeInMs);
         } catch (Exception e) {
-            return new CodeSubmitResult(false, e.getMessage(), 0);
+            return new CodeResultDTO(false, e.getMessage(), 0);
         }
     }
 
@@ -53,7 +52,7 @@ public class JavaCodeService implements CodeService{
     }
 
     private boolean compile(Path tempDir, String mainFile, String userInputCode) throws IOException, InterruptedException {
-        InputStream startupCode = JavaCodeService.class.getClassLoader().getResourceAsStream("startup/"+mainFile+".java");
+        InputStream startupCode = JavaCodeServiceImpl.class.getClassLoader().getResourceAsStream("startup/java/"+mainFile+".java");
         if(startupCode == null){
             return false;
         }
@@ -68,4 +67,5 @@ public class JavaCodeService implements CodeService{
         ).inheritIO().start();
         return compile.waitFor() == 0;
     }
+
 }

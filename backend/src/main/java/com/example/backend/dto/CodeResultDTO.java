@@ -1,12 +1,12 @@
-package com.example.backend.model;
+package com.example.backend.dto;
 
-public class CodeSubmitResult {
+public class CodeResultDTO {
 
     private final boolean allTestPassed;
     private final String logs;
     private final double executionTimeInMs;
 
-    public CodeSubmitResult(boolean allTestPassed, String logs, double executionTimeInMs){
+    public CodeResultDTO(boolean allTestPassed, String logs, double executionTimeInMs){
         this.allTestPassed = allTestPassed;
         this.logs = logs;
         this.executionTimeInMs = executionTimeInMs;
@@ -23,4 +23,5 @@ public class CodeSubmitResult {
     public double getExecutionTimeInMs(){
         return executionTimeInMs;
     }
+
 }

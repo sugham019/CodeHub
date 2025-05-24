@@ -3,23 +3,24 @@ package com.example.backend.controller;
 import com.example.backend.model.DataType;
 import com.example.backend.model.Language;
 import com.example.backend.service.TemplateService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/template")
 public class TemplateController {
 
-    private final TemplateService codeTemplateService;
+    private final TemplateService templateService;
 
     public TemplateController(TemplateService codeTemplateService){
-        this.codeTemplateService = codeTemplateService;
+        this.templateService = codeTemplateService;
     }
 
     @GetMapping("/generate")
-    public String generate(@RequestParam DataType inputType, @RequestParam DataType outputType, @RequestParam Language language){
-        if(language == Language.JAVA){
-            return codeTemplateService.generateJavaTemplate(inputType, outputType);
-        }
-        return null;
+    public ResponseEntity<String> generate(@RequestParam DataType inputType, @RequestParam DataType outputType, @RequestParam Language language){
+        String generatedCode = templateService.generateTemplateCode(inputType, outputType, language);
+        return new ResponseEntity<>(generatedCode, HttpStatus.OK);
     }
+
 }

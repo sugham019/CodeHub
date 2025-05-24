@@ -1,10 +1,6 @@
 package com.example.backend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
-import java.util.Set;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "problems")
@@ -12,12 +8,8 @@ public class Problem {
 
     @Id
     private String id;
-
     private String title;
     private String pagePath;
-
-    @ManyToMany
-    private Set<User> users;
 
     public Problem(String id, String title, String pagePath){
         this.id = id;
@@ -40,4 +32,5 @@ public class Problem {
     public String getTitle(){
         return title;
     }
+
 }

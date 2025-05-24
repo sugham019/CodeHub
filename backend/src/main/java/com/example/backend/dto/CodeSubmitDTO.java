@@ -1,6 +1,8 @@
-package com.example.backend.model;
+package com.example.backend.dto;
 
-public class CodeInput {
+import com.example.backend.model.DataType;
+
+public class CodeSubmitDTO {
 
     private String code;
     private DataType inputType;
@@ -9,7 +11,7 @@ public class CodeInput {
     private String[] inputs;
     private String[] expectedOutputs;
 
-    public CodeInput(){
+    public CodeSubmitDTO(){
 
     }
 
@@ -36,4 +38,5 @@ public class CodeInput {
     public int getTotalTests(){
         return totalTests;
     }
+
 }
