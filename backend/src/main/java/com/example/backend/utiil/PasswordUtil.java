@@ -10,6 +10,10 @@ public class PasswordUtil {
         return passwordEncoder.encode(password);
     }
 
+    public static boolean matchPassword(String password, String passwordHash){
+        return passwordEncoder.matches(password, passwordHash);
+    }
+
     // Todo
     public static boolean isPasswordStrong(String password){
         return true;
