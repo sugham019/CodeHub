@@ -71,7 +71,6 @@ public class UserServiceImpl implements UserService {
         if(!authentication.isAuthenticated()){
             throw new BadCredentialsException("Invalid username/password");
         }
-        System.out.println("Huu");
         return JwtUtil.generateToken(authentication.getName());
     }
 
