@@ -18,15 +18,15 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUserAccount(@RequestBody CreateUserDTO createUserDTO){
-        userService.createUser(createUserDTO);
+    public ResponseEntity<String> createUserAccount(@RequestParam(required = false) String accessKey, @RequestBody CreateUserDTO createUserDTO){
+        userService.createUserAccount(createUserDTO, accessKey);
         return new ResponseEntity<>("Successfully created account", HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<String> login(@RequestBody LoginUserDTO loginUserDTO){
-        userService.login(loginUserDTO);
-        return new ResponseEntity<>("Successfully logged in", HttpStatus.CREATED);
+        String token = userService.login(loginUserDTO);
+        return new ResponseEntity<>(token, HttpStatus.CREATED);
     }
 
 }
