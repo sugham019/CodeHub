@@ -5,7 +5,7 @@ import com.example.backend.dto.LoginUserDTO;
 
 public interface UserService {
 
-    void createUser(CreateUserDTO createUserDTO);
-    void login(LoginUserDTO loginUserDTO);
+    void createUserAccount(CreateUserDTO createUserDTO, String accessKey);
+    String login(LoginUserDTO loginUserDTO);
 
 }

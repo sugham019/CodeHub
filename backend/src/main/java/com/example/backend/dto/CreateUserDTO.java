@@ -1,5 +1,7 @@
 package com.example.backend.dto;
 
+import com.example.backend.model.AccessLevel;
+
 import java.time.LocalDate;
 
 public class CreateUserDTO {
@@ -8,6 +10,7 @@ public class CreateUserDTO {
     private String displayName;
     private String password;
     private LocalDate birthDate;
+    private AccessLevel accessLevel;
 
     public CreateUserDTO(){
 
@@ -27,6 +30,10 @@ public class CreateUserDTO {
 
     public LocalDate getBirthDate(){
         return birthDate;
+    }
+
+    public AccessLevel getAccessLevel(){
+        return accessLevel;
     }
 
 }
