@@ -17,22 +17,25 @@ public class User {
     private String passwordHash;
     private LocalDate birthDate;
 
+    @Enumerated(EnumType.STRING)
+    private AccessLevel accessLevel;
+
     @ManyToMany
     @JoinTable(name = "users_problems",
             joinColumns = @JoinColumn(name = "username"),
             inverseJoinColumns = @JoinColumn(name = "problem_id"))
     private Set<Problem> solvedProblems;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "leaderboard_id")
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Leaderboard leaderboard;
 
-    public User(String username, String displayName, String passwordHash, LocalDate birthDate){
+    public User(String username, String displayName, String passwordHash, LocalDate birthDate, AccessLevel accessLevel){
         this.username = username;
         this.displayName = displayName;
         this.passwordHash = passwordHash;
         this.birthDate = birthDate;
         this.solvedProblems = new HashSet<>();
+        this.accessLevel = accessLevel;
     }
 
     public User(){
@@ -53,6 +56,14 @@ public class User {
 
     public String getPasswordHash(){
         return passwordHash;
+    }
+
+    public void setAccessLevel(AccessLevel accessLevel){
+        this.accessLevel = accessLevel;
+    }
+
+    public AccessLevel getAccessLevel(){
+        return accessLevel;
     }
 
     public void updatePasswordHash(String passwordHash){

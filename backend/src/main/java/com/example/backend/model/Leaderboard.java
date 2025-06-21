@@ -7,10 +7,12 @@ import jakarta.persistence.*;
 public class Leaderboard {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+    @Column(name = "username")
+    private String username;
 
-    @OneToOne(mappedBy = "leaderboard")
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "username")
     private User user;
 
     private int rating;
