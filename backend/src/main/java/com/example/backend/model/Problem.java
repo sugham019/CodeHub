@@ -1,30 +1,14 @@
 package com.example.backend.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-@Entity
-@Table(name = "problems")
+@Document(collection = "problems")
 public class Problem {
 
     @Id
     private String id;
-    private String title;
 
-    public Problem(String id, String title, String pagePath){
-        this.id = id;
-        this.title = title;
-    }
-
-    public Problem() {
-
-    }
-
-    public String getId(){
-        return id;
-    }
-
-    public String getTitle(){
-        return title;
-    }
+    //  Todo: add necessary fields
 
 }

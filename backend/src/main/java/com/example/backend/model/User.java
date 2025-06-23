@@ -3,8 +3,8 @@ package com.example.backend.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "users")
@@ -20,11 +20,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AccessLevel accessLevel;
 
-    @ManyToMany
-    @JoinTable(name = "users_problems",
-            joinColumns = @JoinColumn(name = "username"),
-            inverseJoinColumns = @JoinColumn(name = "problem_id"))
-    private Set<Problem> solvedProblems;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SolvedProblem> solvedProblems;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Leaderboard leaderboard;
@@ -34,7 +31,7 @@ public class User {
         this.displayName = displayName;
         this.passwordHash = passwordHash;
         this.birthDate = birthDate;
-        this.solvedProblems = new HashSet<>();
+        this.solvedProblems = new ArrayList<>();
         this.accessLevel = accessLevel;
     }
 
@@ -42,11 +39,11 @@ public class User {
 
     }
 
-    public Set<Problem> getSolvedProblems(){
+    public List<SolvedProblem> getSolvedProblems(){
         return solvedProblems;
     }
 
-    public void addSolvedProblem(Problem problem){
+    public void addSolvedProblem(SolvedProblem problem){
         solvedProblems.add(problem);
     }
 
