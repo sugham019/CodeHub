@@ -1,7 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.CodeSubmitDTO;
-import com.example.backend.dto.CodeResultDTO;
+import com.example.backend.dto.CodeSubmitDto;
+import com.example.backend.dto.CodeResultDto;
 import com.example.backend.model.Language;
 import com.example.backend.service.CodeService;
 import org.springframework.http.HttpStatus;
@@ -21,7 +21,7 @@ public class CodeController {
     }
 
     @PostMapping("/submit")
-    public ResponseEntity<CodeResultDTO> submit(@RequestParam Language language, @RequestBody CodeSubmitDTO codeInput){
+    public ResponseEntity<CodeResultDto> submit(@RequestParam Language language, @RequestBody CodeSubmitDto codeInput){
         CodeService codeService = codeServiceMap.get(language.toString());
         return new ResponseEntity<>(codeService.submit(codeInput), HttpStatus.OK);
     }

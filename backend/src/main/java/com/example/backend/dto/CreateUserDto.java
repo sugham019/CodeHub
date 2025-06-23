@@ -4,7 +4,7 @@ import com.example.backend.model.AccessLevel;
 
 import java.time.LocalDate;
 
-public class CreateUserDTO {
+public class CreateUserDto {
 
     private String username;
     private String displayName;
@@ -12,7 +12,7 @@ public class CreateUserDTO {
     private LocalDate birthDate;
     private AccessLevel accessLevel;
 
-    public CreateUserDTO(){
+    public CreateUserDto(){
 
     }
 

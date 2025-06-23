@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.CodeSubmitDTO;
-import com.example.backend.dto.CodeResultDTO;
+import com.example.backend.dto.CodeSubmitDto;
+import com.example.backend.dto.CodeResultDto;
 import com.example.backend.model.DataType;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
@@ -14,12 +14,12 @@ import java.nio.file.StandardCopyOption;
 @Service("JAVA")
 public class JavaCodeServiceImpl implements CodeService{
 
-    public CodeResultDTO submit(CodeSubmitDTO codeInput) {
+    public CodeResultDto submit(CodeSubmitDto codeInput) {
         try{
             Path tempDir = Files.createTempDirectory("temp_java_run");
             String mainFile = getAppropriateMainFile(codeInput.getInputType(), codeInput.getOutputType());
             if(!compile(tempDir, mainFile, codeInput.getCode())){
-                return new CodeResultDTO(false, "Compilation failed", 0);
+                return new CodeResultDto(false, "Compilation failed", 0);
             }
             String[] inputs = codeInput.getInputs();
             String[] expectedOutputs = codeInput.getExpectedOutputs();
@@ -33,10 +33,10 @@ public class JavaCodeServiceImpl implements CodeService{
             }
             long endTime = System.currentTimeMillis();
             long executionTimeInMs = endTime - startTime;
-            return new CodeResultDTO(totalTestPass == codeInput.getTotalTests(), "Total Test Case Passed: "+
+            return new CodeResultDto(totalTestPass == codeInput.getTotalTests(), "Total Test Case Passed: "+
                     totalTestPass+"/"+codeInput.getTotalTests(), executionTimeInMs);
         } catch (Exception e) {
-            return new CodeResultDTO(false, e.getMessage(), 0);
+            return new CodeResultDto(false, e.getMessage(), 0);
         }
     }
 

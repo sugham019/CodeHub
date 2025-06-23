@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.CreateUserDTO;
-import com.example.backend.dto.LoginUserDTO;
+import com.example.backend.dto.CreateUserDto;
+import com.example.backend.dto.LoginUserDto;
 import com.example.backend.exception.*;
 import com.example.backend.model.AccessLevel;
 import com.example.backend.model.Leaderboard;
@@ -47,7 +47,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createUserAccount(CreateUserDTO createUserDTO, String givenAccessKey) {
+    public void createUserAccount(CreateUserDto createUserDTO, String givenAccessKey) {
         String username = createUserDTO.getUsername();
         String password = createUserDTO.getPassword();
         String displayName = createUserDTO.getDisplayName();
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String login(LoginUserDTO loginUserDTO) {
+    public String login(LoginUserDto loginUserDTO) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginUserDTO.getUsername(), loginUserDTO.getPassword())
         );

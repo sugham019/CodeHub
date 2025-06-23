@@ -1,7 +1,7 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.CodeSubmitDTO;
-import com.example.backend.dto.CodeResultDTO;
+import com.example.backend.dto.CodeSubmitDto;
+import com.example.backend.dto.CodeResultDto;
 import org.springframework.stereotype.Service;
 
 // Todo
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 public class PythonCodeServiceImpl implements CodeService{
 
     @Override
-    public CodeResultDTO submit(CodeSubmitDTO codeInput) {
+    public CodeResultDto submit(CodeSubmitDto codeInput) {
         return null;
     }
 

@@ -1,11 +1,11 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.CreateUserDTO;
-import com.example.backend.dto.LoginUserDTO;
+import com.example.backend.dto.CreateUserDto;
+import com.example.backend.dto.LoginUserDto;
 
 public interface UserService {
 
-    void createUserAccount(CreateUserDTO createUserDTO, String accessKey);
-    String login(LoginUserDTO loginUserDTO);
+    void createUserAccount(CreateUserDto createUserDTO, String accessKey);
+    String login(LoginUserDto loginUserDTO);
 
 }

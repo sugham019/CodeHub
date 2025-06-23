@@ -1,11 +1,11 @@
 package com.example.backend.dto;
 
-public class LoginUserDTO {
+public class LoginUserDto {
 
     private String username;
     private String password;
 
-    public LoginUserDTO(){
+    public LoginUserDto(){
 
     }
 

@@ -2,7 +2,7 @@ package com.example.backend.dto;
 
 import com.example.backend.model.DataType;
 
-public class CodeSubmitDTO {
+public class CodeSubmitDto {
 
     private String code;
     private DataType inputType;
@@ -11,7 +11,7 @@ public class CodeSubmitDTO {
     private String[] inputs;
     private String[] expectedOutputs;
 
-    public CodeSubmitDTO(){
+    public CodeSubmitDto(){
 
     }
 

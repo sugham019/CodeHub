@@ -1,12 +1,12 @@
 package com.example.backend.dto;
 
-public class CodeResultDTO {
+public class CodeResultDto {
 
-    private final boolean allTestPassed;
-    private final String logs;
-    private final double executionTimeInMs;
+    private boolean allTestPassed;
+    private String logs;
+    private double executionTimeInMs;
 
-    public CodeResultDTO(boolean allTestPassed, String logs, double executionTimeInMs){
+    public CodeResultDto(boolean allTestPassed, String logs, double executionTimeInMs){
         this.allTestPassed = allTestPassed;
         this.logs = logs;
         this.executionTimeInMs = executionTimeInMs;

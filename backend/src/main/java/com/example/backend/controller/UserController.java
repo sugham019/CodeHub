@@ -1,7 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.dto.CreateUserDTO;
-import com.example.backend.dto.LoginUserDTO;
+import com.example.backend.dto.CreateUserDto;
+import com.example.backend.dto.LoginUserDto;
 import com.example.backend.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,15 +18,15 @@ public class UserController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUserAccount(@RequestParam(required = false) String accessKey, @RequestBody CreateUserDTO createUserDTO){
+    public ResponseEntity<String> createUserAccount(@RequestParam(required = false) String accessKey, @RequestBody CreateUserDto createUserDTO){
         userService.createUserAccount(createUserDTO, accessKey);
         return new ResponseEntity<>("Successfully created account", HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginUserDTO loginUserDTO){
+    public ResponseEntity<String> login(@RequestBody LoginUserDto loginUserDTO){
         String token = userService.login(loginUserDTO);
-        return new ResponseEntity<>(token, HttpStatus.CREATED);
+        return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
 }
