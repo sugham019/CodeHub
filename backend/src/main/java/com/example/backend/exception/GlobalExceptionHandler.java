@@ -28,4 +28,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 
+    @ExceptionHandler(InvalidDateException.class)
+    public ResponseEntity<String> handleInvalidDateException(InvalidDateException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
 }

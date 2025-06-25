@@ -15,7 +15,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-
+import java.time.Period;
 import java.time.LocalDate;
 
 @Service
@@ -43,7 +43,17 @@ public class UserServiceImpl implements UserService {
         if(!PasswordUtil.isPasswordStrong(password)){
             throw new WeakPasswordException(password);
         }
-        // Todo: birth date validation
+        LocalDate today = LocalDate.now();
+        if(birthDate.isAfter(today)){
+            throw new InvalidDateException("Date cannot be future");
+        }
+        int age = Period.between(birthDate, today).getYears();
+
+        if (age < 5) {
+            throw new InvalidDateException("Too young! Age must be at least 5 years.");
+        } else if (age > 100) {
+            throw new InvalidDateException("Too old! Age must be less than or equal to 100 years.");
+        }
     }
 
     @Override
