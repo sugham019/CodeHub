@@ -7,7 +7,6 @@ public class CodeSubmitDto {
     private String code;
     private DataType inputType;
     private DataType outputType;
-    private int totalTests;
     private String[] inputs;
     private String[] expectedOutputs;
 
@@ -33,10 +32,6 @@ public class CodeSubmitDto {
 
     public String[] getExpectedOutputs() {
         return expectedOutputs;
-    }
-
-    public int getTotalTests(){
-        return totalTests;
     }
 
 }
