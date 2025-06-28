@@ -1,4 +1,4 @@
-package com.example.backend.controller;
+package com.example.backend.controller.api;
 
 import com.example.backend.model.DataType;
 import com.example.backend.model.Language;
@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/template")
+@RequestMapping("/api/template")
 public class TemplateController {
 
     private final TemplateService templateService;

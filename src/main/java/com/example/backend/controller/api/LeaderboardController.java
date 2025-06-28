@@ -1,4 +1,4 @@
-package com.example.backend.controller;
+package com.example.backend.controller.api;
 
 import com.example.backend.service.LeaderboardService;
 import org.springframework.http.HttpStatus;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/leaderboard")
+@RequestMapping("/api/leaderboard")
 public class LeaderboardController {
 
     private final LeaderboardService leaderboardService;

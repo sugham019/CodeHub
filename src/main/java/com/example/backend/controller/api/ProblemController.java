@@ -1,4 +1,4 @@
-package com.example.backend.controller;
+package com.example.backend.controller.api;
 
 import com.example.backend.dto.ProblemDto;
 import com.example.backend.model.Problem;
@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/problem")
+@RequestMapping("/api/problem")
 public class ProblemController {
 
     private final ProblemService problemService;

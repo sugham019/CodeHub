@@ -1,4 +1,4 @@
-package com.example.backend.controller;
+package com.example.backend.controller.api;
 
 import com.example.backend.dto.CodeSubmitDto;
 import com.example.backend.dto.CodeResultDto;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/code")
+@RequestMapping("/api/code")
 public class CodeController {
 
     private final Map<String, CodeService> codeServiceMap;
