@@ -23,9 +23,12 @@ public class JavaCodeServiceImpl implements CodeService{
             }
             String[] inputs = codeInput.getInputs();
             String[] expectedOutputs = codeInput.getExpectedOutputs();
+            if(inputs.length != expectedOutputs.length){
+                throw new Exception("Input and Expected output length is not equal");
+            }
             int totalTestPass = 0;
             long startTime = System.currentTimeMillis();
-            for(int i=0; i<codeInput.getTotalTests(); i++){
+            for(int i=0; i<inputs.length; i++){
                 Process run = new ProcessBuilder("java", "-cp", tempDir.toString(), mainFile,
                         inputs[i], expectedOutputs[i]).start();
                 int exitCode = run.waitFor();
@@ -33,8 +36,8 @@ public class JavaCodeServiceImpl implements CodeService{
             }
             long endTime = System.currentTimeMillis();
             long executionTimeInMs = endTime - startTime;
-            return new CodeResultDto(totalTestPass == codeInput.getTotalTests(), "Total Test Case Passed: "+
-                    totalTestPass+"/"+codeInput.getTotalTests(), executionTimeInMs);
+            return new CodeResultDto(totalTestPass == inputs.length, "Total Test Case Passed: "+
+                    totalTestPass+"/"+inputs.length, executionTimeInMs);
         } catch (Exception e) {
             return new CodeResultDto(false, e.getMessage(), 0);
         }

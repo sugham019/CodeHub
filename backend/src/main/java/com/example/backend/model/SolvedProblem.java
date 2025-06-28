@@ -30,4 +30,16 @@ public class SolvedProblem {
         this.solvedDate = solvedDate;
     }
 
+    public long getId(){
+        return id;
+    }
+
+    public LocalDate getSolvedDate(){
+        return solvedDate;
+    }
+
+    public User getUser(){
+        return user;
+    }
+
 }
