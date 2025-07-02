@@ -7,5 +7,6 @@ public interface UserService {
 
     void createUserAccount(CreateUserDto createUserDTO, String accessKey);
     String login(LoginUserDto loginUserDTO);
+    void changePassword(String username, String oldPassword, String newPassword);
 
 }
