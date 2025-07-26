@@ -40,9 +40,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.existsById(username)){
             throw new UserAlreadyExistsException(username);
         }
-        if(!PasswordUtil.isPasswordStrong(password)){
-            throw new WeakPasswordException(password);
-        }
+        PasswordUtil.validatePassword(password);
         LocalDate today = LocalDate.now();
         if(birthDate.isAfter(today)){
             throw new InvalidDateException("Date cannot be future");
@@ -55,6 +53,8 @@ public class UserServiceImpl implements UserService {
             throw new InvalidDateException("Too old! Age must be less than or equal to 100 years.");
         }
     }
+
+
 
     @Override
     public void createUserAccount(CreateUserDto createUserDTO, String givenAccessKey) {
@@ -82,6 +82,23 @@ public class UserServiceImpl implements UserService {
             throw new BadCredentialsException("Invalid username/password");
         }
         return JwtUtil.generateToken(authentication.getName());
+    }
+
+    @Override
+    public void changePassword(String username, String oldPassword, String newPassword) {
+        Authentication authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(username, oldPassword)
+        );
+        if(!authentication.isAuthenticated()){
+            throw new BadCredentialsException("Invalid username/password");
+        }
+        PasswordUtil.validatePassword(newPassword);
+        userRepository.findById(username).ifPresent(user -> {
+            String newPasswordHash = PasswordUtil.hashPassword(newPassword);
+            user.setPasswordHash(newPasswordHash);
+            userRepository.save(user);
+        });
+
     }
 
 }

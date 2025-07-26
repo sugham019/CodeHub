@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserController {
@@ -27,6 +29,12 @@ public class UserController {
     public ResponseEntity<String> login(@RequestBody LoginUserDto loginUserDTO){
         String token = userService.login(loginUserDTO);
         return new ResponseEntity<>(token, HttpStatus.OK);
+    }
+
+    @PostMapping("/changePassword")
+    public ResponseEntity<String> changePassword(@RequestParam String username, @RequestBody Map<String, String> password){
+        userService.changePassword(username, password.get("old"), password.get("new"));
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }
