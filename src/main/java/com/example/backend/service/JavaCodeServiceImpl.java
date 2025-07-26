@@ -12,9 +12,9 @@ import java.nio.file.StandardCopyOption;
 
 // Todo: Support for memory usage monitor
 @Service("JAVA")
-public class JavaCodeServiceImpl implements CodeService{
+public class JavaCodeServiceImpl extends CodeService{
 
-    public CodeResultDto submit(CodeSubmitDto codeInput) {
+    public CodeResultDto compileAndRun(CodeSubmitDto codeInput) {
         try{
             Path tempDir = Files.createTempDirectory("temp_java_run");
             String mainFile = getAppropriateMainFile(codeInput.getInputType(), codeInput.getOutputType());
@@ -23,9 +23,6 @@ public class JavaCodeServiceImpl implements CodeService{
             }
             String[] inputs = codeInput.getInputs();
             String[] expectedOutputs = codeInput.getExpectedOutputs();
-            if(inputs.length != expectedOutputs.length){
-                throw new Exception("Input and Expected output length is not equal");
-            }
             int totalTestPass = 0;
             long startTime = System.currentTimeMillis();
             for(int i=0; i<inputs.length; i++){
@@ -51,7 +48,7 @@ public class JavaCodeServiceImpl implements CodeService{
         }else if(inputType == DataType.STRING && outputType == DataType.STRING){
             return "MainStringString";
         }
-        return null;
+        throw new RuntimeException("Invalid Return Type/Param Type");
     }
 
     private boolean compile(Path tempDir, String mainFile, String userInputCode) throws IOException, InterruptedException {

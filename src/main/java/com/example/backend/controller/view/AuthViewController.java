@@ -12,4 +12,9 @@ public class AuthViewController {
         return "login";
     }
 
+    @GetMapping("/signup")
+    public String signup(Model model){
+        return "signup";
+    }
+
 }

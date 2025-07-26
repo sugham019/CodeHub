@@ -7,7 +7,7 @@ import com.example.backend.model.Import;
 public class ProblemDto {
 
     private String title;
-    private String description;
+    private String pageContent;
     private String[] inputs;
     private DataType inputType;
     private String[] expectedOutputs;
@@ -25,8 +25,8 @@ public class ProblemDto {
         return title;
     }
 
-    public String getDescription(){
-        return description;
+    public String getPageContent(){
+        return pageContent;
     }
 
     public String[] getInputs(){
@@ -56,7 +56,5 @@ public class ProblemDto {
     public String[] getExpectedOutputs(){
         return expectedOutputs;
     }
-
-
 
 }

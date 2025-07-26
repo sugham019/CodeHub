@@ -23,7 +23,9 @@ public class CodeController {
     @PostMapping("/submit")
     public ResponseEntity<CodeResultDto> submit(@RequestParam Language language, @RequestBody CodeSubmitDto codeInput){
         CodeService codeService = codeServiceMap.get(language.toString());
-        return new ResponseEntity<>(codeService.submit(codeInput), HttpStatus.OK);
+        codeService.validateSubmittedCode(codeInput);
+        CodeResultDto result = codeService.compileAndRun(codeInput);
+        return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
 }

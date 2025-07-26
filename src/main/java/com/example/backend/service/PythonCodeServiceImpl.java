@@ -6,10 +6,10 @@ import org.springframework.stereotype.Service;
 
 // Todo
 @Service("PYTHON")
-public class PythonCodeServiceImpl implements CodeService{
+public class PythonCodeServiceImpl extends CodeService{
 
     @Override
-    public CodeResultDto submit(CodeSubmitDto codeInput) {
+    public CodeResultDto compileAndRun(CodeSubmitDto codeInput) {
         return null;
     }
 
