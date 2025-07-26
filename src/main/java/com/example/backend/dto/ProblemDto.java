@@ -7,7 +7,8 @@ import com.example.backend.model.Import;
 public class ProblemDto {
 
     private String title;
-    private String pageContent;
+    private String pageDescription
+;
     private String[] inputs;
     private DataType inputType;
     private String[] expectedOutputs;
@@ -17,16 +18,35 @@ public class ProblemDto {
     private Import bannedImport;
     private String hint;
 
+    public ProblemDto(String title, String pageDescription, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType,
+                      Difficulty difficulty){
+        this.title = title;
+        this.pageDescription = pageDescription;
+        this.inputs = inputs;
+        this.inputType = inputType;
+        this.expectedOutputs = expectedOutputs;
+        this.outputType = outputType;
+        this.difficulty = difficulty;
+    }
+
     public ProblemDto(){
 
+    }
+
+    public void setBannedImport(Import bannedImport){
+        this.bannedImport = bannedImport;
+    }
+
+    public void setHint(String hint){
+        this.hint = hint;
     }
 
     public String getTitle(){
         return title;
     }
 
-    public String getPageContent(){
-        return pageContent;
+    public String getPageDescription(){
+        return pageDescription;
     }
 
     public String[] getInputs(){
