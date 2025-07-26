@@ -18,20 +18,27 @@ public class SolvedProblem {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private String title;
+
     private LocalDate solvedDate;
 
     public SolvedProblem(){
 
     }
 
-    public SolvedProblem(String problemId, User user, LocalDate solvedDate){
+    public SolvedProblem(String problemId, String title, User user, LocalDate solvedDate){
         this.problemId = problemId;
         this.user = user;
+        this.title = title;
         this.solvedDate = solvedDate;
     }
 
     public long getId(){
         return id;
+    }
+
+    public String getTitle(){
+        return title;
     }
 
     public LocalDate getSolvedDate(){

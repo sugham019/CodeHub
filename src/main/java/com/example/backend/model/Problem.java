@@ -4,6 +4,7 @@ import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.Arrays;
 
 @Document(collection = "problems")
 public class Problem {
@@ -12,7 +13,7 @@ public class Problem {
     private String id;
 
     private String title;
-    private String pageContent;
+    private String pageDescription;
 
     private DataType inputType;
     private DataType outputType;
@@ -28,10 +29,10 @@ public class Problem {
 
     }
 
-    public Problem(String title, Difficulty difficulty, String pageContent, String hint, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType, LocalDate datePosted, Import bannedImport){
+    public Problem(String title, Difficulty difficulty, String pageDescription, String hint, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType, LocalDate datePosted, Import bannedImport){
         this.title = title;
         this.difficulty = difficulty;
-        this.pageContent = pageContent;
+        this.pageDescription = pageDescription;
         this.inputs = inputs;
         this.inputType = inputType;
         this.expectedOutputs = expectedOutputs;
@@ -49,8 +50,8 @@ public class Problem {
         return title;
     }
 
-    public String getPageContent(){
-        return pageContent;
+    public String getPageDescription(){
+        return pageDescription;
     }
 
     public DataType getInputType() {
@@ -85,4 +86,20 @@ public class Problem {
         return hint;
     }
 
+    @Override
+    public String toString() {
+        return "Problem{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", pageDescription='" + pageDescription + '\'' +
+                ", inputType=" + inputType +
+                ", outputType=" + outputType +
+                ", inputs=" + Arrays.toString(inputs) +
+                ", expectedOutputs=" + Arrays.toString(expectedOutputs) +
+                ", difficulty=" + difficulty +
+                ", datePosted=" + datePosted +
+                ", bannedImport=" + bannedImport +
+                ", hint='" + hint + '\'' +
+                '}';
+    }
 }
