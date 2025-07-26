@@ -12,7 +12,7 @@ public class Problem {
     private String id;
 
     private String title;
-    private String description;
+    private String pageContent;
 
     private DataType inputType;
     private DataType outputType;
@@ -28,10 +28,10 @@ public class Problem {
 
     }
 
-    public Problem(String title, Difficulty difficulty, String description, String hint, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType, LocalDate datePosted, Import bannedImport){
+    public Problem(String title, Difficulty difficulty, String pageContent, String hint, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType, LocalDate datePosted, Import bannedImport){
         this.title = title;
         this.difficulty = difficulty;
-        this.description = description;
+        this.pageContent = pageContent;
         this.inputs = inputs;
         this.inputType = inputType;
         this.expectedOutputs = expectedOutputs;
@@ -49,8 +49,8 @@ public class Problem {
         return title;
     }
 
-    public String getDescription() {
-        return description;
+    public String getPageContent(){
+        return pageContent;
     }
 
     public DataType getInputType() {

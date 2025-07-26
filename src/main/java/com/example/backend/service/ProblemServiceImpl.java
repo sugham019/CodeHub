@@ -28,7 +28,7 @@ public class ProblemServiceImpl implements ProblemService{
             throw new RuntimeException("Test case inputs and expected outputs size is not equal");
         }
         LocalDate currentDate = LocalDate.now();
-        Problem problem = new Problem(problemDto.getTitle(), problemDto.getDifficulty(), problemDto.getDescription(), problemDto.getHint(),
+        Problem problem = new Problem(problemDto.getTitle(), problemDto.getDifficulty(), problemDto.getPageContent(), problemDto.getHint(),
                 problemDto.getInputs(), problemDto.getInputType(), problemDto.getExpectedOutputs(), problemDto.getOutputType(), currentDate,
                 problemDto.getBannedImport());
         return problemRepository.save(problem).getId();
