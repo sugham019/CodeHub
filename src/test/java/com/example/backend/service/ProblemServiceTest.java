@@ -4,6 +4,8 @@ import com.example.backend.dto.ProblemDto;
 import com.example.backend.model.DataType;
 import com.example.backend.model.Difficulty;
 import com.example.backend.model.Problem;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,6 +21,10 @@ public class ProblemServiceTest {
 
     @Autowired
     private ProblemService problemService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
+
     private String problemId;
 
     @BeforeEach
@@ -34,9 +40,16 @@ public class ProblemServiceTest {
     }
 
     @Test
-    public void testSearchProblem(){
+    public void testSearchProblem() throws JsonProcessingException {
         Problem problem = problemService.getProblemInformation(problemId);
-        log.info("Found problem with id{}:\n {}", problemId, problem.toString());
+        String problemJson;
+        try {
+            problemJson = objectMapper.writeValueAsString(problem);
+        } catch (JsonProcessingException e) {
+            log.error("Failed to convert Problem Object (id : {}) to JSON", problemId);
+            throw e;
+        }
+        log.info("Found problem with id{}:\n {}", problemId, problemJson);
     }
 
     @AfterEach

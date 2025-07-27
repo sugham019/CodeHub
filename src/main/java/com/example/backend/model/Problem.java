@@ -86,20 +86,4 @@ public class Problem {
         return hint;
     }
 
-    @Override
-    public String toString() {
-        return "Problem{" +
-                "id='" + id + '\'' +
-                ", title='" + title + '\'' +
-                ", pageDescription='" + pageDescription + '\'' +
-                ", inputType=" + inputType +
-                ", outputType=" + outputType +
-                ", inputs=" + Arrays.toString(inputs) +
-                ", expectedOutputs=" + Arrays.toString(expectedOutputs) +
-                ", difficulty=" + difficulty +
-                ", datePosted=" + datePosted +
-                ", bannedImport=" + bannedImport +
-                ", hint='" + hint + '\'' +
-                '}';
-    }
 }
