@@ -1,6 +1,5 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.CodeSubmitDto;
 import com.example.backend.dto.CodeResultDto;
 import com.example.backend.model.DataType;
 import org.springframework.stereotype.Service;
@@ -14,15 +13,17 @@ import java.nio.file.StandardCopyOption;
 @Service("JAVA")
 public class JavaCodeServiceImpl extends CodeService{
 
-    public CodeResultDto compileAndRun(CodeSubmitDto codeInput) {
+    public JavaCodeServiceImpl(UserService userService, LeaderboardService leaderboardService, ProblemService problemService){
+        super(userService, leaderboardService, problemService);
+    }
+
+    public CodeResultDto compileAndRun(String code, DataType inputType, String[] inputs, DataType outputType, String[] expectedOutputs) {
         try{
             Path tempDir = Files.createTempDirectory("temp_java_run");
-            String mainFile = getAppropriateMainFile(codeInput.getInputType(), codeInput.getOutputType());
-            if(!compile(tempDir, mainFile, codeInput.getCode())){
+            String mainFile = getAppropriateMainFile(inputType, outputType);
+            if(!compile(tempDir, mainFile, code)){
                 return new CodeResultDto(false, "Compilation failed", 0);
             }
-            String[] inputs = codeInput.getInputs();
-            String[] expectedOutputs = codeInput.getExpectedOutputs();
             int totalTestPass = 0;
             long startTime = System.currentTimeMillis();
             for(int i=0; i<inputs.length; i++){
@@ -38,6 +39,16 @@ public class JavaCodeServiceImpl extends CodeService{
         } catch (Exception e) {
             return new CodeResultDto(false, e.getMessage(), 0);
         }
+    }
+
+    @Override
+    protected boolean isUsingBannedLibrary() {
+        return false;
+    }
+
+    @Override
+    protected boolean isCodeSafeToExecute() {
+        return true;
     }
 
     private String getAppropriateMainFile(DataType inputType, DataType outputType){

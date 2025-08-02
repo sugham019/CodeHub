@@ -1,6 +1,5 @@
 package com.example.backend.controller.api;
 
-import com.example.backend.dto.CodeSubmitDto;
 import com.example.backend.dto.CodeResultDto;
 import com.example.backend.model.Language;
 import com.example.backend.service.CodeService;
@@ -21,10 +20,9 @@ public class CodeController {
     }
 
     @PostMapping("/submit")
-    public ResponseEntity<CodeResultDto> submit(@RequestParam Language language, @RequestBody CodeSubmitDto codeInput){
+    public ResponseEntity<CodeResultDto> submit(@RequestParam String problemId, @RequestParam Language language, @RequestBody String code){
         CodeService codeService = codeServiceMap.get(language.toString());
-        codeService.validateSubmittedCode(codeInput);
-        CodeResultDto result = codeService.compileAndRun(codeInput);
+        CodeResultDto result = codeService.submit(problemId, code);
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 

@@ -29,8 +29,8 @@ public class Leaderboard {
         return rating;
     }
 
-    public void updateRating(int offset){
-        rating = rating + offset;
+    public void setRating(int rating){
+        this.rating = rating;
     }
 
     public User getUser(){

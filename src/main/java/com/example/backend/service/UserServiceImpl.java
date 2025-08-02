@@ -46,15 +46,12 @@ public class UserServiceImpl implements UserService {
             throw new InvalidDateException("Date cannot be future");
         }
         int age = Period.between(birthDate, today).getYears();
-
         if (age < 5) {
             throw new InvalidDateException("Too young! Age must be at least 5 years.");
         } else if (age > 100) {
             throw new InvalidDateException("Too old! Age must be less than or equal to 100 years.");
         }
     }
-
-
 
     @Override
     public void createUserAccount(CreateUserDto createUserDTO, String givenAccessKey) {
@@ -98,7 +95,13 @@ public class UserServiceImpl implements UserService {
             user.setPasswordHash(newPasswordHash);
             userRepository.save(user);
         });
-
     }
+
+    @Override
+    public User getUser(String username) {
+        return userRepository.findById(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: "+username));
+    }
+
 
 }

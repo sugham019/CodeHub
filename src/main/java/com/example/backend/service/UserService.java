@@ -2,11 +2,13 @@ package com.example.backend.service;
 
 import com.example.backend.dto.CreateUserDto;
 import com.example.backend.dto.LoginUserDto;
+import com.example.backend.model.User;
 
 public interface UserService {
 
     void createUserAccount(CreateUserDto createUserDTO, String accessKey);
     String login(LoginUserDto loginUserDTO);
     void changePassword(String username, String oldPassword, String newPassword);
+    User getUser(String username);
 
 }
