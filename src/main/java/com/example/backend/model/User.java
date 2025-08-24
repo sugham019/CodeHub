@@ -20,7 +20,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     private AccessLevel accessLevel;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "username")
     private List<SolvedProblem> solvedProblems;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -41,10 +42,6 @@ public class User {
 
     public List<SolvedProblem> getSolvedProblems(){
         return solvedProblems;
-    }
-
-    public void addSolvedProblem(SolvedProblem problem){
-        solvedProblems.add(problem);
     }
 
     public String getUsername(){

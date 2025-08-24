@@ -15,6 +15,7 @@ public class ProblemServiceImpl implements ProblemService{
 
     private final ProblemRepository problemRepository;
 
+
     public ProblemServiceImpl(ProblemRepository problemRepository){
         this.problemRepository = problemRepository;
     }
@@ -30,12 +31,12 @@ public class ProblemServiceImpl implements ProblemService{
         LocalDate currentDate = LocalDate.now();
         Problem problem = new Problem(problemDto.getTitle(), problemDto.getDifficulty(), problemDto.getPageDescription(), problemDto.getHint(),
                 problemDto.getInputs(), problemDto.getInputType(), problemDto.getExpectedOutputs(), problemDto.getOutputType(), currentDate,
-                problemDto.getBannedImport());
+                problemDto.getBannedLibrary());
         return problemRepository.save(problem).getId();
     }
 
     @Override
-    public Problem getProblemInformation(String problemId) {
+    public Problem getProblemById(String problemId) {
         Optional<Problem> problemOptional = problemRepository.findById(problemId);
         if(problemOptional.isEmpty()){
             throw new ResourceNotFoundException("Problem does not exists with given id: "+problemId);
@@ -44,7 +45,7 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
-    public void removeProblem(String problemId) {
+    public void removeProblemById(String problemId) {
         if(!problemRepository.existsById(problemId)){
             throw new ResourceNotFoundException("Problem does not exists with given id: "+problemId);
         }

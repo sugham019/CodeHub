@@ -1,7 +1,13 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.CodeResultDto;
+import com.example.backend.exception.CodeSubmissionException;
 import com.example.backend.model.DataType;
+import com.example.backend.model.Language;
+import com.github.javaparser.ParseProblemException;
+import com.github.javaparser.StaticJavaParser;
+import com.github.javaparser.ast.CompilationUnit;
+import com.github.javaparser.ast.ImportDeclaration;
 import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,12 +15,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 
-// Todo: Support for memory usage monitor
+// TODO: Support for memory usage monitor and check for malicious code
 @Service("JAVA")
 public class JavaCodeServiceImpl extends CodeService{
 
     public JavaCodeServiceImpl(UserService userService, LeaderboardService leaderboardService, ProblemService problemService){
-        super(userService, leaderboardService, problemService);
+        super(Language.JAVA, userService, problemService);
     }
 
     public CodeResultDto compileAndRun(String code, DataType inputType, String[] inputs, DataType outputType, String[] expectedOutputs) {
@@ -42,7 +48,19 @@ public class JavaCodeServiceImpl extends CodeService{
     }
 
     @Override
-    protected boolean isUsingBannedLibrary() {
+    protected boolean isUsingLibrary(String code, String library){
+        CompilationUnit compilationUnit;
+        try{
+            compilationUnit = StaticJavaParser.parse(code);
+        }catch (ParseProblemException e){
+            throw new CodeSubmissionException(e.getProblems().getFirst().getMessage());
+        }
+        for(ImportDeclaration importDecl: compilationUnit.getImports()){
+            String importName = importDecl.getNameAsString();
+            if(importName.contains(library)){
+                return true;
+            }
+        }
         return false;
     }
 

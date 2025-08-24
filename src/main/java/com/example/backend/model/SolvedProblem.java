@@ -8,45 +8,33 @@ import java.time.LocalDate;
 @Table(name = "solved_problem")
 public class SolvedProblem {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-
-    private String problemId;
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    private String title;
+    @EmbeddedId
+    private SolvedProblemId id;
 
     private LocalDate solvedDate;
+
+    private String title;
 
     public SolvedProblem(){
 
     }
 
-    public SolvedProblem(String problemId, String title, User user, LocalDate solvedDate){
-        this.problemId = problemId;
-        this.user = user;
+    public SolvedProblem(String problemId, String username, String title, LocalDate solvedDate){
+        this.id = new SolvedProblemId(problemId, username);
         this.title = title;
         this.solvedDate = solvedDate;
-    }
-
-    public long getId(){
-        return id;
-    }
-
-    public String getTitle(){
-        return title;
     }
 
     public LocalDate getSolvedDate(){
         return solvedDate;
     }
 
-    public User getUser(){
-        return user;
+    public String getTitle(){
+        return title;
+    }
+
+    public SolvedProblemId getId(){
+        return id;
     }
 
 }

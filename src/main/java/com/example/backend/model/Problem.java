@@ -4,7 +4,7 @@ import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
-import java.util.Arrays;
+import java.util.Map;
 
 @Document(collection = "problems")
 public class Problem {
@@ -22,14 +22,14 @@ public class Problem {
     private String[] expectedOutputs;
     private Difficulty difficulty;
     private LocalDate datePosted;
-    private Import bannedImport;
+    private Map<Language, String> bannedLibrary;
     private String hint;
 
     public Problem(){
 
     }
 
-    public Problem(String title, Difficulty difficulty, String pageDescription, String hint, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType, LocalDate datePosted, Import bannedImport){
+    public Problem(String title, Difficulty difficulty, String pageDescription, String hint, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType, LocalDate datePosted, Map<Language, String> bannedLibrary){
         this.title = title;
         this.difficulty = difficulty;
         this.pageDescription = pageDescription;
@@ -39,7 +39,7 @@ public class Problem {
         this.outputType = outputType;
         this.hint = hint;
         this.datePosted = datePosted;
-        this.bannedImport = bannedImport;
+        this.bannedLibrary = bannedLibrary;
     }
 
     public String getId(){
@@ -78,8 +78,8 @@ public class Problem {
         return datePosted;
     }
 
-    public Import getBannedImport() {
-        return bannedImport;
+    public Map<Language, String> getBannedLibrary() {
+        return bannedLibrary;
     }
 
     public String getHint() {
