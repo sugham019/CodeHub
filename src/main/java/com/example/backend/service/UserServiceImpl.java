@@ -3,9 +3,7 @@ package com.example.backend.service;
 import com.example.backend.dto.CreateUserDto;
 import com.example.backend.dto.LoginUserDto;
 import com.example.backend.exception.*;
-import com.example.backend.model.AccessLevel;
-import com.example.backend.model.Leaderboard;
-import com.example.backend.model.User;
+import com.example.backend.model.*;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.utiil.JwtUtil;
 import com.example.backend.utiil.PasswordUtil;
@@ -18,17 +16,23 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import java.time.Period;
 import java.time.LocalDate;
 
+
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final LeaderboardService leaderboardService;
+
     private final AuthenticationManager authenticationManager;
 
     @Value("${access_key}")
     private String accessKey;
 
-    public UserServiceImpl(UserRepository userRepository, AuthenticationManager authenticationManager){
+    public UserServiceImpl(UserRepository userRepository, LeaderboardService leaderboardService,
+                           AuthenticationManager authenticationManager){
         this.userRepository = userRepository;
+        this.leaderboardService = leaderboardService;
         this.authenticationManager = authenticationManager;
     }
 
@@ -46,15 +50,12 @@ public class UserServiceImpl implements UserService {
             throw new InvalidDateException("Date cannot be future");
         }
         int age = Period.between(birthDate, today).getYears();
-
         if (age < 5) {
             throw new InvalidDateException("Too young! Age must be at least 5 years.");
         } else if (age > 100) {
             throw new InvalidDateException("Too old! Age must be less than or equal to 100 years.");
         }
     }
-
-
 
     @Override
     public void createUserAccount(CreateUserDto createUserDTO, String givenAccessKey) {
@@ -98,7 +99,25 @@ public class UserServiceImpl implements UserService {
             user.setPasswordHash(newPasswordHash);
             userRepository.save(user);
         });
+    }
 
+    @Override
+    public User getUser(String username) {
+        return userRepository.findById(username)
+                .orElseThrow(() -> new RuntimeException("User not found with username: "+username));
+    }
+
+    @Override
+    public void solveProblem(User user, Problem problem) {
+        boolean alreadySolved = user.getSolvedProblems().stream()
+                .anyMatch(sp -> sp.getId().getProblemId().equals(problem.getId()));
+        if(alreadySolved) return;
+
+        LocalDate currDate = LocalDate.now();
+        SolvedProblem solvedProblem = new SolvedProblem(problem.getId(), user.getUsername(), problem.getTitle(), currDate);
+        user.getSolvedProblems().add(solvedProblem);
+        userRepository.save(user);
+        leaderboardService.updateRating(user, problem.getDifficulty().getValue());
     }
 
 }

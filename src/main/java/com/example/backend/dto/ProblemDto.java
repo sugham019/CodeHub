@@ -2,7 +2,9 @@ package com.example.backend.dto;
 
 import com.example.backend.model.DataType;
 import com.example.backend.model.Difficulty;
-import com.example.backend.model.Import;
+import com.example.backend.model.Language;
+
+import java.util.Map;
 
 public class ProblemDto {
 
@@ -15,30 +17,24 @@ public class ProblemDto {
     private DataType outputType;
 
     private Difficulty difficulty;
-    private Import bannedImport;
+    private Map<Language, String> bannedLibrary;
     private String hint;
 
     public ProblemDto(String title, String pageDescription, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType,
-                      Difficulty difficulty){
+                      Difficulty difficulty, Map<Language, String> bannedLibrary, String hint){
         this.title = title;
         this.pageDescription = pageDescription;
         this.inputs = inputs;
+        this.bannedLibrary = bannedLibrary;
         this.inputType = inputType;
         this.expectedOutputs = expectedOutputs;
         this.outputType = outputType;
+        this.hint = hint;
         this.difficulty = difficulty;
     }
 
     public ProblemDto(){
 
-    }
-
-    public void setBannedImport(Import bannedImport){
-        this.bannedImport = bannedImport;
-    }
-
-    public void setHint(String hint){
-        this.hint = hint;
     }
 
     public String getTitle(){
@@ -65,8 +61,8 @@ public class ProblemDto {
         return difficulty;
     }
 
-    public Import getBannedImport(){
-        return bannedImport;
+    public Map<Language, String> getBannedLibrary(){
+        return bannedLibrary;
     }
 
     public String getHint(){

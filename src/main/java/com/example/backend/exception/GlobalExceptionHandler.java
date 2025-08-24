@@ -33,4 +33,9 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
+    @ExceptionHandler(CodeSubmissionException.class)
+    public ResponseEntity<String> handleCodeSubmissionException(CodeSubmissionException exception){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
 }

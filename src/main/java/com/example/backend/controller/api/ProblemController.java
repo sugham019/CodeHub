@@ -25,13 +25,13 @@ public class ProblemController {
 
     @PostMapping("/remove")
     public ResponseEntity<Void> remove(@RequestParam String problemId){
-        problemService.removeProblem(problemId);
+        problemService.removeProblemById(problemId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/getDetails")
     public ResponseEntity<Problem> getDetails(@RequestParam String problemId){
-        Problem problem = problemService.getProblemInformation(problemId);
+        Problem problem = problemService.getProblemById(problemId);
         return new ResponseEntity<>(problem, HttpStatus.OK);
     }
 
