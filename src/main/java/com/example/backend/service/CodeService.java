@@ -23,16 +23,11 @@ public abstract class CodeService {
 
     protected abstract boolean isUsingLibrary(String code, String library);
 
-    protected abstract boolean isCodeSafeToExecute();
-
     public CodeResultDto submit(String problemId, String code){
         Problem problem = problemService.getProblemById(problemId);
         String bannedLibrary = problem.getBannedLibrary().get(language);
         if(bannedLibrary != null && isUsingLibrary(code, bannedLibrary)){
             throw new CodeSubmissionException("Cannot use library: "+ bannedLibrary);
-        }
-        if(!isCodeSafeToExecute()){
-            throw new CodeSubmissionException("Code is not safe to execute");
         }
         CodeResultDto result = compileAndRun(code, problem.getInputType(), problem.getInputs(), problem.getOutputType(), problem.getExpectedOutputs());
         if(result.isAllTestPassed()){

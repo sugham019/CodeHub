@@ -14,10 +14,13 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.concurrent.TimeUnit;
 
-// TODO: Support for memory usage monitor and check for malicious code
+// TODO: Support for memory usage monitor
 @Service("JAVA")
 public class JavaCodeServiceImpl extends CodeService{
+
+    private static final int CODE_EXEC_TIMEOUT_SEC = 3;
 
     public JavaCodeServiceImpl(UserService userService, LeaderboardService leaderboardService, ProblemService problemService){
         super(Language.JAVA, userService, problemService);
@@ -27,15 +30,19 @@ public class JavaCodeServiceImpl extends CodeService{
         try{
             Path tempDir = Files.createTempDirectory("temp_java_run");
             String mainFile = getAppropriateMainFile(inputType, outputType);
-            if(!compile(tempDir, mainFile, code)){
-                return new CodeResultDto(false, "Compilation failed", 0);
-            }
+            compile(tempDir, mainFile, code);
             int totalTestPass = 0;
             long startTime = System.currentTimeMillis();
             for(int i=0; i<inputs.length; i++){
                 Process run = new ProcessBuilder("java", "-cp", tempDir.toString(), mainFile,
                         inputs[i], expectedOutputs[i]).start();
-                int exitCode = run.waitFor();
+
+                boolean finished = run.waitFor(CODE_EXEC_TIMEOUT_SEC, TimeUnit.SECONDS);
+                if(!finished){
+                    run.destroyForcibly();
+                    throw new CodeSubmissionException("The code took too long to execute");
+                }
+                int exitCode = run.exitValue();
                 totalTestPass = (exitCode == 0)? totalTestPass + 1: totalTestPass;
             }
             long endTime = System.currentTimeMillis();
@@ -64,11 +71,6 @@ public class JavaCodeServiceImpl extends CodeService{
         return false;
     }
 
-    @Override
-    protected boolean isCodeSafeToExecute() {
-        return true;
-    }
-
     private String getAppropriateMainFile(DataType inputType, DataType outputType){
         if(inputType == DataType.INT && outputType == DataType.INT){
             return "MainIntInt";
@@ -80,10 +82,10 @@ public class JavaCodeServiceImpl extends CodeService{
         throw new RuntimeException("Invalid Return Type/Param Type");
     }
 
-    private boolean compile(Path tempDir, String mainFile, String userInputCode) throws IOException, InterruptedException {
+    private void compile(Path tempDir, String mainFile, String userInputCode) throws IOException, InterruptedException{
         InputStream startupCode = JavaCodeServiceImpl.class.getClassLoader().getResourceAsStream("startup/java/"+mainFile+".java");
         if(startupCode == null){
-            return false;
+            throw new IOException("Server Error: Could not find Java Main File");
         }
         Path startupFile = tempDir.resolve(mainFile+".java");
         Files.copy(startupCode, startupFile, StandardCopyOption.REPLACE_EXISTING);
@@ -94,7 +96,9 @@ public class JavaCodeServiceImpl extends CodeService{
                 startupFile.toString(),
                 userCodeFile.toString()
         ).inheritIO().start();
-        return compile.waitFor() == 0;
+        if(compile.waitFor() != 0){
+            throw new RuntimeException("Compilation failed");
+        }
     }
 
 }
