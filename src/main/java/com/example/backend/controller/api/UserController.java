@@ -19,10 +19,16 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PostMapping("/verification-code")
+    public ResponseEntity<String> sendVerificationCode(@RequestParam String email){
+        userService.createAndSendVerificationCode(email);
+        return new ResponseEntity<>("Sent verification code to the user", HttpStatus.OK);
+    }
+
     @PostMapping("/create")
     public ResponseEntity<String> createUserAccount(@RequestParam(required = false) String accessKey, @RequestBody CreateUserDto createUserDTO){
         userService.createUserAccount(createUserDTO, accessKey);
-        return new ResponseEntity<>("Successfully created account", HttpStatus.CREATED);
+        return new ResponseEntity<>("Successfully created user account", HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
@@ -32,8 +38,8 @@ public class UserController {
     }
 
     @PostMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestParam String username, @RequestBody Map<String, String> password){
-        userService.changePassword(username, password.get("old"), password.get("new"));
+    public ResponseEntity<String> changePassword(@RequestParam String email, @RequestBody Map<String, String> password){
+        userService.changePassword(email, password.get("old"), password.get("new"));
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

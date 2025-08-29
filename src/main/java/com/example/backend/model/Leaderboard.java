@@ -7,12 +7,12 @@ import jakarta.persistence.*;
 public class Leaderboard {
 
     @Id
-    @Column(name = "username")
-    private String username;
+    @Column(name = "email")
+    private String email;
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "email")
     private User user;
 
     private int rating;

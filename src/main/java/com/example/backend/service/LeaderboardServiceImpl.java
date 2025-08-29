@@ -31,7 +31,7 @@ public class LeaderboardServiceImpl implements LeaderboardService{
         return leaderboardRepository.findAll(pageable)
                 .stream()
                 .collect(Collectors.toMap(
-                        lb -> lb.getUser().getUsername(),
+                        lb -> lb.getUser().getEmail(),
                         lb -> lb.getRating(),
                         (existing, replacement) -> existing,
                         () -> new LinkedHashMap<>()
