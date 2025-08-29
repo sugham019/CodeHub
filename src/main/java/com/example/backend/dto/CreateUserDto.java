@@ -6,7 +6,8 @@ import java.time.LocalDate;
 
 public class CreateUserDto {
 
-    private String username;
+    private String verificationCode;
+    private String email;
     private String displayName;
     private String password;
     private LocalDate birthDate;
@@ -16,8 +17,12 @@ public class CreateUserDto {
 
     }
 
-    public String getUsername(){
-        return username;
+    public String getEmail() {
+        return email;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
     }
 
     public String getPassword(){

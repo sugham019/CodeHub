@@ -3,9 +3,15 @@ package com.example.backend.utiil;
 import com.example.backend.exception.WeakPasswordException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.security.SecureRandom;
+
 public class PasswordUtil {
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
+
+    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    private static final SecureRandom random = new SecureRandom();
 
     public static String hashPassword(String password){
         return passwordEncoder.encode(password);
@@ -13,6 +19,15 @@ public class PasswordUtil {
 
     public static boolean matchPassword(String password, String passwordHash){
         return passwordEncoder.matches(password, passwordHash);
+    }
+
+    public static String generateOTP(int length) {
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            sb.append(CHARACTERS.charAt(index));
+        }
+        return sb.toString();
     }
 
     public static void validatePassword(String password){

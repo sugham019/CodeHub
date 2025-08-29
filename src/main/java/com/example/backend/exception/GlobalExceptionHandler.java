@@ -13,8 +13,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body(exception.getMessage());
     }
 
-    @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<String> handleUserAlreadyExistsException(UserAlreadyExistsException exception){
+    @ExceptionHandler(UserAccountException.class)
+    public ResponseEntity<String> handleUserAlreadyExistsException(UserAccountException exception){
         return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
 

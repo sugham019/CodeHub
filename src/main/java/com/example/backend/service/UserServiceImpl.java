@@ -8,11 +8,14 @@ import com.example.backend.repository.UserRepository;
 import com.example.backend.utiil.JwtUtil;
 import com.example.backend.utiil.PasswordUtil;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
+import java.time.Duration;
 import java.time.Period;
 import java.time.LocalDate;
 
@@ -26,23 +29,26 @@ public class UserServiceImpl implements UserService {
 
     private final AuthenticationManager authenticationManager;
 
+    private final EmailService emailService;
+
+    private final StringRedisTemplate redisTemplate;
+
     @Value("${access_key}")
     private String accessKey;
 
     public UserServiceImpl(UserRepository userRepository, LeaderboardService leaderboardService,
-                           AuthenticationManager authenticationManager){
+                           EmailService emailService, StringRedisTemplate redisTemplate, AuthenticationManager authenticationManager){
         this.userRepository = userRepository;
         this.leaderboardService = leaderboardService;
+        this.emailService = emailService;
+        this.redisTemplate = redisTemplate;
         this.authenticationManager = authenticationManager;
     }
 
-    private void validateSignupInformation(String username, String password, String displayName, LocalDate birthDate){
-        if(username == null || password == null
+    private void validateSignupInformation(String email, String password, String displayName, LocalDate birthDate){
+        if(email == null || password == null
                 || displayName == null || birthDate == null){
             throw new IncompleteInformationException();
-        }
-        if(userRepository.existsById(username)){
-            throw new UserAlreadyExistsException(username);
         }
         PasswordUtil.validatePassword(password);
         LocalDate today = LocalDate.now();
@@ -58,26 +64,43 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void createAndSendVerificationCode(String userEmail) {
+        if(userRepository.existsById(userEmail)){
+            throw new UserAccountException(userEmail);
+        }
+        String verificationCode = PasswordUtil.generateOTP(6);
+        redisTemplate.opsForValue().set(userEmail, verificationCode, Duration.ofMinutes(5));
+
+        String[] recipient = {userEmail};
+        emailService.sendEmail(recipient, "CodeHub Verification Code", verificationCode);
+    }
+
+    @Override
     public void createUserAccount(CreateUserDto createUserDTO, String givenAccessKey) {
-        String username = createUserDTO.getUsername();
+        String email = createUserDTO.getEmail();
         String password = createUserDTO.getPassword();
         String displayName = createUserDTO.getDisplayName();
         LocalDate birthDate = createUserDTO.getBirthDate();
-        validateSignupInformation(username, password, displayName, birthDate);
+        String storedVerificationCode = redisTemplate.opsForValue().get(createUserDTO.getEmail());
+        if(storedVerificationCode == null || !storedVerificationCode.equals(createUserDTO.getVerificationCode())){
+            throw new UserAccountException("Invalid verification code");
+        }
+        validateSignupInformation(email, password, displayName, birthDate);
 
         String passwordHash = PasswordUtil.hashPassword(password);
         AccessLevel accessLevel = (givenAccessKey != null && givenAccessKey.equals(accessKey))? createUserDTO.getAccessLevel(): AccessLevel.GENERAL;
         Leaderboard leaderboard = new Leaderboard(0);
-        User user = new User(username, displayName, passwordHash, birthDate, accessLevel);
+        User user = new User(email, displayName, passwordHash, birthDate, accessLevel);
         leaderboard.setUser(user);
         user.setLeaderboard(leaderboard);
         userRepository.save(user);
+        redisTemplate.delete(storedVerificationCode);
     }
 
     @Override
     public String login(LoginUserDto loginUserDTO) {
         Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginUserDTO.getUsername(), loginUserDTO.getPassword())
+                new UsernamePasswordAuthenticationToken(loginUserDTO.getEmail(), loginUserDTO.getPassword())
         );
         if(!authentication.isAuthenticated()){
             throw new BadCredentialsException("Invalid username/password");
@@ -102,9 +125,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUser(String username) {
-        return userRepository.findById(username)
-                .orElseThrow(() -> new RuntimeException("User not found with username: "+username));
+    public User getUser(String email) {
+        return userRepository.findById(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: "+email));
     }
 
     @Override
@@ -114,7 +137,7 @@ public class UserServiceImpl implements UserService {
         if(alreadySolved) return;
 
         LocalDate currDate = LocalDate.now();
-        SolvedProblem solvedProblem = new SolvedProblem(problem.getId(), user.getUsername(), problem.getTitle(), currDate);
+        SolvedProblem solvedProblem = new SolvedProblem(problem.getId(), user.getEmail(), problem.getTitle(), currDate);
         user.getSolvedProblems().add(solvedProblem);
         userRepository.save(user);
         leaderboardService.updateRating(user, problem.getDifficulty().getValue());

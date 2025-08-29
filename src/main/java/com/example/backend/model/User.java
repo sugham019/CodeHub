@@ -11,7 +11,7 @@ import java.util.List;
 public class User {
 
     @Id
-    private String username;
+    private String email;
 
     private String displayName;
     private String passwordHash;
@@ -21,14 +21,14 @@ public class User {
     private AccessLevel accessLevel;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "username")
+    @JoinColumn(name = "email")
     private List<SolvedProblem> solvedProblems;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Leaderboard leaderboard;
 
-    public User(String username, String displayName, String passwordHash, LocalDate birthDate, AccessLevel accessLevel){
-        this.username = username;
+    public User(String email, String displayName, String passwordHash, LocalDate birthDate, AccessLevel accessLevel){
+        this.email = email;
         this.displayName = displayName;
         this.passwordHash = passwordHash;
         this.birthDate = birthDate;
@@ -40,12 +40,12 @@ public class User {
 
     }
 
-    public List<SolvedProblem> getSolvedProblems(){
-        return solvedProblems;
+    public String getEmail() {
+        return email;
     }
 
-    public String getUsername(){
-        return username;
+    public List<SolvedProblem> getSolvedProblems(){
+        return solvedProblems;
     }
 
     public String getPasswordHash(){

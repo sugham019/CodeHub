@@ -7,10 +7,16 @@ import com.example.backend.model.User;
 
 public interface UserService {
 
+    void createAndSendVerificationCode(String userEmail);
+
     void createUserAccount(CreateUserDto createUserDTO, String accessKey);
+
     String login(LoginUserDto loginUserDTO);
+
     void changePassword(String username, String oldPassword, String newPassword);
-    User getUser(String username);
+
+    User getUser(String email);
+
     void solveProblem(User user, Problem problem);
 
 }
