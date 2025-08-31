@@ -4,11 +4,13 @@ import com.example.backend.dto.CodeResultDto;
 import com.example.backend.exception.CodeSubmissionException;
 import com.example.backend.model.DataType;
 import com.example.backend.model.Language;
+import com.example.backend.util.MemoryUsageMonitor;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.ImportDeclaration;
 import org.springframework.stereotype.Service;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Files;
@@ -16,13 +18,13 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.TimeUnit;
 
-// TODO: Support for memory usage monitor
 @Service("JAVA")
 public class JavaCodeServiceImpl extends CodeService{
 
     private static final int CODE_EXEC_TIMEOUT_SEC = 3;
 
-    public JavaCodeServiceImpl(UserService userService, LeaderboardService leaderboardService, ProblemService problemService){
+
+    public JavaCodeServiceImpl(UserService userService, ProblemService problemService){
         super(Language.JAVA, userService, problemService);
     }
 
@@ -33,24 +35,35 @@ public class JavaCodeServiceImpl extends CodeService{
             compile(tempDir, mainFile, code);
             int totalTestPass = 0;
             long startTime = System.currentTimeMillis();
+            double peakMemoryUsageKB = 0.0;
             for(int i=0; i<inputs.length; i++){
                 Process run = new ProcessBuilder("java", "-cp", tempDir.toString(), mainFile,
                         inputs[i], expectedOutputs[i]).start();
+
+                // Start the memory usage monitor which will keep track of peek memory usage of the process
+                MemoryUsageMonitor memoryUsageMonitor = new MemoryUsageMonitor((int) run.pid());
+                Thread mThread = new Thread(memoryUsageMonitor);
+                mThread.start();
 
                 boolean finished = run.waitFor(CODE_EXEC_TIMEOUT_SEC, TimeUnit.SECONDS);
                 if(!finished){
                     run.destroyForcibly();
                     throw new CodeSubmissionException("The code took too long to execute");
                 }
+                mThread.interrupt(); // the mThread should exit naturally after the process exits, just a failsafe
+                double currentMemoryUsageKB = (double) memoryUsageMonitor.getPeakMemoryUsage() / 1024;
+                // only record max peak memory usage among all test cases
+                peakMemoryUsageKB = Math.max(peakMemoryUsageKB, currentMemoryUsageKB);
+
                 int exitCode = run.exitValue();
                 totalTestPass = (exitCode == 0)? totalTestPass + 1: totalTestPass;
             }
             long endTime = System.currentTimeMillis();
             long executionTimeInMs = endTime - startTime;
             return new CodeResultDto(totalTestPass == inputs.length, "Total Test Case Passed: "+
-                    totalTestPass+"/"+inputs.length, executionTimeInMs);
+                    totalTestPass+"/"+inputs.length, executionTimeInMs, peakMemoryUsageKB);
         } catch (Exception e) {
-            return new CodeResultDto(false, e.getMessage(), 0);
+            return new CodeResultDto(false, e.getMessage(), 0, 0);
         }
     }
 

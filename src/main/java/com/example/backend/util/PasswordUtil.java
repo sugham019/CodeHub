@@ -1,4 +1,4 @@
-package com.example.backend.utiil;
+package com.example.backend.util;
 
 import com.example.backend.exception.WeakPasswordException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
