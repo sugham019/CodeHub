@@ -4,6 +4,7 @@ import com.example.backend.dto.CodeResultDto;
 import com.example.backend.exception.CodeSubmissionException;
 import com.example.backend.model.DataType;
 import com.example.backend.model.Language;
+import com.example.backend.util.MemoryUsageMonitor;
 import com.github.javaparser.ParseProblemException;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.CompilationUnit;

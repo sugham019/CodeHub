@@ -3,7 +3,7 @@ package com.example.backend.service;
 import com.example.backend.dto.CodeResultDto;
 import com.example.backend.exception.CodeSubmissionException;
 import com.example.backend.model.*;
-import com.example.backend.utiil.AuthUtil;
+import com.example.backend.util.AuthUtil;
 
 public abstract class CodeService {
 

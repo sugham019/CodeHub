@@ -1,4 +1,4 @@
-package com.example.backend.service;
+package com.example.backend.util;
 
 import oshi.SystemInfo;
 import oshi.software.os.OSProcess;
