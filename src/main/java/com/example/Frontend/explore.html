@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{{ title }}</title>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  <link
+    href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="{% static 'css/explore.css' %}" />
+</head>
+<body>
+  <header>
+    <div class="logo">Code<span>Hub</span></div>
+    <nav class="main-nav">
+      <a class="highlight-link" href="{% url 'premium' %}">Premium</a>
+      <a class="nav-link-underline" href="{% url 'explore' %}">Explore</a>
+      <a class="nav-link-underline" href="{% url 'problem_list' %}">Problems</a>
+    </nav>
+    <div class="right-section">
+        {% if user.is_authenticated %}
+      <span>{{ user.username }}</span>
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+      {% else %}
+      <a href="{% url 'login' %}"><button class="login-btn">Login</button></a>
+      <a href="{% url 'login' %}"><button class="signin-btn">Sign Up</button></a>
+      {% endif %}
+    </div>
+  </header>
+
+  <section class="hero-section">
+    <h1>
+      <span class="green-text">Explore</span> Resources
+    </h1>
+    <p class="topics-list">DSA | SQL |</p>
+  </section>
+
+  <section class="resources-wrapper">
+    <div class="resource-card">
+      <h3>DSA</h3>
+      <p>Master Data Structures and Algorithms with real-world problems.</p>
+      <a href="{% url 'dsadashboard' %}"><button>Explore</button></a>
+    </div>
+
+    <div class="resource-card">
+      <h3>DSA</h3>
+      <p>Master Data Structures and Algorithms with real-world problems.</p>
+      <a href="{% url 'dsadashboard' %}"><button>Explore</button></a>
+    </div>
+
+    <div class="resource-card">
+      <h3>DSA</h3>
+      <p>Master Data Structures and Algorithms with real-world problems.</p>
+      <a href="{% url 'dsadashboard' %}"><button>Explore</button></a>
+    </div>
+
+    <div class="resource-card">
+      <h3>DSA</h3>
+      <p>Master Data Structures and Algorithms with real-world problems.</p>
+      <a href="{% url 'dsadashboard' %}"><button>Explore</button></a>
+    </div>
+
+    <div class="resource-card">
+      <h3>SQL</h3>
+      <p>Learn to query, analyze, and manage databases using SQL.</p>
+      <a href="{% url 'sqldashboard' %}"><button>Explore</button></a>
+    </div>
+
+    <div class="resource-card">
+      <h3>SQL</h3>
+      <p>Learn to query, analyze, and manage databases using SQL.</p>
+      <a href="{% url 'sqldashboard' %}"><button>Explore</button></a>
+    </div>
+
+    <div class="resource-card">
+      <h3>SQL</h3>
+      <p>Learn to query, analyze, and manage databases using SQL.</p>
+      <a href="{% url 'sqldashboard' %}"><button>Explore</button></a>
+    </div>
+
+    <div class="resource-card">
+      <h3>SQL</h3>
+      <p>Learn to query, analyze, and manage databases using SQL.</p>
+      <a href="{% url 'sqldashboard' %}"><button>Explore</button></a>
+    </div>
+  </section>
+
+  <div class="horizontal-divider"></div>
+
+  <footer class="site-footer">
+    <div class="footer-main-content">
+      <p class="footer-text">Copyright © 2025 CodeHub</p>
+      <ul class="footer-nav-links">
+        <li><a class="footer-link-underline" href="#">Help Center</a></li>
+        <li><a class="footer-link-underline" href="{% url 'terms' %}">Terms</a></li>
+        <li><a class="footer-link-underline" href="{% url 'privacypolicy' %}">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

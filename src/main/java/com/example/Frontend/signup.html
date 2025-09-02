@@ -1,0 +1,72 @@
+{% load static %}
+{% load socialaccount %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/signup.css' %}" />
+</head>
+<body>
+
+  <!-- Header/Navbar -->
+  <header>
+    <div class="logo">Code<span>Hub</span></div>
+  </header>
+
+  <!-- Sign Up Container -->
+  <div class="signup-container">
+    <div class="signup-left">
+      <h2>Create Account</h2>
+      <form class="signup-form" action="" method="POST" novalidate>
+          {% csrf_token %}
+        {% if error %}
+         <div class="verification-error">
+            {{ error }}
+         </div>
+        {% endif %}
+        <div class="signup-input-group">
+          <i class="fas fa-user"></i>
+          <input type="text" name="username" placeholder="Username" required />
+        </div>
+        <div class="signup-input-group">
+          <i class="fas fa-envelope"></i>
+          <input type="email" name="email" placeholder="Email" required />
+        </div>
+        <div class="signup-input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" name="password" placeholder="Password" required />
+          <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+        </div>
+        <div class="signup-input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" name="confirm_password" placeholder="Confirm Password" required />
+          <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+        </div>
+        <input type="submit" value="Sign Up" class="signup-btn" />
+      </form>
+
+      <p class="signup-social-text">Or sign up with social platforms</p>
+        <div class="signup-social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-google"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+
+    </div>
+
+    <div class="signup-right">
+      <h3>One of us?</h3>
+      <p>Login to your Account to continue your journey, track your progress, and climb the leaderboard with each solution</p>
+      <a href="{% url 'login' %}"><button class="signup-alt-btn">Login</button></a>
+      <img src="{% static 'img/loginicon.png' %}" alt="Sign up illustration" class="signup-image" />
+    </div>
+  </div>
+<script src="{% static 'js/signup.js' %}"></script>
+</body>
+</html>

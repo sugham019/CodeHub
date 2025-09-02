@@ -1,0 +1,53 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/verification.css' %}" />
+</head>
+<body>
+
+  <!-- Header/Navbar -->
+  <header>
+    <div class="logo">Code<span>Hub</span></div>
+  </header>
+
+  <!-- Container -->
+  <div class="verification-container">
+    <div class="verification-left">
+      <h2>Verification</h2>
+      <p>Enter the verification code we sent to your email address.</p>
+      <img src="{% static 'img/verification.png' %}" class="verification-image" alt="Verification Illustration" />
+    </div>
+
+    <div class="verification-right">
+      <form class="verification-form" method="POST" novalidate>
+        {% csrf_token %}
+        <h2>Enter Code</h2>
+        {% if error %}
+         <div class="verification-error">
+            {{ error }}
+         </div>
+        {% endif %}
+        <p>We’ve sent a 6-digit code to your email. Please enter it below to verify your account.</p>
+        <div class="verification-input-group">
+          <i class="fas fa-key"></i>
+          <input type="text" name="code" placeholder="Enter Verification Code" maxlength="6" required />
+        </div>
+        <input type="submit" class="verification-btn" value="Verify" />
+        <div class="verification-resend">
+          <p class="resend-text">Didn't receive the code?</p>
+          <a href="{% url 'resend_verification_email' %}" class="resend-link">
+          <i class="fas fa-redo"></i> Resend Code
+          </a>
+        </div>
+      </form>
+    </div>
+  </div>
+<script src="{% static 'js/verification.js' %}"></script>
+</body>
+</html>

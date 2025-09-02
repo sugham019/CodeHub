@@ -1,0 +1,131 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ title }}</title>
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="{% static 'css/question.css' %}" />
+
+</head>
+<body>
+
+<header>
+  <div class="logo">Code<span>Hub</span></div>
+  <div class="top-right">
+    <form method="POST" action="{% url 'problem_list' %}" class="search-box">
+      {% csrf_token %}
+    <i class="fas fa-search"></i>
+    <input type="text" name="q" placeholder="Search..." value="{{ request.GET.q|default:'' }}" />
+    </form>
+
+    {% if user.is_authenticated %}
+      <span>{{ user.username }}</span>
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+      {% else %}
+    <a href="{% url 'login' %}"><button class="btn-login">Login</button></a>
+    <a href="{% url 'signup' %}"><button class="btn-signin">Sign up</button></a>
+    {% endif %}
+  </div>
+</header>
+
+<div class="heading-line">
+  Questions
+</div>
+
+<div class="layout-main">
+  <div class="cards-list">
+    <div class="card-question">
+      <h3>Welcome to Java!</h3>
+      <div class="card-footer">
+        <div class="card-meta">Easy • Max Score: 3 • Success Rate: 97.08%</div>
+        <button>Solve Challenge</button>
+      </div>
+    </div>
+
+    <div class="card-question">
+      <h3>Java Stdin and Stdout I</h3>
+      <div class="card-footer">
+        <div class="card-meta">Easy • Max Score: 5 • Success Rate: 96.82%</div>
+        <button>Solve Challenge</button>
+      </div>
+    </div>
+
+    <div class="card-question">
+      <h3>Java If-Else</h3>
+      <div class="card-footer">
+        <div class="card-meta">Easy • Max Score: 10 • Success Rate: 91.69%</div>
+        <button>Solve Challenge</button>
+      </div>
+    </div>
+
+    <div class="card-question">
+      <h3>Java Stdin and Stdout II</h3>
+      <div class="card-footer">
+        <div class="card-meta">Easy • Max Score: 10 • Success Rate: 93.30%</div>
+        <button>Solve Challenge</button>
+      </div>
+    </div>
+
+    <div class="card-question">
+      <h3>Java Loops I</h3>
+      <div class="card-footer">
+        <div class="card-meta">Easy • Max Score: 15 • Success Rate: 88.72%</div>
+        <button>Solve Challenge</button>
+      </div>
+    </div>
+
+    {% for problem in problems %}
+    <div class="card-question">
+      <h3>{{ problem.title }}</h3>
+      <div class="card-footer">
+       <div class="card-meta">
+       {{ problem.difficulty }} • Score: {{ problem.points }} • Success Rate: {{ problem.success_rate }}%
+       </div>
+       <a href="{% url 'submit_solution' problem.slug %}" target="_blank" rel="noopener noreferrer">
+      <button>Solve Challenge</button>
+       </a>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="side-panel">
+    <div class="panel-box">
+      <h4>Leaderboard</h4>
+      <div class="leaderboard-list">
+        <div class="leaderboard-row"><span class="rank-num">1</span><div class="user-info"><span class="user-name">Soham</span><span class="user-points">130 pts</span></div></div>
+        <div class="leaderboard-row"><span class="rank-num">2</span><div class="user-info"><span class="user-name">Anil</span><span class="user-points">125 pts</span></div></div>
+        <div class="leaderboard-row"><span class="rank-num">3</span><div class="user-info"><span class="user-name">Riya</span><span class="user-points">119 pts</span></div></div>
+        <div class="leaderboard-row"><span class="rank-num">4</span><div class="user-info"><span class="user-name">Kiran</span><span class="user-points">112 pts</span></div></div>
+        <div class="leaderboard-row"><span class="rank-num">5</span><div class="user-info"><span class="user-name">Meena</span><span class="user-points">109 pts</span></div></div>
+        <div class="leaderboard-row"><span class="rank-num">6</span><div class="user-info"><span class="user-name">Ramesh</span><span class="user-points">104 pts</span></div></div>
+        <div class="leaderboard-row"><span class="rank-num">7</span><div class="user-info"><span class="user-name">Alisha</span><span class="user-points">98 pts</span></div></div>
+        <div class="leaderboard-row"><span class="rank-num">8</span><div class="user-info"><span class="user-name">Kushal</span><span class="user-points">95 pts</span></div></div>
+        <div class="leaderboard-row"><span class="rank-num">9</span><div class="user-info"><span class="user-name">Deepa</span><span class="user-points">91 pts</span></div></div>
+        <div class="leaderboard-row"><span class="rank-num">10</span><div class="user-info"><span class="user-name">Bishal</span><span class="user-points">88 pts</span></div></div>
+        {% for user in top_users %}
+        <div class="leaderboard-row">
+        <span class="rank-num">{{ forloop.counter }}</span>
+        <div class="user-info">
+        <span class="user-name">{{ user.username }}</span>
+        <span class="user-points">{{ user.points }} pts</span>
+        </div>
+        </div>
+        {% empty %}
+         <p>Top users count: {{ top_users|length }}</p>
+         <p class="leaderboard-empty">No leaderboard data available.</p>
+        {% endfor %}
+  </div>
+</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

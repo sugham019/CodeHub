@@ -1,0 +1,72 @@
+{% load static %}
+{% load socialaccount %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ title }}</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" />
+</head>
+<body>
+
+  <!-- Header/Navbar -->
+  <header>
+    <div class="logo">Code<span>Hub</span></div>
+  </header>
+
+  <!-- Login Container -->
+  <div class="login-layout-wrapper">
+    <div class="login-intro-panel">
+      <h2>New here?</h2>
+      <p>Sign up to start solving challenging problems, improve your coding skills, and compete with the best!</p>
+      <a href="{% url 'signup' %}"><button class="btn-signup-redirect">Sign Up</button></a>
+      <img src="{% static 'img/login.png' %}" class="login-illustration" alt="Login Illustration" />
+    </div>
+
+    <div class="login-form-panel">
+      <form class="login-form-wrapper" method="POST">
+        {% csrf_token %}
+        <h2>Sign In</h2>
+        {% if error %}
+         <div class="verification-error">
+            {{ error }}
+         </div>
+        {% endif %}
+        <div class="login-input-group">
+          <i class="fas fa-user"></i>
+          <input type="text" name="username" placeholder="Username" required />
+        </div>
+        <div class="login-input-group">
+          <i class="fas fa-lock"></i>
+          <input type="password" name="password" placeholder="Password" required />
+          <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+        </div>
+
+        <div class="login-options-bar">
+          <label class="remember-user-checkbox">
+            <input type="checkbox" name="remember_me" />
+            Remember Me
+          </label>
+          <div class="login-forgot-link">
+            <a href="{% url 'forgotpassword' %}">Forgot Password?</a>
+          </div>
+        </div>
+
+        <input type="submit" class="btn-login-submit" value="Login" />
+
+        <p class="login-social-info">Or sign in with social platforms</p>
+        <div class="login-social-icons">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-google"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </form>
+    </div>
+  </div>
+<script src="{% static 'js/login.js' %}"></script>
+</body>
+</html>

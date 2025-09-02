@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ title }}</title>
+
+  <!-- Fonts -->
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+
+  <link rel="stylesheet" href="{% static 'css/sqldashboard.css' %}" />
+</head>
+<body>
+
+  <header>
+    <div class="logo">Code<span>Hub</span></div>
+    <nav class="nav-bar">
+      <a class="highlight-link" href="{% url 'premium' %}">Premium</a>
+      <a class="nav-link-underline" href="{% url 'explore' %}">Explore</a>
+      <a class="nav-link-underline" href="{% url 'problem_list' %}">Problems</a>
+    </nav>
+    <div class="right-section">
+      {% if user.is_authenticated %}
+      <span>{{ user.username }}</span>
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+      {% else %}
+      <a href="{% url 'login' %}"><button class="login-btn">Login</button></a>
+      <a href="{% url 'login' %}"><button class="signin-btn">Sign Up</button></a>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- Grid Layout -->
+  <div class="layout-grid">
+    <!-- Sidebar -->
+    <aside id="sidebar-panel">
+      <div class="sidebar-header">Explore SQL</div>
+      <ul class="sidebar-menu">
+        <li class="sidebar-item active" onclick="showSQLContent('home', this)">SQL Home</li>
+        <li class="sidebar-item" onclick="showSQLContent('basic', this)">Basic SQL Queries</li>
+        <li class="sidebar-item" onclick="showSQLContent('processing', this)">Query Processing</li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="content-area">
+      <div id="sql-content-box" class="content-wrapper">
+        <!-- Content will be injected here -->
+      </div>
+    </main>
+  </div>
+
+<script src="{% static 'js/sqldashboard.js' %}"></script>
+</body>
+</html>

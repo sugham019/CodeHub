@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link
+    href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap"
+    rel="stylesheet"
+    />
+    <link rel="stylesheet" href="{% static 'css/premium.css' %}" />
+</head>
+<body>
+    <header>
+    <div class="logo">Code<span>Hub</span></div>
+    <nav class="main-nav">
+      <a class="highlight-link" href="#">Premium</a>
+      <a class="nav-link-underline" href="{% url 'explore' %}">Explore</a>
+      <a class="nav-link-underline" href="{% url 'problem_list' %}">Problems</a>
+    </nav>
+    <div class="right-section">
+        {% if user.is_authenticated %}
+      <span>{{ user.username }}</span>
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+      {% else %}
+      <a href="{% url 'login' %}"><button class="login-btn">Login</button></a>
+      <a href="{% url 'login' %}"><button class="signin-btn">Sign Up</button></a>
+      {% endif %}
+    </div>
+  </header>
+    <section class="premium-container">
+        <h1>Premium</h1>
+        <p>Get started with a CodeHub Subscription that works for you.</p>
+        <div class="plans">
+            <div class="plan monthly">
+                <h2>Monthly billed monthly</h2>
+                <p>Our monthly plan grants access to all premium features, the best plan for short-term subscribers. More question to solve</p>
+                <p class="price">$25 <span>/mo</span></p>
+                <p>Prices are marked in USD</p>
+                <button>Subscribe</button>
+            </div>
+            <div class="plan yearly">
+                <h2>Yearly billed yearly ($150)</h2>
+                <span class="popular">Most popular</span>
+                <p>Our most popular plan is valued at $299 and is now only $14.92/month. This plan saves you over 62% in comparison to the monthly plan. More question to solve</p>
+                <p class="price">$14.92 <span>/mo</span></p>
+                <p>Prices are marked in USD</p>
+                <button>Subscribe</button>
+            </div>
+        </div>
+    </section>
+  <div class="horizontal-divider"></div>
+
+  <footer class="site-footer">
+    <div class="footer-main-content">
+      <p class="footer-text">Copyright © 2025 CodeHub</p>
+      <ul class="footer-nav-links">
+        <li><a class="footer-link-underline" href="#">Help Center</a></li>
+        <li><a class="footer-link-underline" href="{% url 'terms' %}">Terms</a></li>
+        <li><a class="footer-link-underline" href="{% url 'privacypolicy' %}">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,58 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="{% static 'css/policyandterms.css' %}" />
+  <title>{{ title }}</title>
+</head>
+<body>
+  <div class="content-container">
+    <h2>CodeHub : Privacy Policy</h2>
+
+    <h3>Information We Collect</h3>
+    <p>We collect information that you provide directly to us, such as when you create an account, submit code, or communicate with support. This may include your name, email address, and other contact information.</p>
+
+    <h3>Use of Information</h3>
+    <p>We use the information we collect to provide, maintain, and improve our services, communicate with you, and comply with legal obligations.</p>
+
+    <h3>Cookies and Tracking Technologies</h3>
+    <p>We use cookies and similar tracking technologies to enhance your experience on CodeHub, analyze usage, and deliver personalized content.</p>
+
+    <h3>Information Sharing and Disclosure</h3>
+    <p>We do not sell your personal information. We may share information with trusted service providers to operate our services or as required by law.</p>
+
+    <h3>Data Security</h3>
+    <p>We implement reasonable security measures to protect your information from unauthorized access, alteration, disclosure, or destruction.</p>
+
+    <h3>Your Rights</h3>
+    <p>You have the right to access, correct, or delete your personal information. You may also opt-out of certain communications.</p>
+
+    <h3>Third-Party Links</h3>
+    <p>Our platform may contain links to third-party websites or services. We are not responsible for their privacy practices.</p>
+
+    <h3>Changes to This Policy</h3>
+    <p>We may update this Privacy Policy from time to time. We will notify you of significant changes through the platform or via email.</p>
+
+    <h3>Contact Us</h3>
+    <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:support@codehub.com">support@codehub.com</a>.</p>
+
+    <p><em>Last updated: July 28, 2025</em></p>
+  </div>
+
+  <div class="divider-line"></div>
+
+  <footer class="site-footer">
+    <div class="footer-main-content">
+      <p class="footer-text">Copyright © 2025 CodeHub</p>
+      <ul class="footer-nav-links">
+        <li><a class="footer-link-underline" href="#">Help Center</a></li>
+        <li><a class="footer-link-underline" href="{% url 'terms' %}">Terms</a></li>
+        <li><a class="footer-link-underline" href="{% url 'privacypolicy' %}">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </footer>
+</body>
+</html>
