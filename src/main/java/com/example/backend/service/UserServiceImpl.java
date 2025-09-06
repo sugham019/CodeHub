@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void createAndSendVerificationCode(String userEmail) {
         if(userRepository.existsById(userEmail)){
-            throw new UserAccountException(userEmail);
+            throw new UserAccountException(userEmail+" is already associated with an account");
         }
         String verificationCode = PasswordUtil.generateOTP(6);
         redisTemplate.opsForValue().set(userEmail, verificationCode, Duration.ofMinutes(5));

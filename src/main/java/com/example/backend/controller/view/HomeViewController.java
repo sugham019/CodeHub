@@ -9,6 +9,7 @@ public class HomeViewController {
 
     @GetMapping("/")
     public String home(Model model) {
+        model.addAttribute("currentUser", "Soham");
         return "index";
     }
 
