@@ -1,0 +1,264 @@
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  background-color: #e6e8ed;
+  color: #444;
+  font-family: 'Satoshi', 'Verdana', 'sans-serif';
+}
+
+header {
+  box-sizing: border-box;
+  position: fixed;
+  top: 0;
+  left: 0;
+  color: black;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px 40px;
+  align-items: center;
+  background-color: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+  z-index: 10;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.logo span {
+  color: #14575d;
+}
+
+/* Nav renamed */
+.nav-bar {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+  flex-grow: 1;
+  font-size: 16px;
+}
+
+.nav-bar a {
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+}
+
+.nav-bar .highlight-link {
+  color: #ff9900;
+}
+
+/* Right section kept intact */
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.right-section button {
+  background-color: transparent;
+  color: black;
+  border: 1px solid black;
+  padding: 5px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.right-section button:hover {
+  background-color: rgb(57, 54, 54);
+  color: whitesmoke;
+}
+
+/* Layout renamed */
+.layout-grid {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  grid-template-areas: "sidebar main";
+  height: calc(100vh - 80px);
+  margin-top: 60px;
+}
+
+/* Sidebar renamed */
+#sidebar-panel {
+  grid-area: sidebar;
+  background-color: #f7f9fc;
+  color: black;
+  overflow-y: auto;
+  padding-top: 20px;
+}
+
+.sidebar-header {
+  padding: 20px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.sidebar-menu {
+  margin-top: 0;
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar-item {
+  padding: 8px 18px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.sidebar-item:hover {
+  background-color: #f4f5f7;
+  color: #14575d;
+}
+
+.sidebar-item.active {
+  background-color: #edf0f6;
+  color: #207b83;
+}
+
+.content-area {
+  grid-area: main;
+  padding: 30px;
+  overflow-y: auto;
+  max-height: 80vh;
+  background-color: #fff;
+}
+
+.content-wrapper {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 10px;
+  line-height: 1.7;
+  font-size: 18px;
+  color: #555;
+}
+
+.content-wrapper h1,
+.content-wrapper h2,
+.content-wrapper h3,
+.content-wrapper h4,
+.content-wrapper h5,
+.content-wrapper h6 {
+  color: #333;
+  margin-top: 16px;
+  margin-bottom: 8px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.content-wrapper p {
+  font-size: 17px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+  color: #555;
+}
+
+.content-wrapper ul,
+.content-wrapper ol {
+  padding-left: 20px;
+  margin-top: 8px;
+  margin-bottom: 12px;
+  color: #555;
+}
+
+.content-wrapper ul li,
+.content-wrapper ol li {
+  font-size: 16px;
+  margin-bottom: 6px;
+  line-height: 1.5;
+}
+
+.content-wrapper code,
+.content-wrapper pre {
+  font-family: 'Courier New', Courier, monospace;
+  background-color: #f0f0f0;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 15px;
+}
+
+.content-wrapper pre {
+  padding: 12px;
+  overflow-x: auto;
+  margin-bottom: 12px;
+}
+
+.content-wrapper a {
+  color: #0066cc;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.content-wrapper a:hover {
+  color: #004999;
+  text-decoration: none;
+}
+
+.content-wrapper blockquote {
+  border-left: 4px solid #ddd;
+  padding-left: 16px;
+  color: #666;
+  font-style: italic;
+  margin: 16px 0;
+}
+
+.content-wrapper table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.content-wrapper table th,
+.content-wrapper table td {
+  border: 1px solid #ccc;
+  padding: 8px 12px;
+  text-align: left;
+}
+
+.content-wrapper table th {
+  background-color: #f2f2f2;
+  font-weight: 600;
+}
+
+
+.nav-link-underline {
+  position: relative;
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.nav-link-underline::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -3px;
+  transform: translateX(-50%) scaleX(0);
+  transform-origin: center;
+  width: 100%;
+  height: 0.5px;
+  background-color: black;
+  transition: transform 0.4s ease 0.1s;
+}
+
+.nav-link-underline:hover::after {
+  transform: translateX(-50%) scaleX(1);
+}
+
+
+@media screen and (max-width: 768px) {
+  .layout-grid {
+    grid-template-columns: 1fr;
+    grid-template-areas: "main";
+  }
+
+  #sidebar-panel {
+    display: none;
+  }
+}

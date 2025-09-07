@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title}">Page Title</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/submit.css}" />
+</head>
+<body>
+
+<header>
+    <div class="logo">Code<span>Hub</span></div>
+</header>
+
+<div class="main-container">
+    <div class="panel problem-panel">
+        <div class="problem-title" th:text="${problem.title}">Problem Title</div>
+        <div class="problem-description">
+            <span th:utext="${#strings.replace(problem.description, '\n', '<br/>')}"></span>
+            <br><br>
+            <strong>Input:</strong><br>
+            <span th:utext="${#strings.replace(problem.inputFormat, '\n', '<br/>')}"></span><br><br>
+
+            <strong>Input Format:</strong><br>
+            <span th:utext="${#strings.replace(problem.sampleInput, '\n', '<br/>')}"></span><br><br>
+
+            <strong>Output:</strong><br>
+            <span th:utext="${#strings.replace(problem.outputFormat, '\n', '<br/>')}"></span><br><br>
+
+            <strong>Output Format:</strong><br>
+            <span th:utext="${#strings.replace(problem.sampleOutput, '\n', '<br/>')}"></span><br><br>
+
+            <strong>Constraints:</strong><br>
+            <span th:utext="${#strings.replace(problem.constraints, '\n', '<br/>')}"></span>
+        </div>
+    </div>
+
+    <div class="panel code-panel">
+        <div class="submit-error" th:if="${error}" th:text="${error}"></div>
+
+        <form method="post" th:action="@{/submit_solution/{slug}(slug=${problem.slug})}">
+            <label for="language">Choose Language:</label>
+            <select id="language" name="language_id" class="select-language">
+                <option value="54">C++</option>
+                <option value="71">Python</option>
+                <option value="62">Java</option>
+            </select>
+
+            <div class="editor-container">
+                <div id="lineNumbers" class="line-numbers"></div>
+                <textarea id="editor" name="code" class="code-editor" placeholder="Write your solution here..."></textarea>
+            </div>
+
+            <div class="controls">
+                <button class="submit-button">Submit Code</button>
+            </div>
+        </form>
+
+        <div class="testcase-results" th:if="${testCaseResults}">
+            <h3>Test Case Results</h3>
+            <div th:each="tc, iterStat : ${testCaseResults}" class="testcase-result">
+                <span class="testcase-number">Test Case <span th:text="${iterStat.index + 1}"></span>:</span>
+                <span th:if="${tc.status == 'Accepted'}" class="status passed">Passed</span>
+                <span th:if="${tc.status != 'Accepted'}" class="status failed">
+                    Failed (<span th:text="${tc.status}"></span>)
+                </span>
+                <span class="testcase-time"> | Time: <span th:text="${tc.time}"></span>s</span>
+                <span class="testcase-memory"> | Memory: <span th:text="${tc.memory}"></span> KB</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script th:src="@{/js/submit.js}"></script>
+</body>
+</html>

@@ -99,25 +99,27 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String login(LoginUserDto loginUserDTO) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(loginUserDTO.getEmail(), loginUserDTO.getPassword())
-        );
-        if(!authentication.isAuthenticated()){
-            throw new BadCredentialsException("Invalid username/password");
+        try{
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginUserDTO.getEmail(), loginUserDTO.getPassword())
+            );
+        }catch (BadCredentialsException e){
+            throw new BadCredentialsException("Invalid email or password");
         }
-        return JwtUtil.generateToken(authentication.getName());
+        return JwtUtil.generateToken(loginUserDTO.getEmail());
     }
 
     @Override
-    public void changePassword(String username, String oldPassword, String newPassword) {
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(username, oldPassword)
-        );
-        if(!authentication.isAuthenticated()){
-            throw new BadCredentialsException("Invalid username/password");
+    public void changePassword(String email, String oldPassword, String newPassword) {
+        try{
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(email, oldPassword)
+            );
+        }catch (BadCredentialsException e){
+            throw new BadCredentialsException("Invalid email or password");
         }
         PasswordUtil.validatePassword(newPassword);
-        userRepository.findById(username).ifPresent(user -> {
+        userRepository.findById(email).ifPresent(user -> {
             String newPasswordHash = PasswordUtil.hashPassword(newPassword);
             user.setPasswordHash(newPasswordHash);
             userRepository.save(user);

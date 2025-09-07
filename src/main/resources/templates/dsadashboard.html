@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>{{ title }}</title>
+
+  <!-- Fonts -->
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined" rel="stylesheet" />
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="{% static 'css/dsadashboard.css' %}" />
+</head>
+<scrip>
+
+  <!-- Top Navbar -->
+  <header>
+    <div class="logo">Code<span>Hub</span></div>
+    <nav>
+        <a class="highlight-link" href="{% url 'premium' %}">Premium</a>
+        <a class="nav-link-underline" href="{% url 'explore' %}">Explore</a>
+        <a class="nav-link-underline" href="{% url 'problem_list' %}">Problems</a>
+    </nav>
+    <div class="right-section">
+      {% if user.is_authenticated %}
+      <span>{{ user.username }}</span>
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+        {% csrf_token %}
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+      {% else %}
+      <a href="{% url 'login' %}"><button class="login-btn">Login</button></a>
+      <a href="{% url 'login' %}"><button class="signin-btn">Sign Up</button></a>
+      {% endif %}
+    </div>
+  </header>
+
+  <!-- Grid Layout -->
+  <div class="grid-container">
+    <!-- Sidebar -->
+    <aside id="sidebar">
+      <div class="sidebar-title">Explore DSA</div>
+      <ul class="sidebar-list">
+        <li class="sidebar-list-item active" onclick="loadDSAContent('home', this)">DSA Home</li>
+        <li class="sidebar-list-item" onclick="loadDSAContent('array', this)">Array</li>
+        <li class="sidebar-list-item" onclick="loadDSAContent('linkedlist', this)">Linked List</li>
+      </ul>
+    </aside>
+
+ 
+    <main class="main-container">
+      <div id="dsa-content" class="content-box">
+        <!-- Content will be injected here -->
+      </div>
+    </main>
+  </div>
+
+<script src="{% static 'js/dsadashboard.js' %}"></script>
+</body>
+</html>

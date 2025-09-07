@@ -1,7 +1,9 @@
 package com.example.backend.exception;
 
+import org.eclipse.angus.mail.iap.BadCommandException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -26,6 +28,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(WeakPasswordException.class)
     public ResponseEntity<String> handleWeakPasswordException(WeakPasswordException exception){
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> handleBadCredentialsException(org.springframework.security.authentication.BadCredentialsException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception.getMessage());
     }
 
     @ExceptionHandler(InvalidDateException.class)

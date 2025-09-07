@@ -1,0 +1,112 @@
+<h2>Array</h2>
+
+<p>
+An <strong>array</strong> is one of the most fundamental and widely used data structures in computer science. It is a collection of elements stored in contiguous memory locations, where each element can be accessed directly via its index. Arrays serve as the building blocks for many complex data structures and algorithms.
+</p>
+
+<h3>Key Characteristics of Arrays</h3>
+<ul>
+  <li><strong>Fixed Size:</strong> In many programming languages such as C, C++, and Java, the size of an array is determined at declaration time and cannot be changed. However, some languages like Python and JavaScript provide dynamic arrays (lists) that can grow or shrink dynamically.</li>
+  <li><strong>Indexed Access:</strong> Elements in an array are accessed using an integer index starting at 0, allowing for constant-time random access (O(1)).</li>
+  <li><strong>Homogeneous Elements:</strong> Arrays store elements of the same data type, such as integers, floats, or objects.</li>
+  <li><strong>Contiguous Memory Allocation:</strong> Storing elements sequentially in memory allows efficient cache usage and faster access times.</li>
+</ul>
+
+<h3>Common Operations on Arrays</h3>
+<ul>
+  <li><strong>Traversal:</strong> Visiting each element sequentially, typically done with loops (for, while).</li>
+  <li><strong>Insertion:</strong> Adding an element at a specific position. For fixed-size arrays, this requires shifting elements to create space.</li>
+  <li><strong>Deletion:</strong> Removing an element, which may require shifting elements to fill the gap.</li>
+  <li><strong>Searching:</strong> Finding the presence or position of an element. Can be done via linear search (O(n)) or binary search (O(log n)) if sorted.</li>
+  <li><strong>Sorting:</strong> Arranging elements in ascending or descending order using algorithms like quicksort, mergesort, or bubble sort.</li>
+</ul>
+
+<h3>Memory Layout and Access</h3>
+<p>
+Because arrays allocate memory contiguously, the address of an element at index <code>i</code> can be calculated as:
+</p>
+<pre>
+Base_Address + (i * Size_of_Element)
+</pre>
+<p>
+This formula enables direct, constant-time access to any element, making arrays very efficient for read operations.
+</p>
+
+<h3>Example Declaration and Initialization</h3>
+<p>In C-like languages:</p>
+<pre>
+int arr[5] = {10, 20, 30, 40, 50};
+</pre>
+
+<p>In Python (dynamic array or list):</p>
+<pre>
+arr = [10, 20, 30, 40, 50]
+</pre>
+
+<p>In JavaScript:</p>
+<pre>
+let arr = [10, 20, 30, 40, 50];
+</pre>
+
+<h3>Advantages of Arrays</h3>
+<ul>
+  <li><strong>Fast Random Access:</strong> Accessing elements by index is an O(1) operation.</li>
+  <li><strong>Simple and Intuitive:</strong> Arrays are easy to understand and use.</li>
+  <li><strong>Efficient Memory Use:</strong> Contiguous storage leads to minimal overhead and better cache performance.</li>
+  <li><strong>Foundation for Other Structures:</strong> Arrays form the base for stacks, queues, heaps, and hash tables.</li>
+</ul>
+
+<h3>Disadvantages and Limitations</h3>
+<ul>
+  <li><strong>Fixed Size:</strong> Most arrays have a fixed size, so resizing requires creating a new array and copying elements.</li>
+  <li><strong>Insertion and Deletion Costs:</strong> Inserting or deleting elements, especially in the middle, requires shifting elements, resulting in O(n) time complexity.</li>
+  <li><strong>Less Flexible:</strong> Not ideal for datasets with unknown or frequently changing sizes.</li>
+  <li><strong>Homogeneity:</strong> Restricts storing different data types within the same array (except in dynamic languages).</li>
+</ul>
+
+<h3>Dynamic Arrays and Lists</h3>
+<p>
+To overcome fixed-size limitations, many languages provide dynamic arrays or list implementations. These structures allocate extra space and resize automatically when the current capacity is exceeded, often by doubling the size. Examples include Python's lists, Java's ArrayList, and C++'s std::vector.
+</p>
+<p>
+Dynamic arrays still provide O(1) amortized access time but can incur O(n) cost during resizing operations.
+</p>
+
+<h3>Performance Considerations</h3>
+<table>
+  <thead>
+    <tr><th>Operation</th><th>Time Complexity</th><th>Notes</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Access by Index</td><td>O(1)</td><td>Direct memory calculation</td></tr>
+    <tr><td>Search (Linear)</td><td>O(n)</td><td>Sequential scan of all elements</td></tr>
+    <tr><td>Search (Binary, sorted)</td><td>O(log n)</td><td>Requires sorted array</td></tr>
+    <tr><td>Insertion (end)</td><td>O(1) amortized</td><td>For dynamic arrays</td></tr>
+    <tr><td>Insertion (middle)</td><td>O(n)</td><td>Requires shifting elements</td></tr>
+    <tr><td>Deletion</td><td>O(n)</td><td>Requires shifting elements</td></tr>
+  </tbody>
+</table>
+
+<h3>Use Cases of Arrays</h3>
+<ul>
+  <li>Storing fixed collections like days of the week, months, or fixed-size buffers.</li>
+  <li>Implementing stacks, queues, and heaps for algorithmic problems.</li>
+  <li>Matrix representation for numerical computing and graphics.</li>
+  <li>Lookup tables and caching mechanisms.</li>
+  <li>Holding data in programming contests and interviews for problem solving.</li>
+</ul>
+
+<h3>Common Algorithms Involving Arrays</h3>
+<ul>
+  <li><strong>Sorting:</strong> Quick Sort, Merge Sort, Bubble Sort, Insertion Sort, Heap Sort</li>
+  <li><strong>Searching:</strong> Linear Search, Binary Search</li>
+  <li><strong>Two Pointer Technique:</strong> Used for problems like finding pairs, subarrays with certain properties</li>
+  <li><strong>Sliding Window:</strong> Efficiently solving subarray problems with moving boundaries</li>
+  <li><strong>Prefix Sum Arrays:</strong> Precomputing sums for range queries</li>
+</ul>
+
+<h3>Summary</h3>
+
+<p>
+Arrays are foundational data structures offering efficient and direct access to stored elements. Their simplicity makes them ideal for a variety of use cases, but their fixed size and costly insertions/deletions require careful consideration. Understanding arrays thoroughly is essential as they underpin many complex data structures and algorithms.
+</p>

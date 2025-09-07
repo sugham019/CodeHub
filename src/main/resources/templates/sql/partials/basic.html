@@ -1,0 +1,132 @@
+<h2>Basic SQL Queries</h2>
+<p>
+Structured Query Language (SQL) provides a set of commands to interact with the data stored in relational databases. These commands allow you to retrieve, insert, update, and delete records. 
+They form the foundation of working with databases and are essential for developers, analysts, and database administrators alike.
+</p>
+
+<h3>1. Retrieving Data — SELECT</h3>
+<p>
+The <code>SELECT</code> statement is used to fetch data from one or more tables. You can retrieve all columns or only specific ones, and filter results based on conditions.
+</p>
+<pre>
+-- Retrieve all columns from the "users" table
+SELECT * FROM users;
+
+-- Retrieve specific columns (name and email)
+SELECT name, email FROM users;
+
+-- Retrieve only active users
+SELECT * FROM users
+WHERE status = 'active';
+
+-- Retrieve users sorted by registration date (newest first)
+SELECT * FROM users
+ORDER BY registration_date DESC;
+</pre>
+<p><strong>Tip:</strong> Use <code>LIMIT</code> to restrict the number of results returned, especially with large datasets.</p>
+
+<h3>2. Adding Data — INSERT</h3>
+<p>
+The <code>INSERT</code> statement is used to add new rows into a table. You can insert a single row or multiple rows in one statement.
+</p>
+<pre>
+-- Insert one row into the "users" table
+INSERT INTO users (name, age, email)
+VALUES ('John Doe', 30, 'john@example.com');
+
+-- Insert multiple rows at once
+INSERT INTO users (name, age, email)
+VALUES 
+('Jane Smith', 25, 'jane@example.com'),
+('Alex Brown', 28, 'alex@example.com');
+</pre>
+<p><strong>Note:</strong> Always specify the column names to avoid errors if the table structure changes in the future.</p>
+
+<h3>3. Updating Data — UPDATE</h3>
+<p>
+The <code>UPDATE</code> statement modifies existing rows in a table. It’s important to include a <code>WHERE</code> clause to avoid updating every row unintentionally.
+</p>
+<pre>
+-- Update a single user's age
+UPDATE users
+SET age = 31
+WHERE name = 'John Doe';
+
+-- Give a 10% salary increase to all employees in the "Engineering" department
+UPDATE employees
+SET salary = salary * 1.10
+WHERE department = 'Engineering';
+</pre>
+<p><strong>Warning:</strong> Without a <code>WHERE</code> clause, the update will apply to every row in the table.</p>
+
+<h3>4. Deleting Data — DELETE</h3>
+<p>
+The <code>DELETE</code> statement removes one or more rows from a table. As with <code>UPDATE</code>, always use a <code>WHERE</code> clause unless you intend to remove all data.
+</p>
+<pre>
+-- Delete users younger than 18
+DELETE FROM users
+WHERE age &lt; 18;
+
+-- Delete all orders that have been cancelled
+DELETE FROM orders
+WHERE status = 'cancelled';
+</pre>
+<p><strong>Tip:</strong> Use <code>TRUNCATE TABLE</code> to quickly remove all data from a table — it’s faster but cannot be rolled back in some databases.</p>
+
+<h3>5. Filtering Results — WHERE</h3>
+<p>
+The <code>WHERE</code> clause allows you to filter data based on conditions. It supports operators such as <code>=</code>, <code>!=</code>, <code>&lt;</code>, <code>&gt;</code>, <code>LIKE</code>, and <code>IN</code>.
+</p>
+<pre>
+-- Find users with age over 25
+SELECT * FROM users
+WHERE age &gt; 25;
+
+-- Find users whose name starts with "A"
+SELECT * FROM users
+WHERE name LIKE 'A%';
+
+-- Find orders placed by specific customers
+SELECT * FROM orders
+WHERE customer_id IN (101, 102, 103);
+</pre>
+
+<h3>6. Sorting Results — ORDER BY</h3>
+<pre>
+-- Sort users by name in ascending order
+SELECT * FROM users
+ORDER BY name ASC;
+
+-- Sort users by age in descending order
+SELECT * FROM users
+ORDER BY age DESC;
+</pre>
+
+<h3>7. Limiting Results — LIMIT / OFFSET</h3>
+<pre>
+-- Retrieve only the first 10 rows
+SELECT * FROM products
+LIMIT 10;
+
+-- Retrieve rows 11 to 20
+SELECT * FROM products
+LIMIT 10 OFFSET 10;
+</pre>
+
+<h3>8. Combining Filters</h3>
+<pre>
+-- Find all active users above age 25
+SELECT * FROM users
+WHERE status = 'active' AND age &gt; 25;
+
+-- Find all products in category 5 OR priced under $50
+SELECT * FROM products
+WHERE category_id = 5 OR price &lt; 50;
+</pre>
+
+<h3>Conclusion</h3>
+<p>
+These basic SQL queries form the foundation of database interaction. By mastering them, you’ll be able to perform most day-to-day database operations. 
+As you progress, you’ll learn more advanced topics like <strong>JOINs</strong>, <strong>GROUP BY</strong>, <strong>subqueries</strong>, <strong>aggregate functions</strong>, and <strong>transactions</strong> that allow you to handle more complex scenarios.
+</p>

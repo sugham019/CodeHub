@@ -1,5 +1,6 @@
 package com.example.backend.controller.view;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,23 +9,19 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AuthViewController {
 
     @GetMapping("/login")
-    public String login(Model model) {
+    public String login(Model model, Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/";
+        }
         return "login";
     }
 
     @GetMapping("/signup")
-    public String signup(Model model){
+    public String signup(Model model, Authentication authentication){
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/";
+        }
         return "signup";
-    }
-
-    @GetMapping("/verification")
-    public String verificationPage(Model model) {
-        // Dummy data for presentation/demo
-        model.addAttribute("title", "Account Verification");
-//        model.addAttribute("error", ""); // Empty string if no error, or a sample error message
-        // Example: model.addAttribute("error", "Invalid code. Please try again.");
-
-        return "verification"; // Thymeleaf template name (verification.html)
     }
 
     @GetMapping("/forgot-password")

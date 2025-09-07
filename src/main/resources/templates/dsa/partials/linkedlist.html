@@ -1,0 +1,125 @@
+<h2>Linked List</h2>
+
+<p>
+A <strong>Linked List</strong> is a fundamental linear data structure where elements, called <em>nodes</em>, are arranged in a sequence. Unlike arrays, linked lists store elements non-contiguously in memory. Each node contains two parts: the data itself, and a reference (or pointer) to the next node in the list. This linked structure allows for efficient insertion and deletion operations.
+</p>
+
+<h3>Why Use Linked Lists?</h3>
+<p>
+Linked lists provide greater flexibility than arrays in scenarios where the number of elements changes dynamically. Since memory allocation is not contiguous, linked lists can grow or shrink without requiring large contiguous memory blocks. This makes linked lists particularly useful for applications involving frequent insertions and deletions.
+</p>
+
+<h3>Basic Structure of a Node</h3>
+<p>
+Each node in a linked list typically contains:
+</p>
+<ul>
+  <li><strong>Data:</strong> The actual value or information stored.</li>
+  <li><strong>Next Pointer:</strong> A reference to the next node in the list.</li>
+</ul>
+
+<p>Example node structure in JavaScript:</p>
+<pre>
+class Node {
+  constructor(data) {
+    this.data = data;
+    this.next = null;
+  }
+}
+</pre>
+
+<h3>Types of Linked Lists</h3>
+<ul>
+  <li><strong>Singly Linked List:</strong> Nodes contain data and a pointer to the next node only. Traversal is one-way (forward).</li>
+  <li><strong>Doubly Linked List:</strong> Nodes contain data, a pointer to the next node, and a pointer to the previous node. Enables two-way traversal.</li>
+  <li><strong>Circular Linked List:</strong> The last node points back to the head, creating a loop. Can be singly or doubly linked.</li>
+</ul>
+
+<h3>Operations on Linked Lists</h3>
+
+<h4>Traversal</h4>
+<p>
+Starting from the <em>head</em> node, you visit each node by following the <code>next</code> pointers until reaching a node whose <code>next</code> is <code>null</code>. Traversal is essential for searching, printing, or processing list data.
+</p>
+
+<h4>Insertion</h4>
+<p>New nodes can be inserted at:</p>
+<ul>
+  <li><strong>Beginning:</strong> Set the new node's <code>next</code> to current head, then update head to new node.</li>
+  <li><strong>End:</strong> Traverse to the last node, set its <code>next</code> pointer to new node.</li>
+  <li><strong>Specific Position:</strong> Traverse to node before desired position, adjust pointers to insert the new node in between.</li>
+</ul>
+
+<h4>Deletion</h4>
+<p>
+To remove a node, adjust the pointer of the previous node to bypass the node to be deleted, effectively removing it from the chain. Special care is needed when deleting the head or tail nodes.
+</p>
+
+<h4>Searching</h4>
+<p>
+Traverse the list comparing node data with the search key until found or end of list is reached.
+</p>
+
+<h3>Example: Inserting a Node at the Beginning</h3>
+<pre>
+function insertAtHead(head, data) {
+  const newNode = new Node(data);
+  newNode.next = head;
+  return newNode;  // new head
+}
+</pre>
+
+<h3>Advantages of Linked Lists</h3>
+<ul>
+  <li><strong>Dynamic Size:</strong> Can easily grow or shrink at runtime.</li>
+  <li><strong>Efficient Insertions/Deletions:</strong> Adding or removing nodes (if pointer known) happens in O(1) time without shifting.</li>
+  <li><strong>Memory Utilization:</strong> No need to allocate memory in advance as with arrays.</li>
+  <li><strong>Useful for Implementing Other Data Structures:</strong> Basis for stacks, queues, graphs, and adjacency lists.</li>
+</ul>
+
+<h3>Disadvantages of Linked Lists</h3>
+<ul>
+  <li><strong>Sequential Access:</strong> No direct indexing; to access the nth element, you must traverse from the head, leading to O(n) access time.</li>
+  <li><strong>Extra Memory Overhead:</strong> Each node stores one or two pointers in addition to data.</li>
+  <li><strong>Complexity:</strong> More complex to implement and debug compared to arrays.</li>
+  <li><strong>Cache Unfriendliness:</strong> Non-contiguous storage reduces cache performance compared to arrays.</li>
+</ul>
+
+<h3>Time Complexity Summary</h3>
+<table>
+  <thead>
+    <tr><th>Operation</th><th>Time Complexity</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>Traversal</td><td>O(n)</td></tr>
+    <tr><td>Insertion at head</td><td>O(1)</td></tr>
+    <tr><td>Insertion at tail (if tail pointer maintained)</td><td>O(1)</td></tr>
+    <tr><td>Insertion at position</td><td>O(n)</td></tr>
+    <tr><td>Deletion at head</td><td>O(1)</td></tr>
+    <tr><td>Deletion at position</td><td>O(n)</td></tr>
+    <tr><td>Search</td><td>O(n)</td></tr>
+  </tbody>
+</table>
+
+<h3>Variants and Advanced Linked Lists</h3>
+<ul>
+  <li><strong>Doubly Linked List:</strong> Supports backward traversal, insertion, and deletion at both ends efficiently.</li>
+  <li><strong>Circular Linked List:</strong> Useful in applications requiring cyclic traversal, such as round-robin scheduling.</li>
+  <li><strong>Skip Lists:</strong> Multi-level linked lists allowing faster search (probabilistic balancing).</li>
+  <li><strong>XOR Linked List:</strong> A memory-efficient doubly linked list variant that uses XOR of pointers.</li>
+</ul>
+
+<h3>Real-World Use Cases</h3>
+<ul>
+  <li>Implementing undo/redo functionality in text editors.</li>
+  <li>Handling dynamic memory allocation (free lists in malloc implementations).</li>
+  <li>Maintaining playlists or browsing history where sequential order matters.</li>
+  <li>Adjacency lists in graph representations.</li>
+  <li>Round-robin task scheduling and buffering in OS kernels.</li>
+</ul>
+
+<h3>Summary</h3>
+
+<p>
+Linked lists offer flexible and efficient management of sequential data when dynamic size and frequent insertions/deletions are required. Although they do not provide fast random access like arrays, their ability to efficiently change structure makes them indispensable in many algorithms and systems. Mastery of linked lists is a key stepping stone to understanding more complex data structures and improving programming skills.
+</p>

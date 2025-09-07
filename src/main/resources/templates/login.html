@@ -8,6 +8,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" th:href="@{/css/login.css}" />
+  <script type="module" th:src="@{/js/login.js}"></script>
+
 </head>
 <body>
 
@@ -34,7 +36,7 @@
 
       <div class="login-input-group">
         <i class="fas fa-user"></i>
-        <input type="text" name="username" placeholder="Username" required />
+        <input type="email" name="email" placeholder="Email" required />
       </div>
       <div class="login-input-group">
         <i class="fas fa-lock"></i>
@@ -65,6 +67,5 @@
   </div>
 </div>
 
-<script th:src="@{/js/login.js}"></script>
 </body>
 </html>
