@@ -45,6 +45,11 @@ public class ProblemServiceImpl implements ProblemService{
     }
 
     @Override
+    public List<Problem> getAllProblems() {
+        return problemRepository.findAll();
+    }
+
+    @Override
     public void removeProblemById(String problemId) {
         if(!problemRepository.existsById(problemId)){
             throw new ResourceNotFoundException("Problem does not exists with given id: "+problemId);
@@ -52,10 +57,6 @@ public class ProblemServiceImpl implements ProblemService{
         problemRepository.deleteById(problemId);
     }
 
-    // Todo: not urgent now, only when we add search bar in our website
-    @Override
-    public List<Problem> findByTitle(String title) {
-        return null;
-    }
+
 
 }

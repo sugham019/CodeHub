@@ -58,7 +58,6 @@ document.addEventListener("DOMContentLoaded", () => {
         signIn(email, password)
             .then(jwt => {
                 saveCredential(jwt, document, rememberMeChecked);
-                showSuccess(form, "Login Successful");
                 setTimeout(() => {
                     window.location.href = "/";
                 }, 2000);

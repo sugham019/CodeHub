@@ -11,6 +11,10 @@ import java.util.List;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(unique = true, nullable = false)
     private String email;
 
     private String displayName;
@@ -42,6 +46,10 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public long getId(){
+        return id;
     }
 
     public List<SolvedProblem> getSolvedProblems(){

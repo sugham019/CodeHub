@@ -30,13 +30,9 @@ public class SecurityConfig {
         return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
-                                "/",
-                                "/forgot-password",
-                                "verification",
                                 "/login",
+                                "/explore",
                                 "/signup",
-                                "/problem/**",
-                                "/problems",
                                 "/css/**",
                                 "/js/**",
                                 "/img/**"
@@ -54,6 +50,10 @@ public class SecurityConfig {
                                 "/api/problem/remove"
                         ).hasRole("ADMIN")
                         .anyRequest().authenticated()
+                )
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(new JwtAuthenticationFilter(userDetailsService),

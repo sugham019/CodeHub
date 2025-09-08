@@ -2,6 +2,7 @@ package com.example.backend.service;
 
 import com.example.backend.dto.CreateUserDto;
 import com.example.backend.dto.LoginUserDto;
+import com.example.backend.dto.UserDto;
 import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.UserRepository;
@@ -11,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
@@ -65,7 +65,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void createAndSendVerificationCode(String userEmail) {
-        if(userRepository.existsById(userEmail)){
+        if(userRepository.existsByEmail(userEmail)){
             throw new UserAccountException(userEmail+" is already associated with an account");
         }
         String verificationCode = PasswordUtil.generateOTP(6);
@@ -119,17 +119,11 @@ public class UserServiceImpl implements UserService {
             throw new BadCredentialsException("Invalid email or password");
         }
         PasswordUtil.validatePassword(newPassword);
-        userRepository.findById(email).ifPresent(user -> {
+        userRepository.findByEmail(email).ifPresent(user -> {
             String newPasswordHash = PasswordUtil.hashPassword(newPassword);
             user.setPasswordHash(newPasswordHash);
             userRepository.save(user);
         });
-    }
-
-    @Override
-    public User getUser(String email) {
-        return userRepository.findById(email)
-                .orElseThrow(() -> new RuntimeException("User not found with email: "+email));
     }
 
     @Override
@@ -139,10 +133,22 @@ public class UserServiceImpl implements UserService {
         if(alreadySolved) return;
 
         LocalDate currDate = LocalDate.now();
-        SolvedProblem solvedProblem = new SolvedProblem(problem.getId(), user.getEmail(), problem.getTitle(), currDate);
+        SolvedProblem solvedProblem = new SolvedProblem(problem.getId(), user.getId(), problem.getTitle(), currDate);
         user.getSolvedProblems().add(solvedProblem);
         userRepository.save(user);
         leaderboardService.updateRating(user, problem.getDifficulty().getValue());
+    }
+
+    @Override
+    public User getUser(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("User not found with email: "+email));
+    }
+
+    @Override
+    public UserDto getBasicUserInfo(String email) {
+        User user = getUser(email);
+        return new UserDto(user.getId(), user.getEmail(), user.getDisplayName(), user.getLeaderboard().getRating());
     }
 
 }

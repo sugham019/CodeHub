@@ -9,15 +9,15 @@ import java.util.Objects;
 public class SolvedProblemId implements Serializable {
 
     private String problemId;
-    private String email;
+    private Long userId;
 
     public SolvedProblemId() {
 
     }
 
-    public SolvedProblemId(String problemId, String email) {
+    public SolvedProblemId(String problemId, Long userId) {
         this.problemId = problemId;
-        this.email = email;
+        this.userId = userId;
     }
 
     @Override
@@ -25,19 +25,19 @@ public class SolvedProblemId implements Serializable {
         if (this == obj) return true;
         if (!(obj instanceof SolvedProblemId otherId)) return false;
 
-        return Objects.equals(problemId, otherId.problemId) && Objects.equals(email, otherId.email);
+        return Objects.equals(problemId, otherId.problemId) && Objects.equals(userId, otherId.userId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(problemId, email);
+        return Objects.hash(problemId, userId);
     }
 
     public String getProblemId() {
         return problemId;
     }
 
-    public String getEmail() {
-        return email;
+    public long getUserId(){
+        return userId;
     }
 }

@@ -12,17 +12,26 @@ html, body {
   flex-direction: column;
 }
 
-.verification-success {
-  background-color: #c7dfbe;
-  color: #3aa328;
-  padding: 10px;
-  border: 1px solid #61d88c;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  margin-bottom: 28px;
-  text-align: center;
+/* LOGIN */
+.login-form-wrapper {
+  position: relative;
 }
 
+/* If a message exists before h2, give the heading extra margin */
+.login-form-wrapper > .verification-error + h2,
+.login-form-wrapper > .verification-success + h2 {
+  margin-top: 70px; /* creates space under message */
+}
+
+/* SIGNUP */
+.signup-form {
+  position: relative;
+}
+
+.signup-form > .verification-error + h2,
+.signup-form > .verification-success + h2 {
+  margin-top: 70px;
+}
 
 header {
   width: 100%;
@@ -117,17 +126,36 @@ header {
   text-align: center;
 }
 
-.verification-error {
-  background-color: #ffe5e5;
-  color: #b30000;
-  padding: 10px;
-  border: 1px solid #ffb3b3;
-  border-radius: 6px;
-  font-size: 0.9rem;
-  margin-bottom: 35px;
+/* Messages: take full width, wrap properly, never truncate */
+.verification-error,
+.verification-success {
+  display: block;
+  width: 100%;
+  word-wrap: break-word;
+  white-space: normal;
+  margin-bottom: 20px;
   text-align: center;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: 8px;
+  padding: 14px 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-sizing: border-box;
 }
 
+/* Error look */
+.verification-error {
+  background-color: #ffe5e5;
+  border: 1px solid #ffb3b3;
+  color: #a10000;
+}
+
+/* Success look */
+.verification-success {
+  background-color: #e6f9ec;
+  border: 1px solid #8ed9a4;
+  color: #2f7a3f;
+}
 
 .login-form-wrapper h2 {
   margin-top: -16%;

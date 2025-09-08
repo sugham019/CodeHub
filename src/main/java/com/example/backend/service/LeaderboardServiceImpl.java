@@ -1,5 +1,6 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.UserDto;
 import com.example.backend.model.Leaderboard;
 import com.example.backend.model.User;
 import com.example.backend.repository.LeaderboardRepository;
@@ -8,8 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -22,20 +22,21 @@ public class LeaderboardServiceImpl implements LeaderboardService{
     }
 
     @Override
-    public Map<String, Integer> getTopRankers(int limit) {
+    public List<UserDto> getTopRankers(int limit) {
         Pageable pageable = PageRequest.of(0, limit, Sort.by("rating").descending());
         return getLeaderboard(pageable);
     }
 
-    private Map<String, Integer> getLeaderboard(Pageable pageable){
+    private List<UserDto> getLeaderboard(Pageable pageable) {
         return leaderboardRepository.findAll(pageable)
                 .stream()
-                .collect(Collectors.toMap(
-                        lb -> lb.getUser().getEmail(),
-                        lb -> lb.getRating(),
-                        (existing, replacement) -> existing,
-                        () -> new LinkedHashMap<>()
-                ));
+                .map(lb -> new UserDto(
+                        lb.getUser().getId(),
+                        lb.getUser().getEmail(),
+                        lb.getUser().getDisplayName(),
+                        lb.getRating()
+                ))
+                .collect(Collectors.toList());
     }
 
     @Override

@@ -78,6 +78,10 @@ public class Problem {
         return datePosted;
     }
 
+    public int getPoints() {
+        return this.difficulty != null ? this.difficulty.getValue() : 0;
+    }
+
     public Map<Language, String> getBannedLibrary() {
         return bannedLibrary;
     }

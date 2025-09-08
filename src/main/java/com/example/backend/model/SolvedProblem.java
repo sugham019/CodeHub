@@ -19,8 +19,8 @@ public class SolvedProblem {
 
     }
 
-    public SolvedProblem(String problemId, String email, String title, LocalDate solvedDate){
-        this.id = new SolvedProblemId(problemId, email);
+    public SolvedProblem(String problemId, Long userId, String title, LocalDate solvedDate){
+        this.id = new SolvedProblemId(problemId, userId);
         this.title = title;
         this.solvedDate = solvedDate;
     }

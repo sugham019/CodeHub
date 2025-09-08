@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title th:text="${title}">Page Title</title>
+  <title>Explore</title>
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" th:href="@{/css/question.css}" />
@@ -11,23 +11,28 @@
 <body>
 
 <header>
-  <div class="logo">Code<span>Hub</span></div>
-  <div class="top-right">
-    <form method="post" th:action="@{/problem_list}" class="search-box">
+  <div class="brand-logo">Code<span>Hub</span></div>
+  <nav>
+    <a class="nav-link-underline" th:href="@{/about}">About Us</a>
+    <a class="nav-link-underline current-page" href="#" onclick="scrollToHero(event)">Explore</a>
+    <a class="nav-link-underline" th:href="@{/editor}">Editor</a>
+    <a class="nav-link-underline" th:href="@{/problem_list}">Profile</a>
+  </nav>
+
+  <form method="post" th:action="@{/problem_list}" class="search-box">
       <i class="fas fa-search"></i>
       <input type="text" name="q" placeholder="Search..." th:value="${param.q}" />
     </form>
 
-    <!-- Updated to use dummy currentUser -->
     <div th:if="${currentUser != null}">
-      <span th:text="${currentUser}"></span>
+      <span th:text="${currentUser.displayName}"></span>
+
+      <span th:text="${currentUser.ratings}" ></span>
+
       <form th:action="@{/logout}" method="post" style="display:inline;">
         <button type="submit" class="logout-btn">Logout</button>
       </form>
-    </div>
-    <div th:unless="${currentUser != null}">
-      <a th:href="@{/login}"><button class="btn-login">Login</button></a>
-      <a th:href="@{/signup}"><button class="btn-signin">Sign up</button></a>
+
     </div>
   </div>
 </header>
@@ -38,49 +43,12 @@
 
 <div class="layout-main">
   <div class="cards-list">
-    <!-- Dummy cards -->
-<!--    <div class="card-question">-->
-<!--      <h3>Welcome to Java!</h3>-->
-<!--      <div class="card-footer">-->
-<!--        <div class="card-meta">Easy • Max Score: 3 • Success Rate: 97.08%</div>-->
-<!--        <button>Solve Challenge</button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="card-question">-->
-<!--      <h3>Java Stdin and Stdout I</h3>-->
-<!--      <div class="card-footer">-->
-<!--        <div class="card-meta">Easy • Max Score: 5 • Success Rate: 96.82%</div>-->
-<!--        <button>Solve Challenge</button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="card-question">-->
-<!--      <h3>Java If-Else</h3>-->
-<!--      <div class="card-footer">-->
-<!--        <div class="card-meta">Easy • Max Score: 10 • Success Rate: 91.69%</div>-->
-<!--        <button>Solve Challenge</button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="card-question">-->
-<!--      <h3>Java Stdin and Stdout II</h3>-->
-<!--      <div class="card-footer">-->
-<!--        <div class="card-meta">Easy • Max Score: 10 • Success Rate: 93.30%</div>-->
-<!--        <button>Solve Challenge</button>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--    <div class="card-question">-->
-<!--      <h3>Java Loops I</h3>-->
-<!--      <div class="card-footer">-->
-<!--        <div class="card-meta">Easy • Max Score: 15 • Success Rate: 88.72%</div>-->
-<!--        <button>Solve Challenge</button>-->
-<!--      </div>-->
-<!--    </div>-->
 
-    <!-- Iterating over problems passed from controller -->
     <div th:each="problem : ${problems}" class="card-question">
       <h3 th:text="${problem.title}">Problem Title</h3>
       <div class="card-footer">
-        <div class="card-meta" th:text="${problem.difficulty} + ' • Score: ' + ${problem.points} + ' • Success Rate: ' + ${problem.successRate} + '%'"></div>
-        <a th:href="@{/submit_solution/{slug}(slug=${problem.slug})}" target="_blank" rel="noopener noreferrer">
+        <div class="card-meta" th:text="${problem.difficulty} + ' • Score: ' + ${problem.points}"></div>
+        <a th:href="@{/submit_solution/{slug}(slug=${problem.id})}" target="_blank" rel="noopener noreferrer">
           <button>Solve Challenge</button>
         </a>
       </div>
@@ -91,11 +59,11 @@
     <div class="panel-box">
       <h4>Leaderboard</h4>
       <div class="leaderboard-list">
-        <div th:each="user, iterStat : ${topUsers}" class="leaderboard-row">
+        <div th:each="user, iterStat : ${topUsers}" class="leaderboard-row" data-th-id="${user.id}">
           <span class="rank-num" th:text="${iterStat.index + 1}"></span>
           <div class="user-info">
-            <span class="user-name" th:text="${user.username}"></span>
-            <span class="user-points" th:text="${user.points} + ' pts'"></span>
+            <span class="user-name" th:text="${user.displayName}"></span>
+            <span class="user-points" th:text="${user.ratings} + ' pts'"></span>
           </div>
         </div>
         <div th:if="${#lists.isEmpty(topUsers)}">

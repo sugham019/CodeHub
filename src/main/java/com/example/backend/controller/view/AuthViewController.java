@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AuthViewController {
 
     @GetMapping("/login")
-    public String login(Model model, Authentication authentication) {
+    public String login(Authentication authentication) {
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/";
         }
@@ -17,7 +17,7 @@ public class AuthViewController {
     }
 
     @GetMapping("/signup")
-    public String signup(Model model, Authentication authentication){
+    public String signup(Authentication authentication){
         if (authentication != null && authentication.isAuthenticated()) {
             return "redirect:/";
         }
