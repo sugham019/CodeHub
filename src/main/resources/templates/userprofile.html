@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeHub Profile</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/userprofile.css}" />
+    <script type="module" src="/js/userprofile.js"></script>
+</head>
+<body>
+<div class="background-wrapper">
+    <header>
+        <div class="brand-logo">Code<span>Hub</span></div>
+        <nav>
+            <a class="highlight-link" href="#">Premium</a>
+            <a class="nav-link-underline" href="#">About Us</a>
+            <a class="nav-link-underline" href="#">Explore</a>
+            <a class="nav-link-underline" href="#">Problems</a>
+        </nav>
+        <div class="header-actions">
+            <div class="profile-dropdown">
+                <button class="profile-btn" onclick="toggleDropdown()">
+                    <img src="img/auth.png" alt="Profile">
+                </button>
+                <div id="dropdown-menu" class="dropdown-content">
+                    <a href="#">⚙️ Settings</a>
+                    <a href="#">🚪 Logout</a>
+                </div>
+            </div>
+            <button class="signin-button">Sign In</button>
+        </div>
+    </header>
+</div>
+
+<div class="container">
+    <div class="profile-card card">
+        <div class="avatar">
+            <img src="img/ss.png" alt="Profile Avatar">
+        </div>
+        <div class="profile-name">Sambhav Silwal</div>
+        <div class="profile-email">sambhav@gmail.com</div>
+        <div class="profile-rank">Rank ~ 5,000,000</div>
+        <form>
+            <label for="fileInput" class="edit-btn">Upload Profile</label>
+            <input type="file" id="fileInput" name="myfile" hidden>
+        </form>
+        <div class="stats-section">
+            <div class="stats-title">Community Stats</div>
+            <div class="stat-item">
+                <div class="stat-icon view-icon">👁</div>
+                <div class="stat-text">View: 0<br><small>Last week 0</small></div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-icon comment-icon">💬</div>
+                <div class="stat-text">Comments: 0<br><small>Last week 0</small></div>
+            </div>
+        </div>
+        <div class="language-section">
+            <div class="stats-title">Language</div>
+            <div class="language-tags">
+                <span class="language-tag">Python</span>
+                <span class="language-tag">Java</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="top-cards">
+            <div class="progress-card card">
+                <div class="card-title">Progress</div>
+                <div class="progress-stats">
+                    <div class="progress-item easy">
+                        <div class="progress-number">1</div>
+                        <div class="progress-label">
+                            Easy
+                            <div class="progress-fraction">1 / 100</div>
+                        </div>
+                    </div>
+                    <div class="progress-item medium">
+                        <div class="progress-number">2</div>
+                        <div class="progress-label">
+                            Medium
+                            <div class="progress-fraction">2 / 100</div>
+                        </div>
+                    </div>
+                    <div class="progress-item hard">
+                        <div class="progress-number">0</div>
+                        <div class="progress-label">
+                            Hard
+                            <div class="progress-fraction">0 / 100</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="progressChart"></canvas>
+                </div>
+            </div>
+
+            <div class="rating-card card">
+                <div class="card-title">Rating</div>
+                <div class="rating-content">
+                    <div class="rating-display">
+                        <div class="rating-circle">
+                            <span class="rating-number">50</span>
+                        </div>
+                        <div class="rating-label">Points</div>
+                    </div>
+                </div>
+                <div class="problems-solved-title">Problems Solved</div>
+                <div class="problems-section">
+                    <div class="problem-circle">12 / 1330</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-title">Recent Problems Solved</div>
+            <div class="recent-problems">
+                <div class="problem-item">
+                    <div class="problem-title">Reverse a String</div>
+                    <div class="problem-meta">
+                        <span class="difficulty-easy">Easy</span>
+                        <span>Score: 10</span>
+                        <span>Success Rate: 99.6%</span>
+                    </div>
+                </div>
+                <div class="problem-item">
+                    <div class="problem-title">Determine if a linked list has a cycle</div>
+                    <div class="problem-meta">
+                        <span class="difficulty-medium">Medium</span>
+                        <span>Score: 20</span>
+                        <span>Success Rate: 82.6%</span>
+                    </div>
+                </div>
+                <div class="problem-item">
+                    <div class="problem-title">Sort an array using Merge Sort</div>
+                    <div class="problem-meta">
+                        <span class="difficulty-medium">Medium</span>
+                        <span>Score: 20</span>
+                        <span>Success Rate: 82.6%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="divider-line"></div>
+<footer class="site-footer">
+    <div class="footer-main-content">
+        <p class="footer-text">Copyright © 2025 CodeHub</p>
+        <ul class="footer-nav-links">
+            <li><a class="footer-link-underline" href="#">Help Center</a></li>
+            <li><a class="footer-link-underline" href="terms.html">Terms</a></li>
+            <li><a class="footer-link-underline" href="privacypolicy.html">Privacy Policy</a></li>
+        </ul>
+    </div>
+</footer>
+<script src="../static/js/userprofile.js"></script>
+</body>
+</html>
