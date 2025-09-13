@@ -81,6 +81,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if(!validateEmail(email)) return;
         sendVerificationCode(email)
             .then(() => {
+                clearMessage(form);
                 showSuccess(form, "Sent verification code");
                 verificationButton.classList.add("fulfilled");
                 verificationButton.disabled = true;

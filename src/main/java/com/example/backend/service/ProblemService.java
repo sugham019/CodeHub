@@ -11,6 +11,8 @@ public interface ProblemService {
 
     Problem getProblemById(String problemId);
 
+    Problem getRandomProblem();
+
     List<Problem> getAllProblems();
 
     void removeProblemById(String problemId);

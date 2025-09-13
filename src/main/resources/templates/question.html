@@ -25,6 +25,8 @@
     </form>
 
     <div th:if="${currentUser != null}">
+      <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini">
+
       <span th:text="${currentUser.displayName}"></span>
 
       <span th:text="${currentUser.ratings}" ></span>
@@ -48,7 +50,7 @@
       <h3 th:text="${problem.title}">Problem Title</h3>
       <div class="card-footer">
         <div class="card-meta" th:text="${problem.difficulty} + ' • Score: ' + ${problem.points}"></div>
-        <a th:href="@{/submit_solution/{slug}(slug=${problem.id})}" target="_blank" rel="noopener noreferrer">
+        <a th:href="@{/problem/{slug}(slug=${problem.id})}" target="_blank" rel="noopener noreferrer">
           <button>Solve Challenge</button>
         </a>
       </div>
@@ -62,6 +64,7 @@
         <div th:each="user, iterStat : ${topUsers}" class="leaderboard-row" data-th-id="${user.id}">
           <span class="rank-num" th:text="${iterStat.index + 1}"></span>
           <div class="user-info">
+            <img th:src="@{/api/user/profilePicture/{id}(id=${user.id})}" alt="Profile Picture" class="pfpImageMini">
             <span class="user-name" th:text="${user.displayName}"></span>
             <span class="user-points" th:text="${user.ratings} + ' pts'"></span>
           </div>

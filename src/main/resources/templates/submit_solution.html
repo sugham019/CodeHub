@@ -12,45 +12,80 @@
 
 <header>
     <div class="logo">Code<span>Hub</span></div>
+
+    <div th:if="${currentUser != null}">
+        <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini">
+
+        <span th:text="${currentUser.displayName}"></span>
+        <span th:text="${currentUser.ratings}" ></span>
+
+        <form th:action="@{/logout}" method="post" style="display:inline;">
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </div>
+
 </header>
 
 <div class="main-container">
     <div class="panel problem-panel">
-        <div class="problem-title" th:text="${problem.title}">Problem Title</div>
+        <div class="problem-title" data-th-id="${problem.id}" th:text="${problem.title}">Problem Title</div>
         <div class="problem-description">
-            <span th:utext="${#strings.replace(problem.description, '\n', '<br/>')}"></span>
+            <span th:utext="${#strings.replace(problem.pageDescription, '\n', '<br/>')}"></span>
             <br><br>
             <strong>Input:</strong><br>
-            <span th:utext="${#strings.replace(problem.inputFormat, '\n', '<br/>')}"></span><br><br>
+            <span th:utext="${#strings.replace(problem.inputType, '\n', '<br/>')}"></span><br><br>
 
             <strong>Input Format:</strong><br>
-            <span th:utext="${#strings.replace(problem.sampleInput, '\n', '<br/>')}"></span><br><br>
+            <div>
+                <div th:each="input, iterStat : ${problem.inputs}" th:if="${iterStat.index < 2}">
+                    <pre th:text="${input}" class="quote-style"></pre>
+                </div>
+            </div>
+            <br>
 
             <strong>Output:</strong><br>
-            <span th:utext="${#strings.replace(problem.outputFormat, '\n', '<br/>')}"></span><br><br>
+            <span th:utext="${#strings.replace(problem.outputType, '\n', '<br/>')}"></span><br><br>
 
             <strong>Output Format:</strong><br>
-            <span th:utext="${#strings.replace(problem.sampleOutput, '\n', '<br/>')}"></span><br><br>
+            <div>
+                <div th:each="output, iterStat : ${problem.expectedOutputs}" th:if="${iterStat.index < 2}">
+                    <pre th:text="${output}" class="quote-style"></pre>
+                </div>
+            </div>
+            <br>
 
-            <strong>Constraints:</strong><br>
-            <span th:utext="${#strings.replace(problem.constraints, '\n', '<br/>')}"></span>
+            <strong>Banned Libraries:</strong><br>
+            <table class="banned-libraries">
+                <thead>
+                <tr>
+                    <th>Language</th>
+                    <th>Import</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="entry : ${problem.bannedLibrary}">
+                    <td th:text="${entry.key}"></td>
+                    <td th:text="${entry.value}"></td>
+                </tr>
+                </tbody>
+            </table>
+<!--            <strong>Constraints:</strong><br>-->
+<!--            <span th:utext="${#strings.replace(problem.constraints, '\n', '<br/>')}"></span>-->
         </div>
     </div>
 
     <div class="panel code-panel">
         <div class="submit-error" th:if="${error}" th:text="${error}"></div>
 
-        <form method="post" th:action="@{/submit_solution/{slug}(slug=${problem.slug})}">
+        <form method="post">
             <label for="language">Choose Language:</label>
             <select id="language" name="language_id" class="select-language">
-                <option value="54">C++</option>
-                <option value="71">Python</option>
-                <option value="62">Java</option>
+                <option value="JAVA">Java</option>
             </select>
 
             <div class="editor-container">
                 <div id="lineNumbers" class="line-numbers"></div>
-                <textarea id="editor" name="code" class="code-editor" placeholder="Write your solution here..."></textarea>
+                <textarea id="editor" name="code" class="code-editor" th:text="${templateCode}"></textarea>
             </div>
 
             <div class="controls">
@@ -58,16 +93,13 @@
             </div>
         </form>
 
-        <div class="testcase-results" th:if="${testCaseResults}">
-            <h3>Test Case Results</h3>
-            <div th:each="tc, iterStat : ${testCaseResults}" class="testcase-result">
-                <span class="testcase-number">Test Case <span th:text="${iterStat.index + 1}"></span>:</span>
-                <span th:if="${tc.status == 'Accepted'}" class="status passed">Passed</span>
-                <span th:if="${tc.status != 'Accepted'}" class="status failed">
-                    Failed (<span th:text="${tc.status}"></span>)
-                </span>
-                <span class="testcase-time"> | Time: <span th:text="${tc.time}"></span>s</span>
-                <span class="testcase-memory"> | Memory: <span th:text="${tc.memory}"></span> KB</span>
+        <div class="testcase-results" id="testcase-dialog">
+            <h3>Output</h3>
+            <div class="testcase-result">
+                <span class="testcase-number"></span>
+                <span class="status passed"></span>
+                <span class="testcase-time"><span></span> MS</span>
+                <span class="testcase-memory"> | Memory: <span></span> KB</span>
             </div>
         </div>
     </div>

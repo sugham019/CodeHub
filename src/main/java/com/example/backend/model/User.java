@@ -31,6 +31,14 @@ public class User {
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Leaderboard leaderboard;
 
+    private String recentProblemId;
+
+    private String profilePictureImageName;
+    private String profilePictureImageType;
+
+    @Lob
+    private byte[] profilePictureImage;
+
     public User(String email, String displayName, String passwordHash, LocalDate birthDate, AccessLevel accessLevel){
         this.email = email;
         this.displayName = displayName;
@@ -38,6 +46,7 @@ public class User {
         this.birthDate = birthDate;
         this.solvedProblems = new ArrayList<>();
         this.accessLevel = accessLevel;
+        this.recentProblemId = null;
     }
 
     public User(){
@@ -94,6 +103,38 @@ public class User {
 
     public LocalDate getBirthDate(){
         return birthDate;
+    }
+
+    public byte[] getProfilePictureImage() {
+        return profilePictureImage;
+    }
+
+    public void setProfilePictureImage(byte[] profilePictureImage) {
+        this.profilePictureImage = profilePictureImage;
+    }
+
+    public String getProfilePictureImageType() {
+        return profilePictureImageType;
+    }
+
+    public void setProfilePictureImageType(String profilePictureImageType) {
+        this.profilePictureImageType = profilePictureImageType;
+    }
+
+    public String getProfilePictureImageName() {
+        return profilePictureImageName;
+    }
+
+    public void setProfilePictureImageName(String profilePictureImageName) {
+        this.profilePictureImageName = profilePictureImageName;
+    }
+
+    public String getRecentProblemId() {
+        return recentProblemId;
+    }
+
+    public void setRecentProblemId(String recentProblemId) {
+        this.recentProblemId = recentProblemId;
     }
 
 }

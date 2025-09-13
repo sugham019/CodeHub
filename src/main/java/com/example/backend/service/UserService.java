@@ -1,10 +1,11 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.CreateUserDto;
+import com.example.backend.dto.ImageDto;
 import com.example.backend.dto.LoginUserDto;
 import com.example.backend.dto.UserDto;
 import com.example.backend.model.Problem;
-import com.example.backend.model.User;
+import org.springframework.web.multipart.MultipartFile;
 
 public interface UserService {
 
@@ -16,10 +17,14 @@ public interface UserService {
 
     void changePassword(String username, String oldPassword, String newPassword);
 
-    User getUser(String email);
+    ImageDto getProfilePicture(long id);
+
+    void uploadProfilePicture(String email, MultipartFile profilePictureImage);
+
+    void setRecentProblemId(String email, String problemId);
 
     UserDto getBasicUserInfo(String email);
 
-    void solveProblem(User user, Problem problem);
+    void solveProblem(String email, Problem problem);
 
 }

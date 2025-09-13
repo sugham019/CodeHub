@@ -4,6 +4,8 @@ import com.example.backend.dto.ProblemDto;
 import com.example.backend.exception.ResourceNotFoundException;
 import com.example.backend.model.Problem;
 import com.example.backend.repository.ProblemRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -12,6 +14,8 @@ import java.util.Optional;
 
 @Service
 public class ProblemServiceImpl implements ProblemService{
+
+    private static final Logger log = LoggerFactory.getLogger(ProblemServiceImpl.class);
 
     private final ProblemRepository problemRepository;
 
@@ -42,6 +46,11 @@ public class ProblemServiceImpl implements ProblemService{
             throw new ResourceNotFoundException("Problem does not exists with given id: "+problemId);
         }
         return problemOptional.get();
+    }
+
+    @Override
+    public Problem getRandomProblem() {
+        return problemRepository.getRandomProblem();
     }
 
     @Override

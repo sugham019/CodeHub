@@ -1,6 +1,5 @@
 package com.example.backend.exception;
 
-import org.eclipse.angus.mail.iap.BadCommandException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -43,6 +42,11 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(CodeSubmissionException.class)
     public ResponseEntity<String> handleCodeSubmissionException(CodeSubmissionException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException exception){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
 
 }

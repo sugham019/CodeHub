@@ -1,7 +1,7 @@
 package com.example.backend.filter;
 
-import com.example.backend.utiil.AuthUtil;
-import com.example.backend.utiil.JwtUtil;
+import com.example.backend.util.AuthUtil;
+import com.example.backend.util.JwtUtil;
 import io.jsonwebtoken.security.SignatureException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

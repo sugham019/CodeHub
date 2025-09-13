@@ -28,7 +28,6 @@ public class AuthViewController {
     public String forgotPasswordPage(Model model) {
         // Dummy data for presentation/demo
         model.addAttribute("title", "Forgot Password");
-        // Example: model.addAttribute("error", "Email address not found.");
 
         return "forgotpassword"; // Thymeleaf template name (forgotpassword.html)
     }

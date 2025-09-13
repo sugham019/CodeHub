@@ -1,20 +1,26 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.CreateUserDto;
+import com.example.backend.dto.ImageDto;
 import com.example.backend.dto.LoginUserDto;
 import com.example.backend.dto.UserDto;
 import com.example.backend.exception.*;
 import com.example.backend.model.*;
 import com.example.backend.repository.UserRepository;
-import com.example.backend.utiil.JwtUtil;
-import com.example.backend.utiil.PasswordUtil;
+import com.example.backend.util.JwtUtil;
+import com.example.backend.util.PasswordUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.time.Period;
 import java.time.LocalDate;
@@ -32,6 +38,8 @@ public class UserServiceImpl implements UserService {
     private final EmailService emailService;
 
     private final StringRedisTemplate redisTemplate;
+
+    private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Value("${access_key}")
     private String accessKey;
@@ -127,7 +135,45 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void solveProblem(User user, Problem problem) {
+    public ImageDto getProfilePicture(long id) {
+        User user = getUser(id);
+        if(user.getProfilePictureImage() == null){
+            ClassPathResource defaultPfp = new ClassPathResource("static/img/pfp.png");
+            try {
+                byte[] imageData = defaultPfp.getInputStream().readAllBytes();
+                return new ImageDto(imageData, "pfp.png", "image/png");
+            } catch (IOException e) {
+                log.warn("Failed to retrieve default profile picture", e);
+                throw new RuntimeException("Error retrieving profile picture for : " + user.getEmail());
+            }
+        }
+        return new ImageDto(user.getProfilePictureImage(), user.getProfilePictureImageName(), user.getProfilePictureImageType());
+    }
+
+    @Override
+    public void uploadProfilePicture(String email, MultipartFile profilePictureImage) {
+        User user = getUser(email);
+        user.setProfilePictureImageName(profilePictureImage.getName());
+        user.setProfilePictureImageType(profilePictureImage.getContentType());
+        try {
+            user.setProfilePictureImage(profilePictureImage.getBytes());
+        } catch (IOException e) {
+            log.warn("Failed to upload profile picture for {}:", user.getEmail(), e);
+            throw new RuntimeException("Error updating profile picture image information");
+        }
+        userRepository.save(user);
+    }
+
+    @Override
+    public void setRecentProblemId(String email, String problemId) {
+        User user = getUser(email);
+        user.setRecentProblemId(problemId);
+        userRepository.save(user);
+    }
+
+    @Override
+    public void solveProblem(String email, Problem problem) {
+        User user = getUser(email);
         boolean alreadySolved = user.getSolvedProblems().stream()
                 .anyMatch(sp -> sp.getId().getProblemId().equals(problem.getId()));
         if(alreadySolved) return;
@@ -139,8 +185,12 @@ public class UserServiceImpl implements UserService {
         leaderboardService.updateRating(user, problem.getDifficulty().getValue());
     }
 
-    @Override
-    public User getUser(String email) {
+    private User getUser(long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found with id: "+id));
+    }
+
+    private User getUser(String email) {
         return userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("User not found with email: "+email));
     }
@@ -148,7 +198,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserDto getBasicUserInfo(String email) {
         User user = getUser(email);
-        return new UserDto(user.getId(), user.getEmail(), user.getDisplayName(), user.getLeaderboard().getRating());
+        return new UserDto(user.getId(), user.getEmail(), user.getDisplayName(), user.getLeaderboard().getRating(), user.getRecentProblemId());
     }
 
 }
