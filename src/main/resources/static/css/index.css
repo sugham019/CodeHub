@@ -1,79 +1,23 @@
-body {
-  font-family: 'Satoshi', 'Verdana', 'sans-serif';
-  min-height: 100vh;
+* {
   margin: 0;
-  display: flex;
-  flex-direction: column;
-  background: #fff;
-  overflow-x: hidden;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Satoshi', 'Verdana', sans-serif;
+}
+
+body {
+  background-color: #ffffff;
+  color: #333;
 }
 
 .background-wrapper {
   background: #fff;
 }
 
-header {
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  padding: 20px 40px;
-  box-sizing: border-box;
-  align-items: center;
-}
-
-.brand-logo {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-.brand-logo span {
-  color: #14575d;
-}
-
-nav {
-  display: flex;
-  gap: 30px;
-  justify-content: center;
-  flex-grow: 1;
-  font-size: 16px;
-}
-
-nav a {
-  text-decoration: none;
-  color: black;
-  font-weight: 500;
-}
-
-nav .highlight-link {
-  color: #ff9900;
-}
-
-.header-actions {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-}
-
-.header-actions button {
-  background-color: transparent;
-  color: black;
-  border: 1px solid black;
-  padding: 8px 22px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 14px;
-  transition: background-color 0.3s, color 0.3s;
-}
-
-.header-actions button:hover {
-  background-color: rgb(57, 54, 54);
-  color: whitesmoke;
-}
-
 .hero-section {
   max-width: 800px;
   text-align: center;
-  margin: 20px auto 150px;
+  margin: 100px auto 150px;
 }
 
 .hero-section h1 {
