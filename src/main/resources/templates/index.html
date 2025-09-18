@@ -7,6 +7,10 @@
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link rel="stylesheet" th:href="@{/css/index.css}" />
+  <link rel="stylesheet" th:href="@{/css/nav.css}" />
+
+  <script th:src="@{/js/index.js}"></script>
+  <script th:src="@{/js/extra.js}"></script>
 </head>
 
 <body>
@@ -14,24 +18,39 @@
   <header>
     <div class="brand-logo">Code<span>Hub</span></div>
     <nav>
-      <a class="highlight-link" th:href="@{/premium}">Premium</a>
-      <a class="nav-link-underline" href="#" onclick="scrollToHero(event)">About Us</a>
+      <a class="highlight-link" href="#">Home</a>
       <a class="nav-link-underline" th:href="@{/explore}">Explore</a>
-      <a class="nav-link-underline" th:href="@{/problem_list}">Problems</a>
+      <a class="nav-link-underline" th:href="@{/problem}">Editor</a>
+      <a class="nav-link-underline" th:href="@{/resources}">Resources</a>
     </nav>
 
     <div class="header-actions">
+
       <div th:if="${currentUser != null}">
-        <span th:text="${currentUser}">Username</span>
+
+        <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini"
+             data-th-id="${currentUser.id}" onclick="redirectToProfile(this)" style="cursor: pointer;">
+
+<!--        <span th:text="${currentUser.displayName}"></span>-->
+        <span th:text="${currentUser.ratings}" ></span>
+
         <form th:action="@{/logout}" method="post" style="display:inline;">
-          <input type="hidden" name="_csrf" value="dummyTokenForDemo"/>
           <button type="submit" class="logout-btn">Logout</button>
         </form>
       </div>
-      <div th:unless="${currentUser != null}">
-        <a th:href="@{/login}"><button class="signin-button"> Login </button></a>
+
+      <div th:if="${currentUser == null}">
+        <form th:action="@{/login}" method="get" style="display:inline;">
+          <button type="submit" class="logout-btn">Login</button>
+        </form>
+
+        <form th:action="@{/signup}" method="get" style="display:inline;">
+          <button type="submit" class="logout-btn">Sign Up</button>
+        </form>
       </div>
+
     </div>
+
   </header>
 </div>
 
@@ -43,8 +62,8 @@
   </p>
 
   <div class="button-group">
-    <a href="#" class="business-button">For Business<br />Create a assocciation</a>
-    <a th:href="@{/signup}" class="developer-button">For developers<br />Create a new account</a>
+    <a href="#" class="business-button">For any Inquiry<br />Email Us</a>
+    <a th:href="@{/signup}" class="developer-button">Need Help?<br />View FAQ</a>
   </div>
 </section>
 
@@ -137,6 +156,5 @@
   </div>
 </footer>
 
-<script th:src="@{/js/index.js}"></script>
 </body>
 </html>
