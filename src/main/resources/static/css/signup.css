@@ -28,14 +28,17 @@ header {
 .logo span {
   color: #14575d;
 }
+
 .signup-container {
   display: flex;
   width: 900px;
+  max-width: 95%;
   height: 600px;
   background-color: white;
-  border-radius: 20px;
+  /*border-radius: 20px;*/
   overflow: hidden;
   margin: 40px auto 0;
+  /*box-shadow: 0 6px 15px rgba(0,0,0,0.1);*/
 }
 
 .signup-left {
@@ -78,7 +81,7 @@ header {
 }
 
 .signup-form {
-  max-width: 320px;
+  max-width: 400px;
   width: 100%;
   margin: 0 auto;
   text-align: left;
@@ -91,12 +94,14 @@ header {
   border-radius: 25px;
   margin: 20px 0;
   padding: 0 15px;
-  height: 45px;
+  height: 50px;
 }
 
 .signup-input-group i {
   color: #aaa;
   margin-right: 10px;
+  min-width: 20px;
+  text-align: center;
 }
 
 .signup-input-group input {
@@ -105,10 +110,19 @@ header {
   outline: none;
   font-size: 1rem;
   background: transparent;
+  min-width: 0;
+}
+
+.email-group input {
+  flex: 1 1 auto;
+}
+
+.email-group button {
+  margin-left: 10px;
 }
 
 #verificationButton {
-  background-color: #007bff; /* default blue */
+  background-color: #007bff;
   color: white;
   border: none;
   padding: 10px 16px;
@@ -116,6 +130,7 @@ header {
   cursor: pointer;
   font-size: 16px;
   transition: background-color 0.3s ease, opacity 0.3s ease;
+  flex-shrink: 0;
 }
 
 #verificationButton:hover {
@@ -123,7 +138,7 @@ header {
 }
 
 #verificationButton.fulfilled {
-  background-color: #6c757d; /* greyed out */
+  background-color: #6c757d;
   cursor: not-allowed;
   opacity: 0.7;
 }
@@ -220,7 +235,6 @@ header {
 }
 
 .signup-alt-btn {
-  background: none;
   background: linear-gradient(-150deg, #221b15 15%, #021b37 70%, #2b7179 94%);
   border-radius: 8px;
   width: 130px;
@@ -229,6 +243,7 @@ header {
   font-size: 0.8rem;
   color: white;
   cursor: pointer;
+  border: none;
 }
 
 .signup-alt-btn:hover {
@@ -243,4 +258,26 @@ header {
   margin-top: 30px;
   user-select: none;
   pointer-events: none;
+}
+
+.dob-group input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background-color: #f9f9f9;
+  border-radius: 25px;
+  height: 50px;
+  padding: 0 10px;
+  font-size: 1rem;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+.dob-group input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  color: #007bff;
+  opacity: 0.7;
+  position: relative;
+  right: 0;
 }

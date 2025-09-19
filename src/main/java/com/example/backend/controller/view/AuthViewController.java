@@ -1,9 +1,12 @@
 package com.example.backend.controller.view;
 
+import com.example.backend.util.AuthUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class AuthViewController {
@@ -24,12 +27,20 @@ public class AuthViewController {
         return "signup";
     }
 
-    @GetMapping("/forgot-password")
-    public String forgotPasswordPage(Model model) {
-        // Dummy data for presentation/demo
-        model.addAttribute("title", "Forgot Password");
+    @GetMapping("/forgotpassword")
+    public String forgotPassword(Authentication authentication){
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/";
+        }
+        return "forgotpassword";
+    }
 
-        return "forgotpassword"; // Thymeleaf template name (forgotpassword.html)
+    @GetMapping("/resetpassword")
+    public String resetPassword(Authentication authentication){
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/";
+        }
+        return "resetpassword";
     }
 
 }

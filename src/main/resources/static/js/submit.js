@@ -1,4 +1,52 @@
 
+async function loadComments(problemId, orderBy) {
+    try {
+        const response = await fetch(`/api/comment/getAllByProblem?problemId=${encodeURIComponent(problemId)}&orderBy=${encodeURIComponent(orderBy)}`);
+        const comments = await response.json();
+        const container = document.getElementById('commentsContainer');
+        container.innerHTML = '';
+
+        comments.forEach(comment => {
+            const commentDiv = document.createElement('div');
+            commentDiv.classList.add('comment');
+
+            // Create clickable link for image
+            const imgLink = document.createElement('a');
+            imgLink.href = `/user/${comment.userId}`; // Redirect link (user profile for example)
+            imgLink.target = "_blank"; // optional: opens in new tab
+
+            const img = document.createElement('img');
+            img.src = `/api/user/profilePicture/${comment.userId}`;
+            img.alt = comment.userDisplayName;
+
+            imgLink.appendChild(img); // wrap image in link
+
+            const contentDiv = document.createElement('div');
+            contentDiv.classList.add('comment-content');
+
+            contentDiv.innerHTML = `<strong>${comment.userDisplayName}</strong>: ${comment.content}
+                                    <div class="comment-meta">${new Date(comment.postedAt).toLocaleString()}</div>`;
+
+            commentDiv.appendChild(imgLink); // append clickable image link
+            commentDiv.appendChild(contentDiv);
+            container.appendChild(commentDiv);
+        });
+    } catch (err) {
+        console.error('Failed to load comments:', err);
+    }
+}
+function toggleLibraries(element) {
+    const sublist = element.nextElementSibling;
+    const arrow = element.querySelector(".arrow");
+    if (sublist.style.display === "block") {
+        sublist.style.display = "none";
+        arrow.style.transform = "rotate(0deg)";
+    } else {
+        sublist.style.display = "block";
+        arrow.style.transform = "rotate(180deg)";
+    }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector(".code-panel form");
     const languageSelect = document.getElementById("language");
@@ -15,6 +63,41 @@ document.addEventListener("DOMContentLoaded", () => {
     const lineNumbers = document.getElementById("lineNumbers");
     const problemElement = document.querySelector(".problem-title");
 
+    const newCommentInput = document.getElementById("newComment");
+    const submitCommentBtn = document.getElementById("submitComment");
+
+    const problemId = problemElement.getAttribute("id");
+
+    submitCommentBtn.addEventListener("click", async () => {
+        const content = newCommentInput.value.trim();
+        if (!content) return;
+
+        try {
+            const response = await fetch(`/api/comment/post?problemId=${encodeURIComponent(problemId)}`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "text/plain",
+                },
+                body: content
+            });
+
+            if (response.ok) {
+                newCommentInput.value = "";
+                await loadComments(problemId, "NEWEST");
+            } else {
+                console.error("Failed to submit comment:", response.status);
+            }
+        } catch (err) {
+            console.error("Error submitting comment:", err);
+        }
+    });
+
+    newCommentInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") {
+            submitCommentBtn.click();
+            e.preventDefault();
+        }
+    });
 
     form.addEventListener("submit", async(event) => {
         event.preventDefault();
@@ -30,7 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
             return;
         }
 
-        const problemId = problemElement.getAttribute("id");
         const language = languageSelect.value.trim();
 
         try {
@@ -62,11 +144,28 @@ document.addEventListener("DOMContentLoaded", () => {
         testCaseTime.textContent = result.executionTimeInMs || "N/A";
         testCaseMemory.textContent = result.peakMemoryUsageKB || "N/A";
 
-        status.classList.remove("passed", "fail");
+        status.classList.remove("passed", "failed");
 
         if(result.allTestPassed){
             status.textContent = "Passed";
             status.classList.add("passed");
+
+            fetch("/api/user/ratings", {
+            })
+                .then(response => {
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+                    return response.text();
+                })
+                .then(ratings => {
+                    const ratingSpan = document.getElementById("user-rating");
+                    if (ratingSpan) {
+                        ratingSpan.textContent = ratings;
+                    }
+                })
+                .catch(error => {
+                    console.error("Error fetching ratings:", error);
+                });
+
         }else{
             status.textContent = "Failed";
             status.classList.add("failed");
@@ -105,4 +204,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     updateLineNumbers();
+    (async () => {
+        await loadComments(problemId, "NEWEST");
+    })();
 });
+
+

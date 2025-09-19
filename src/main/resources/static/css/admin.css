@@ -1,0 +1,280 @@
+/* ================= Global Reset ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Satoshi', 'Verdana', sans-serif;
+}
+
+body {
+    background: rgb(248,249,250); /* unified very light off-white */
+    color: #333;
+}
+
+header nav {
+    margin-left: 100px;
+}
+
+.search-box {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #f5f5f5;
+    padding: 10px 10px;
+    margin-right: 20px;
+    margin-left: 1000px;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 32px;
+    width: 290px;
+    border-radius: 20px;
+}
+
+.search-box i {
+    color: #777;
+    margin-right: 8px;
+}
+
+.search-box input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 0.9rem;
+}
+
+/* ========= Admin Panel Layout ========= */
+.admin-container {
+    margin-top: 120px; /* below fixed header */
+    padding: 20px;
+    max-width: 1400px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Grid Layout */
+.admin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: start;
+}
+
+/* Left Panel - Problem list */
+.problem-list-section {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+
+.heading-line {
+    margin-bottom: 18px;
+    font-size: 1.6rem;
+    font-weight: 500;
+    color: #14575d;
+}
+
+.cards-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-height: 75vh;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+/* Card style */
+.card-question {
+    background: #ffffff;
+    padding: 1rem 1.5rem;
+    border-radius: 14px;
+    border: 1px solid #eee;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card-question:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+}
+
+.card-question h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+    color: #222;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.card-meta {
+    color: #555;
+    font-size: 0.85rem;
+    flex: 1;
+}
+
+.card-question button {
+    background-color: transparent;
+    color: #14575d;
+    border: 1px solid #14575d;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.85rem;
+    font-weight: 500;
+}
+.card-question button:hover {
+    background-color: #14575d;
+    color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Red remove button */
+.remove-problem-btn {
+    background-color: #d9534f !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 6px 16px !important;
+    font-weight: 500;
+}
+.remove-problem-btn:hover {
+    background-color: #c9302c !important;
+}
+
+/* Right Panel - Add Problem Form */
+.add-problem-section {
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+}
+.add-problem-section h2 {
+    font-size: 1.4rem;
+    margin-bottom: 20px;
+    color: #14575d;
+}
+
+.add-problem-section form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.add-problem-section input,
+.add-problem-section textarea,
+.add-problem-section select {
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 14px;
+    background: #f9f9f9;
+    transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+.add-problem-section input:focus,
+.add-problem-section textarea:focus,
+.add-problem-section select:focus {
+    border-color: #14575d;
+    box-shadow: 0 0 0 2px rgba(20,87,93,0.1);
+    outline: none;
+}
+
+.add-problem-section button {
+    background-color: #14575d;
+    color: white;
+    border: none;
+    padding: 12px 16px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+.add-problem-section button:hover {
+    background-color: #0f4347;
+}
+
+/* Messages */
+#addProblemMessage,
+#removeProblemMessage {
+    margin-top: 10px;
+    font-size: 0.9rem;
+}
+
+/* Empty state */
+.no-problems {
+    text-align: center;
+    padding: 2rem;
+    color: #666;
+}
+
+/* Banned Library fields */
+.add-problem-section label {
+    font-size: 0.9rem;
+    margin-top: 8px;
+    color: #333;
+}
+
+.banned-library-section {
+    background-color: #f1f5f6;
+    border: 1px solid #d0e0e8;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-top: 12px;
+}
+.banned-library-section h3 {
+    font-size: 1rem;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #14575d;
+}
+
+.banned-library-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+.banned-library-group label {
+    font-size: 0.9rem;
+    color: #333;
+}
+.banned-library-group input,
+.banned-library-group textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* Edit Button */
+.edit-btn {
+    background: #14575d;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 14px 0 20px;
+    transition: background 0.2s;
+}
+.edit-btn:hover {
+    background: #0f4449;
+}
+
+/* Scrollbar styling */
+.cards-list::-webkit-scrollbar {
+    width: 6px;
+}
+.cards-list::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}

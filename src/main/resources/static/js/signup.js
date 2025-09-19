@@ -64,6 +64,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const togglePasswordIcons = form.querySelectorAll(".toggle-password");
 
     const verificationButton = form.querySelector("#verificationButton");
+    // const dobInput = document.querySelector('input[name="birthdate"]');
+    //
+    // dobInput.addEventListener('focus', () => {
+    //     dobInput.type = 'date';
+    // });
+    //
+    // dobInput.addEventListener('blur', () => {
+    //     if (!dobInput.value) dobInput.type = 'text';
+    // });
 
     togglePasswordIcons.forEach(icon => {
         icon.addEventListener("click", () => {

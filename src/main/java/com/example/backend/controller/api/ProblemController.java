@@ -25,7 +25,7 @@ public class ProblemController {
 
     @PostMapping("/remove")
     public ResponseEntity<Void> remove(@RequestParam String problemId){
-        problemService.removeProblemById(problemId);
+        problemService.deleteProblemById(problemId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

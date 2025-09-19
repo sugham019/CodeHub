@@ -11,4 +11,6 @@ public interface LeaderboardService {
 
     void updateRating(User user, int offset);
 
+    int getUserRankByRating(int rating);
+
 }

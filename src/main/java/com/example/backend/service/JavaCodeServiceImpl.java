@@ -90,6 +90,8 @@ public class JavaCodeServiceImpl extends CodeService{
             return "MainIntArrayIntArray";
         }else if(inputType == DataType.STRING && outputType == DataType.STRING){
             return "MainStringString";
+        }else if (inputType == DataType.STRING_ARRAY && outputType == DataType.STRING_ARRAY){
+            return "MainStringArrayStringArray";
         }
         throw new RuntimeException("Invalid Return Type/Param Type");
     }

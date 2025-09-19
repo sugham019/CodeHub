@@ -1,11 +1,12 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.CreateUserDto;
-import com.example.backend.dto.ImageDto;
-import com.example.backend.dto.LoginUserDto;
-import com.example.backend.dto.UserDto;
+import com.example.backend.dto.*;
 import com.example.backend.model.Problem;
+import com.example.backend.model.Tag;
+import com.example.backend.model.TagType;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Set;
 
 public interface UserService {
 
@@ -15,7 +16,9 @@ public interface UserService {
 
     String login(LoginUserDto loginUserDTO);
 
-    void changePassword(String username, String oldPassword, String newPassword);
+    void changePassword(String email, String oldPassword, String newPassword);
+
+    void resetPassword(String email, String otp, String newPassword);
 
     ImageDto getProfilePicture(long id);
 
@@ -25,6 +28,22 @@ public interface UserService {
 
     UserDto getBasicUserInfo(String email);
 
+    UserDto getBasicUserInfo(long id);
+
     void solveProblem(String email, Problem problem);
+
+    ProblemCountDto getSolvedProblems(long userId);
+
+    void contact(String name,  String email, String message);
+
+    Set<Tag> getTags(String email, TagType tagType);
+
+    void addTag(String email, TagType tagType, String name);
+
+    int getRatings(String email);
+
+    int getProfileViews(long userId);
+
+    void viewedProfile(long userId);
 
 }

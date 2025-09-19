@@ -1,10 +1,7 @@
 package com.example.backend.controller.view;
 
 import com.example.backend.dto.UserDto;
-import com.example.backend.model.Language;
-import com.example.backend.model.Problem;
-import com.example.backend.model.User;
-import com.example.backend.model.UserPrincipal;
+import com.example.backend.model.*;
 import com.example.backend.service.LeaderboardService;
 import com.example.backend.service.ProblemService;
 import com.example.backend.service.TemplateService;
@@ -43,7 +40,8 @@ public class ProblemViewController {
     @GetMapping("/problem")
     public String editor(@AuthenticationPrincipal UserPrincipal userDetails) {
         String recentProblemId = userService.getBasicUserInfo(userDetails.getUsername()).getRecentProblemId();
-        if(recentProblemId == null){
+
+        if(recentProblemId == null || !problemService.problemExists(recentProblemId)){
             recentProblemId = problemService.getRandomProblem().getId();
         }
         return "redirect:/problem/" + recentProblemId;
@@ -58,6 +56,7 @@ public class ProblemViewController {
         UserDto userDto = userService.getBasicUserInfo(userDetails.getUsername());
 
         String templateCode = templateService.generateTemplateCode(problem.getInputType(), problem.getOutputType(), editorLanguage);
+        String[] tags = problemService.getSkills(problem.getId());
 
         userService.setRecentProblemId(userDetails.getUsername(), problem.getId());
 
@@ -65,12 +64,15 @@ public class ProblemViewController {
         model.addAttribute("problem", problem);
         model.addAttribute("currentUser", userDto);
         model.addAttribute("templateCode", templateCode);
+        model.addAttribute("tags", tags);
         return "submit_solution";
     }
 
     @GetMapping("/explore")
-    public String problems(@AuthenticationPrincipal UserPrincipal userDetails, Model model) {
-        List<Problem> problems = problemService.getAllProblems();
+    public String problems(@RequestParam(required = false) String searchTerm, @AuthenticationPrincipal UserPrincipal userDetails, Model model) {
+        List<Problem> problems = (searchTerm != null) ? problemService.searchProblemsByTitle(searchTerm)
+                : problemService.getAllProblems();
+
         List<UserDto> topUsers = leaderboardService.getTopRankers(10);
         UserDto userDto = userService.getBasicUserInfo(userDetails.getUsername());
 
@@ -79,4 +81,5 @@ public class ProblemViewController {
         model.addAttribute("currentUser", userDto);
         return "question";
     }
+
 }

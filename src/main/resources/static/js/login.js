@@ -5,12 +5,12 @@ function signIn(email, password) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })
-        }).then(response => {
-            if (!response.ok) {
-                return response.text().then(text => { throw new Error(text || "Login failed"); });
-            }
-            return response.text();
-        });
+    }).then(response => {
+        if (!response.ok) {
+            return response.text().then(text => { throw new Error(text || "Login failed"); });
+        }
+        return response.text();
+    });
 }
 
 function saveCredential(jwtToken, doc, persistent){
@@ -29,8 +29,11 @@ document.addEventListener("DOMContentLoaded", () => {
     const emailInput = form.querySelector("input[name='email']");
     const passwordInput = form.querySelector("input[name='password']");
     const rememberMeCheckbox = form.querySelector("input[name='remember_me']");
-
     const togglePassword = document.querySelector("#togglePassword");
+
+    const submitBtn = form.querySelector(".btn-login-submit");
+    const btnText = submitBtn.querySelector(".btn-text");
+    const spinner = submitBtn.querySelector(".spinner");
 
     togglePassword.addEventListener("click", () => {
         const type = passwordInput.getAttribute("type") === "password" ? "text" : "password";
@@ -53,18 +56,30 @@ document.addEventListener("DOMContentLoaded", () => {
             showError(form, "Invalid password format");
             return;
         }
+
         const rememberMeChecked = rememberMeCheckbox && rememberMeCheckbox.checked;
+
+        // Show spinner + disable button
+        submitBtn.disabled = true;
+        btnText.style.display = "none";
+        spinner.style.display = "inline-block";
 
         signIn(email, password)
             .then(jwt => {
                 saveCredential(jwt, document, rememberMeChecked);
+                showSuccess(form, "Login successful");
                 setTimeout(() => {
                     window.location.href = "/";
-                }, 2000);
+                }, 1200);
             })
             .catch(err => {
                 showError(form, err.message);
+            })
+            .finally(() => {
+                // Reset button UI if error
+                submitBtn.disabled = false;
+                btnText.style.display = "inline";
+                spinner.style.display = "none";
             });
     });
-
 });

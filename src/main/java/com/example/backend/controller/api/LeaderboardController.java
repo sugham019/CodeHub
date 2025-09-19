@@ -22,5 +22,4 @@ public class LeaderboardController {
     public ResponseEntity<List<UserDto>> getTopRankers(@RequestParam(defaultValue = "10") int limit) {
         return new ResponseEntity<>(leaderboardService.getTopRankers(limit), HttpStatus.OK);
     }
-
 }

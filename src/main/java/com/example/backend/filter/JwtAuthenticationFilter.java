@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                         SecurityContextHolder.getContext().setAuthentication(authToken);
                     }
                 }
-            }catch (SignatureException e){
+            }catch (Exception e){
                 logger.warn("Rejected authentication for {} : {}", request.getRemoteAddr(), e.getMessage());
                 AuthUtil.deleteCookie("jwt", response);
             }

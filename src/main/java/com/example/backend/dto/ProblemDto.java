@@ -18,10 +18,11 @@ public class ProblemDto {
 
     private Difficulty difficulty;
     private Map<Language, String> bannedLibrary;
+    private String[] skills;
     private String hint;
 
     public ProblemDto(String title, String pageDescription, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType,
-                      Difficulty difficulty, Map<Language, String> bannedLibrary, String hint){
+                      Difficulty difficulty, Map<Language, String> bannedLibrary, String[] skills, String hint){
         this.title = title;
         this.pageDescription = pageDescription;
         this.inputs = inputs;
@@ -30,6 +31,7 @@ public class ProblemDto {
         this.expectedOutputs = expectedOutputs;
         this.outputType = outputType;
         this.hint = hint;
+        this.skills = skills;
         this.difficulty = difficulty;
     }
 
@@ -71,6 +73,10 @@ public class ProblemDto {
 
     public String[] getExpectedOutputs(){
         return expectedOutputs;
+    }
+
+    public String[] getSkills() {
+        return skills;
     }
 
 }

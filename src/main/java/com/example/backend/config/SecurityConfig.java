@@ -32,6 +32,11 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/login",
                                 "/signup",
+                                "/",
+                                "/faq",
+                                "/forgotpassword",
+                                "/resetpassword",
+                                "/contact",
                                 "/css/**",
                                 "/js/**",
                                 "/img/**"
@@ -39,8 +44,10 @@ public class SecurityConfig {
 
                         .requestMatchers(
                                 "/api/user/verification-code",
+                                "/api/user/forgotpassword",
                                 "/api/user/create",
-                                "/api/user/login"
+                                "/api/user/login",
+                                "/api/user/contact"
                         ).permitAll()
 
                         .requestMatchers("/admin").hasRole("ADMIN")
@@ -52,6 +59,12 @@ public class SecurityConfig {
                 )
                 .formLogin(form -> form
                         .loginPage("/login")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .deleteCookies("jwt")
+                        .logoutSuccessUrl("/")
                         .permitAll()
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

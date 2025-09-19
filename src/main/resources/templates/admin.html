@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${title}">Admin</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/nav.css}" />
+    <link rel="stylesheet" th:href="@{/css/admin.css}" />
+    <script th:src="@{/js/extra.js}"></script>
+    <script th:src="@{/js/admin.js}"></script>
+</head>
+<body>
+
+
+<header>
+    <div class="brand-logo">Code<span>Hub</span></div>
+<!--    <nav>-->
+<!--        <a class="nav-link-underline" th:href="@{/}">Home</a>-->
+<!--        <a class="nav-link-underline" th:href="@{/explore}">Explore</a>-->
+<!--        <a class="nav-link-underline" th:href="@{/problem}">Editor</a>-->
+<!--        <a class="nav-link-underline" th:href="@{/resources}">Resources</a>-->
+<!--    </nav>-->
+
+    <form method="get" th:action="@{/admin}" class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" name="searchTerm" placeholder="Search..." th:value="${param.searchTerm}" />
+    </form>
+
+    <div class="header-actions">
+        <div th:if="${currentUser != null}">
+            <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini"
+                 data-th-id="${currentUser.id}" onclick="redirectToProfile(this)" style="cursor: pointer;">
+
+            <span th:text="${currentUser.ratings}" ></span>
+
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </div>
+
+</header>
+
+
+<!-- ======================= Admin Panel ======================= -->
+<main class="admin-container">
+    <div class="admin-grid">
+
+        <div class="problem-list-section">
+
+            <div th:if="${#lists.isEmpty(problems)}" class="no-problems">
+                <h3>No questions found 😕</h3>
+                <p>Try adjusting your search or check back later.</p>
+            </div>
+
+            <div class="heading-line" th:if="${!#lists.isEmpty(problems)}">Questions</div>
+            <div class="cards-list">
+                <div th:each="problem : ${problems}" class="card-question">
+                    <h3 th:text="${problem.title}"></h3>
+                    <div class="card-footer">
+                        <div class="card-meta" th:text="${problem.difficulty}"></div>
+                        <button class="remove-problem-btn"
+                                th:attr="data-id=${problem.id}"
+                                onclick="removeProblem(this)">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <div id="removeProblemMessage"></div>
+        </div>
+
+        <!-- Right: Add Problem -->
+        <section class="add-problem-section">
+            <h2>Add New Problem</h2>
+            <form id="addProblemForm">
+                <input type="text" name="title" placeholder="Title" required>
+                <textarea name="pageDescription" placeholder="Page Description" required></textarea>
+
+                <select name="inputType" required>
+                    <option value="">Select Input DataType</option>
+                    <option value="STRING">STRING</option>
+                    <option value="INT">INT</option>
+                    <option value="STRING_ARRAY">STRING ARRAY</option>
+                    <option value="INT_ARRAY">INT ARRAY</option>
+                </select>
+
+                <select name="outputType" required>
+                    <option value="">Select Output DataType</option>
+                    <option value="STRING">STRING</option>
+                    <option value="INT">INT</option>
+                    <option value="STRING_ARRAY">STRING ARRAY</option>
+                    <option value="INT_ARRAY">INT ARRAY</option>
+                </select>
+
+                <input type="file" id="profilePictureInput" style="display: none;" accept=".json">
+
+                <div class="banned-library-section">
+                    <h3>Test Case</h3>
+                    <div class="banned-library-group">
+                        <label>Format: <strong>JSON</strong></label>
+                        <textarea name="testCase" required></textarea>
+                    </div>
+                </div>
+
+                <div class="banned-library-section">
+                    <h3>Skills</h3>
+                    <div class="banned-library-group">
+                        <label>Comma seperated:</label>
+                        <textarea name="skills" required></textarea>
+                    </div>
+                </div>
+
+                <select name="difficulty" required>
+                    <option value="">Select Difficulty</option>
+                    <option value="EASY">EASY</option>
+                    <option value="MEDIUM">MEDIUM</option>
+                    <option value="HARD">HARD</option>
+                </select>
+
+                <div class="banned-library-section">
+                    <h3>Banned Library</h3>
+                    <div class="banned-library-group">
+                        <label>Language: <strong>Java</strong></label>
+                        <input type="text" id="bannedLib" name="bannedLib" placeholder="e.g., java.util.Scanner">
+                    </div>
+                </div>
+
+                <input type="text" name="hint" placeholder="Hint (optional)">
+
+                <button type="submit">Add Problem</button>
+            </form>
+            <div id="addProblemMessage"></div>
+        </section>
+
+    </div>
+</main>
+
+</body>
+</html>

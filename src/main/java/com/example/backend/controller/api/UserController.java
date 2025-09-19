@@ -1,9 +1,9 @@
 package com.example.backend.controller.api;
 
 import com.example.backend.dto.CreateUserDto;
+import com.example.backend.dto.ForgotPasswordDto;
 import com.example.backend.dto.ImageDto;
 import com.example.backend.dto.LoginUserDto;
-import com.example.backend.model.User;
 import com.example.backend.model.UserPrincipal;
 import com.example.backend.service.UserService;
 import org.springframework.http.HttpHeaders;
@@ -61,10 +61,29 @@ public class UserController {
         return new ResponseEntity<>(token, HttpStatus.OK);
     }
 
+    @PostMapping("/contact")
+    public ResponseEntity<Void> contact(@RequestParam String name, @RequestParam String email,
+                                          @RequestBody String message){
+        userService.contact(name, email, message);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
     @PostMapping("/changePassword")
-    public ResponseEntity<String> changePassword(@RequestParam String email, @RequestBody Map<String, String> password){
+    public ResponseEntity<Void> changePassword(@RequestParam String email, @RequestBody Map<String, String> password){
         userService.changePassword(email, password.get("old"), password.get("new"));
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/forgotpassword")
+    public ResponseEntity<Void> forgotPassword(@RequestBody ForgotPasswordDto request) {
+        userService.resetPassword(request.getEmail(), request.getVerificationCode(), request.getNewPassword());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @GetMapping("/ratings")
+    public ResponseEntity<Integer> ratings(@AuthenticationPrincipal UserPrincipal userInfo){
+        int ratings = userService.getRatings(userInfo.getUsername());
+        return new ResponseEntity<>(ratings, HttpStatus.OK);
     }
 
 }

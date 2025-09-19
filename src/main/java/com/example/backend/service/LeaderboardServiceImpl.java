@@ -48,4 +48,9 @@ public class LeaderboardServiceImpl implements LeaderboardService{
         leaderboardRepository.save(leaderboard);
     }
 
+    @Override
+    public int getUserRankByRating(int rating) {
+        return leaderboardRepository.getRank(rating);
+    }
+
 }

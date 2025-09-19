@@ -6,55 +6,82 @@
   <title>Explore</title>
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" th:href="@{/css/nav.css}" />
   <link rel="stylesheet" th:href="@{/css/question.css}" />
+  <script th:src="@{/js/extra.js}"></script>
+  <script type="module" th:src="@{/js/question.js}"></script>
 </head>
 <body>
 
 <header>
   <div class="brand-logo">Code<span>Hub</span></div>
   <nav>
-    <a class="nav-link-underline" th:href="@{/about}">About Us</a>
-    <a class="nav-link-underline current-page" href="#" onclick="scrollToHero(event)">Explore</a>
-    <a class="nav-link-underline" th:href="@{/editor}">Editor</a>
-    <a class="nav-link-underline" th:href="@{/problem_list}">Profile</a>
+    <a class="nav-link-underline" th:href="@{/}">Home</a>
+    <a class="highlight-link" href="#">Explore</a>
+    <a class="nav-link-underline" th:href="@{/problem}">Editor</a>
+    <a class="nav-link-underline" th:href="@{/resources}">Resources</a>
   </nav>
 
-  <form method="post" th:action="@{/problem_list}" class="search-box">
-      <i class="fas fa-search"></i>
-      <input type="text" name="q" placeholder="Search..." th:value="${param.q}" />
-    </form>
+  <form method="get" th:action="@{/explore}" class="search-box">
+    <i class="fas fa-search"></i>
+    <input type="text" name="searchTerm" placeholder="Search..." th:value="${param.searchTerm}" />
+  </form>
 
+  <div class="header-actions">
     <div th:if="${currentUser != null}">
-      <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini">
-
-      <span th:text="${currentUser.displayName}"></span>
+      <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini"
+           data-th-id="${currentUser.id}" onclick="redirectToProfile(this)" style="cursor: pointer;">
 
       <span th:text="${currentUser.ratings}" ></span>
 
       <form th:action="@{/logout}" method="post" style="display:inline;">
         <button type="submit" class="logout-btn">Logout</button>
       </form>
-
     </div>
   </div>
+
 </header>
 
 <div class="heading-line">
-  Questions
+  <span th:if="${!#lists.isEmpty(problems)}">Questions</span>
 </div>
 
 <div class="layout-main">
   <div class="cards-list">
 
-    <div th:each="problem : ${problems}" class="card-question">
+    <div th:each="problem : ${problems}" th:if="${!#lists.isEmpty(problems)}" class="card-question">
+
       <h3 th:text="${problem.title}">Problem Title</h3>
+
       <div class="card-footer">
-        <div class="card-meta" th:text="${problem.difficulty} + ' • Score: ' + ${problem.points}"></div>
-        <a th:href="@{/problem/{slug}(slug=${problem.id})}" target="_blank" rel="noopener noreferrer">
+        <div class="card-meta-tags">
+          <div class="card-meta">
+
+            <span th:if="${problem.difficulty != null and problem.difficulty == T(com.example.backend.model.Difficulty).EASY}" class="easy">EASY</span>
+            <span th:if="${problem.difficulty != null and problem.difficulty == T(com.example.backend.model.Difficulty).MEDIUM}" class="medium">MEDIUM</span>
+            <span th:if="${problem.difficulty != null and problem.difficulty == T(com.example.backend.model.Difficulty).HARD}" class="hard">HARD</span>
+
+            <span th:text="'&nbsp;&nbsp;&nbsp;Score: ' + ${problem.points}"></span>
+
+          </div>
+
+          <div class="tags">
+            <span th:each="tag : ${problem.skills}" class="tag-item" th:text="${tag}"></span>
+          </div>
+        </div>
+
+        <a th:href="@{/problem/{slug}(slug=${problem.id})}" >
           <button>Solve Challenge</button>
         </a>
       </div>
+
     </div>
+
+    <div th:if="${#lists.isEmpty(problems)}" class="no-problems">
+      <h3>No questions found 😕</h3>
+      <p>Try adjusting your search or check back later.</p>
+    </div>
+
   </div>
 
   <div class="side-panel">
@@ -64,14 +91,14 @@
         <div th:each="user, iterStat : ${topUsers}" class="leaderboard-row" data-th-id="${user.id}">
           <span class="rank-num" th:text="${iterStat.index + 1}"></span>
           <div class="user-info">
-            <img th:src="@{/api/user/profilePicture/{id}(id=${user.id})}" alt="Profile Picture" class="pfpImageMini">
-            <span class="user-name" th:text="${user.displayName}"></span>
+            <div class="user-name-container">
+              <img th:src="@{/api/user/profilePicture/{id}(id=${user.id})}" alt="Profile Picture" class="pfpImageMini">
+              <span class="user-name" th:text="${user.displayName}"></span>
+            </div>
             <span class="user-points" th:text="${user.ratings} + ' pts'"></span>
           </div>
         </div>
-        <div th:if="${#lists.isEmpty(topUsers)}">
-          <p class="leaderboard-empty">No leaderboard data available.</p>
-        </div>
+
       </div>
     </div>
   </div>

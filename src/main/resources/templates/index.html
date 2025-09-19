@@ -17,6 +17,7 @@
 <div class="background-wrapper">
   <header>
     <div class="brand-logo">Code<span>Hub</span></div>
+
     <nav>
       <a class="highlight-link" href="#">Home</a>
       <a class="nav-link-underline" th:href="@{/explore}">Explore</a>
@@ -31,7 +32,6 @@
         <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini"
              data-th-id="${currentUser.id}" onclick="redirectToProfile(this)" style="cursor: pointer;">
 
-<!--        <span th:text="${currentUser.displayName}"></span>-->
         <span th:text="${currentUser.ratings}" ></span>
 
         <form th:action="@{/logout}" method="post" style="display:inline;">
@@ -62,8 +62,10 @@
   </p>
 
   <div class="button-group">
-    <a href="#" class="business-button">For any Inquiry<br />Email Us</a>
-    <a th:href="@{/signup}" class="developer-button">Need Help?<br />View FAQ</a>
+    <a href="mailto:codehub1000@gmail.com" class="business-button">
+      For any Inquiry<br />Email Us
+    </a>
+    <a th:href="@{/faq}" class="developer-button">Need Help?<br />View FAQ</a>
   </div>
 </section>
 
@@ -74,11 +76,11 @@
       <p class="challenge-text">
         Practice from a growing library of over 3,000 coding problems, engage with our vibrant developer community, and participate in contests to push your limits.
       </p>
-      <a class="view-link" th:href="@{/problem_list}">Browse Challenges ></a>
+      <a class="view-link" th:href="@{/explore}">Browse Challenges ></a>
     </div>
 
     <div class="company-block">
-      <h3 class="candidate-block">For Recruiters & Job Seekers(Loading Soon!!!!)</h3>
+      <h3 class="candidate-block">For Recruiters & Job Seekers</h3>
       <p class="paragraph-secondary">
         Whether you're hiring or job hunting, CodeHub provides tools for candidate assessments, interview practice, and talent discovery for tech roles.
       </p>
@@ -94,17 +96,18 @@
       <p class="challenge-text">
         Explore multiple topics to gain knowledge about the programming and participate in contests to push your rank on the codehub and talent discovery for tech roles.
       </p>
-      <a class="explore-link" th:href="@{/explore}">Explore Resources ></a>
+      <a class="explore-link" th:href="@{/resources}">Explore Resources ></a>
     </div>
     <div class="company-block">
       <h3 class="candidate-block">Associate with Us</h3>
       <p class="paragraph-secondary">
         Whether you're hiring or job hunting, CodeHub provides tools for candidate assessments, interview practice, and talent discovery for tech roles.
       </p>
-      <a class="associate-link" href="#">Associate ></a>
+      <a class="associate-link" th:href="@{/contact}">Associate ></a>
     </div>
   </div>
 </section>
+<div class="section-gradient"></div>
 
 <div class="footer-wrapper">
   <div class="footer-section">
@@ -143,18 +146,6 @@
   </div>
 </div>
 
-<div class="divider-line"></div>
-
-<footer class="site-footer">
-  <div class="footer-main-content">
-    <p class="footer-text">Copyright © 2025 CodeHub</p>
-    <ul class="footer-nav-links">
-      <li><a class="footer-link-underline" href="#">Help Center</a></li>
-      <li><a class="footer-link-underline" th:href="@{/terms}">Terms</a></li>
-      <li><a class="footer-link-underline" th:href="@{/privacypolicy}">Privacy Policy</a></li>
-    </ul>
-  </div>
-</footer>
 
 </body>
 </html>

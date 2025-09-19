@@ -1,27 +1,38 @@
+import { clearMessage, showError, showSuccess, validateEmail } from "./util.js";
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.querySelector(".forgot-form");
     const emailInput = form.querySelector("input[type='email']");
 
     form.addEventListener("submit", function (event) {
-        const emailValue = emailInput.value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        event.preventDefault();
+        clearMessage(form);
 
-        let errorDiv = form.querySelector(".verification-error");
-        if (errorDiv) errorDiv.remove();
+        const emailValue = emailInput.value.trim();
 
         if (!emailValue) {
-            event.preventDefault();
             showError(form, "Email address is required.");
-        } else if (!emailRegex.test(emailValue)) {
-            event.preventDefault();
+            return;
+        } else if (!validateEmail(emailValue)) {
             showError(form, "Please enter a valid email address.");
+            return;
         }
-    });
 
-    function showError(formElement, message) {
-        const errorDiv = document.createElement("div");
-        errorDiv.className = "verification-error";
-        errorDiv.textContent = message;
-        formElement.insertBefore(errorDiv, formElement.firstChild);
-    }
+        fetch(`/api/user/verification-code?email=${encodeURIComponent(emailValue)}`, {
+            method: "POST"
+        })
+            .then(response => {
+                if (response.ok) {
+                    showSuccess(form, "Verification code sent to your email.");
+                    window.location.href = `/resetpassword?email=${encodeURIComponent(emailValue)}`;
+                } else {
+                    return response.text().then(text => {
+                        showError(form, text || "Failed to send verification code.");
+                    });
+                }
+            })
+            .catch(() => {
+                showError(form, "An error occurred. Please try again later.");
+            });
+    });
 });
