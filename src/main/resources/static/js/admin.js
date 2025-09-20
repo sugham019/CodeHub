@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
             difficulty: formData.get("difficulty"),
             bannedLibrary: bannedLibraryJson,
             skills: skills,
-            hint: formData.get("hint").trim() | null
+            hint: formData.get("hint").trim() || null
         };
 
         console.log(problemDto);

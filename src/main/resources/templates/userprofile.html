@@ -132,7 +132,7 @@
                 <div class="skills-section" th:if="${!skillTags.isEmpty()}">
                     <h3 class="card-title">Skills</h3>
                     <ul class="skills-list">
-                        <li th:each="skill : ${skillTags}" th:text="${skill.name}">Sample Skill</li>
+                        <li th:each="skill : ${skillTags}" class="tag-item" th:text="${skill.name}"></li>
                     </ul>
                 </div>
             </div>

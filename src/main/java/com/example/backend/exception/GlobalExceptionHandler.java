@@ -1,5 +1,6 @@
 package com.example.backend.exception;
 
+import com.example.backend.dto.CodeResultDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -40,8 +41,9 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(CodeSubmissionException.class)
-    public ResponseEntity<String> handleCodeSubmissionException(CodeSubmissionException exception){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    public ResponseEntity<CodeResultDto> handleCodeSubmissionException(CodeSubmissionException exception){
+        CodeResultDto codeResultDto = new CodeResultDto(false, exception.getMessage(), 0, 0);
+        return ResponseEntity.status(HttpStatus.OK).body(codeResultDto);
     }
 
     @ExceptionHandler(RuntimeException.class)

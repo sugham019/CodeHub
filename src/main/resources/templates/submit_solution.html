@@ -50,7 +50,7 @@
             <span th:utext="${#strings.replace(problem.pageDescription, '\n', '<br/>')}"></span>
             <br><br>
             <strong>Input:</strong><br>
-            <span th:utext="${#strings.replace(problem.inputType, '\n', '<br/>')}"></span><br><br>
+            <span th:utext="${#strings.replace(problem.inputType, '_', ' ')}"></span><br><br>
 
             <strong>Input Format:</strong><br>
             <div>
@@ -61,7 +61,7 @@
             <br>
 
             <strong>Output:</strong><br>
-            <span th:utext="${#strings.replace(problem.outputType, '\n', '<br/>')}"></span><br><br>
+            <span th:utext="${#strings.replace(problem.outputType, '_', ' ')}"></span><br><br>
 
             <strong>Output Format:</strong><br>
             <div>
@@ -71,21 +71,25 @@
             </div>
             <br>
 
-            <strong>Banned Libraries:</strong><br>
-            <div class="banned-libraries-list" id="bannedLibrariesList">
-                <div th:each="entry : ${problem.bannedLibrary}">
-                    <div class="language-item">
-                        <div class="language-name" onclick="toggleLibraries(this)">
-                            <span th:text="${entry.key}">Language Name</span>
-                            <span class="arrow">▼</span>
+
+            <div th:if="${problem.bannedLibrary != null and !problem.bannedLibrary.isEmpty()}">
+                <strong >
+                    Banned Libraries:
+                </strong><br>
+                <div class="banned-libraries-list" id="bannedLibrariesList">
+                    <div th:each="entry : ${problem.bannedLibrary}">
+                        <div class="language-item">
+                            <div class="language-name" onclick="toggleLibraries(this)">
+                                <span th:text="${entry.key}">Language Name</span>
+                                <span class="arrow">▼</span>
+                            </div>
+                            <ul class="library-sublist">
+                                <li th:text="${entry.value}">Banned Library</li>
+                            </ul>
                         </div>
-                        <ul class="library-sublist">
-                            <li th:text="${entry.value}">Banned Library</li>
-                        </ul>
                     </div>
                 </div>
             </div>
-
 
         </div>
         <div class="comments-section">
@@ -111,7 +115,7 @@
 
             <div class="editor-container">
                 <div id="lineNumbers" class="line-numbers"></div>
-                <textarea id="editor" name="code" class="code-editor" th:text="${templateCode}"></textarea>
+                <textarea id="editor" name="code" class="code-editor" th:text="${templateCode}" spellcheck="false"></textarea>
             </div>
 
             <div class="controls">

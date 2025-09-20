@@ -344,14 +344,14 @@ body {
 }
 
 .social-footer {
-  width: 100vw;
+  width: 100%;
   box-sizing: border-box;
   padding-top: 0vw;
   padding-bottom: 3vw;
 }
 
 .footer-wrapper {
-  width: 100vw;
+  width: 100%;
   box-sizing: border-box;
 }
 
