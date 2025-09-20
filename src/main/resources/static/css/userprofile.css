@@ -6,13 +6,13 @@
 }
 
 body {
-    background-color: #ffffff;
+    background: rgb(248,249,250); /* unified very light off-white */
     color: #333;
 }
 
 .profile-container {
     display: grid;
-    grid-template-columns: 280px 1fr;
+    grid-template-columns: 320px 1fr;
     gap: 28px;
     margin: 100px auto 50px;
     padding: 0 3%; /* Reduced padding for less space on the sides */
@@ -23,8 +23,9 @@ body {
     border-radius: 14px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     text-align: center;
+    width: 320px;
     align-self: start;  /* <-- prevents stretching */
-    padding: 24px 24px 70px;
+    padding: 70px 24px 70px;
 }
 
 .progress-bar {
@@ -161,7 +162,7 @@ body {
 }
 
 .main-section > .card:last-child {
-    height: 500px;  /* fixed height in pixels */
+    height: 450px;  /* fixed height in pixels */
     overflow-y: auto; /* scroll if too many problems */
 }
 

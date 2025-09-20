@@ -6,6 +6,7 @@ import com.example.backend.dto.ImageDto;
 import com.example.backend.dto.LoginUserDto;
 import com.example.backend.model.UserPrincipal;
 import com.example.backend.service.UserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -28,13 +29,19 @@ public class UserController {
 
     @PostMapping("/verification-code")
     public ResponseEntity<String> sendVerificationCode(@RequestParam String email){
-        userService.createAndSendVerificationCode(email);
+        userService.createAndSendVerificationCode(email, true);
         return new ResponseEntity<>("Sent verification code to the user", HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<String> createUserAccount(@RequestParam(required = false) String accessKey, @RequestBody CreateUserDto createUserDTO){
+    public ResponseEntity<Void> createUserAccount(@RequestParam(required = false) String accessKey, @RequestBody CreateUserDto createUserDTO) throws JsonProcessingException {
         userService.createUserAccount(createUserDTO, accessKey);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/complete")
+    public ResponseEntity<String> completeUserAccountCreation(@RequestParam String email, @RequestBody String verificationCode) throws JsonProcessingException {
+        userService.completeUserAccountCreation(email, verificationCode);
         return new ResponseEntity<>("Successfully created user account", HttpStatus.CREATED);
     }
 

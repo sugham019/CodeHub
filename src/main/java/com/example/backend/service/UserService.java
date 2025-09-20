@@ -4,15 +4,18 @@ import com.example.backend.dto.*;
 import com.example.backend.model.Problem;
 import com.example.backend.model.Tag;
 import com.example.backend.model.TagType;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Set;
 
 public interface UserService {
 
-    void createAndSendVerificationCode(String userEmail);
+    String createAndSendVerificationCode(String userEmail, boolean storeTemporarily);
 
-    void createUserAccount(CreateUserDto createUserDTO, String accessKey);
+    void createUserAccount(CreateUserDto createUserDTO, String accessKey) throws JsonProcessingException;
+
+    void completeUserAccountCreation(String email, String verificationCode) throws JsonProcessingException;
 
     String login(LoginUserDto loginUserDTO);
 

@@ -55,20 +55,45 @@ body {
   color: #444;
 }
 
+.editor-container {
+  display: flex;
+  width: 800px;
+  height: 580px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  font-family: monospace;
+  font-size: 14px;
+}
+
+.line-numbers {
+  background: #f0f0f0;
+  color: #888;
+  padding: 8px 6px;
+  text-align: right;
+  user-select: none;
+  white-space: pre;
+  font-size: 15px;
+  line-height: 1.4em; /* added for alignment */
+  overflow: hidden;
+  border-right: 1px solid #ccc;
+  box-sizing: border-box; /* ensure padding included in height */
+}
+
 .code-editor {
   width: 100%;
-  height: 580px;
-  padding: 15px;
+  height: 100%;
+  padding: 8px 6px; /* match line numbers padding */
   font-size: 15px;
   font-family: monospace;
-  border: 1px solid #d1d5db;
-  border-radius: 8px;
-  background-color: #fff;
+  border: none; /* remove double border */
   resize: vertical;
   color: #000;
   flex: 1;
   outline: none;
   overflow: auto;
+  line-height: 1.4em; /* match line numbers */
+  box-sizing: border-box;
 }
 
 .controls {
@@ -177,27 +202,10 @@ body {
   font-size: 14px;
 }
 
-.editor-container {
-  display: flex;
-  width: 800px;
-  height: 580px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  overflow: hidden;
-  font-family: monospace;
-  font-size: 14px;
-}
+
 
 .line-numbers {
-  background: #f0f0f0;
-  color: #888;
-  padding: 8px 6px;
-  text-align: right;
-  user-select: none;
-  line-height: 1.4em;
-  white-space: pre;
-  overflow: hidden;
-  border-right: 1px solid #ccc;
+  line-height: 1.4em; /* must match exactly */
 }
 
 @media (max-width: 900px) {

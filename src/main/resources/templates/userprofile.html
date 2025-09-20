@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CodeHub Profile</title>
+    <title th:text="${targetUser.displayName}"></title>
     <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     <link rel="stylesheet" th:href="@{/css/nav.css}" />
@@ -51,7 +51,6 @@
 </div>
 
 <div class="profile-container">
-    <!-- Sidebar Profile -->
     <aside class="sidebar-card">
         <div class="profile-avatar">
             <img th:src="@{/api/user/profilePicture/{id}(id=${targetUser.id})}" alt="Profile Avatar">
@@ -91,7 +90,6 @@
         </div>
     </aside>
 
-    <!-- Main Content -->
     <main class="main-section">
         <div class="top-cards">
             <div class="card progress-card">
@@ -130,7 +128,7 @@
 
             <div class="card rating-card">
                 <h3 class="card-title">Rating 🏆</h3>
-                <p class="rating-points"><span th:text="${currentUser.ratings}"></span> pts</p>
+                <p class="rating-points"><span th:text="${targetUser.ratings}"></span> pts</p>
                 <div class="skills-section" th:if="${!skillTags.isEmpty()}">
                     <h3 class="card-title">Skills</h3>
                     <ul class="skills-list">

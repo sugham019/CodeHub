@@ -56,11 +56,11 @@
       <div class="card-footer">
         <div class="card-meta-tags">
           <div class="card-meta">
-
-            <span th:if="${problem.difficulty != null and problem.difficulty == T(com.example.backend.model.Difficulty).EASY}" class="easy">EASY</span>
-            <span th:if="${problem.difficulty != null and problem.difficulty == T(com.example.backend.model.Difficulty).MEDIUM}" class="medium">MEDIUM</span>
-            <span th:if="${problem.difficulty != null and problem.difficulty == T(com.example.backend.model.Difficulty).HARD}" class="hard">HARD</span>
-
+          <span th:switch="${problem.difficulty.name()}">
+            <span th:case="'EASY'" class="easy">EASY</span>
+            <span th:case="'MEDIUM'" class="medium">MEDIUM</span>
+            <span th:case="'HARD'" class="hard">HARD</span>
+          </span>
             <span th:text="'&nbsp;&nbsp;&nbsp;Score: ' + ${problem.points}"></span>
 
           </div>

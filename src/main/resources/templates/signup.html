@@ -3,13 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title th:text="${title}">Sign Up</title>
-
+  <title>Sign up</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" th:href="@{/css/signup.css}" />
-  <script type="module" src="/js/signup.js"></script>
-
+  <script th:type="module" th:src="@{/js/signup.js}"></script>
 </head>
 <body>
 
@@ -20,47 +18,37 @@
 <div class="signup-container">
   <div class="signup-left">
     <h2>Create Account</h2>
-    <form class="signup-form" action="#" method="POST" novalidate>
+    <form class="signup-form" novalidate>
 
       <div th:if="${error}" class="verification-error">
         <span th:text="${error}"></span>
-      </div>
-
-      <div class="signup-input-group email-group">
-        <i class="fas fa-envelope"></i>
-        <input type="email" name="email" placeholder="Email" required />
-        <button id="verificationButton" type="button">
-          <i class="fas fa-paper-plane"></i>
-        </button>
-      </div>
-
-      <div class="signup-input-group code-div">
-        <i class="fas fa-key"></i>
-        <input type="text" name="code" placeholder="Verification Code" required/>
       </div>
 
       <div class="signup-input-group">
         <i class="fas fa-user"></i>
         <input type="text" name="name" placeholder="Name" required />
       </div>
+      <div class="signup-input-group">
+        <i class="fas fa-envelope"></i>
+        <input type="email" name="email" placeholder="Email" required />
+      </div>
+
+      <div class="signup-input-group">
+        <i class="fas fa-calendar-alt"></i>
+        <input type="date" name="dob" placeholder="Date of Birth" required />
+      </div>
+
 
       <div class="signup-input-group">
         <i class="fas fa-lock"></i>
         <input type="password" name="password" placeholder="Password" required />
         <i class="fas fa-eye toggle-password" id="togglePassword"></i>
       </div>
-
       <div class="signup-input-group">
         <i class="fas fa-lock"></i>
         <input type="password" name="confirm_password" placeholder="Confirm Password" required />
-        <i class="fas fa-eye toggle-password" id="togglePasswordConfirm"></i>
+        <i class="fas fa-eye toggle-password" id="toggleConfirmPassword"></i>
       </div>
-
-      <div class="signup-input-group dob-group">
-        <i class="fas fa-calendar"></i>
-        <input type="date" name="birthdate" placeholder="Birth Date" required />
-      </div>
-
       <input type="submit" value="Sign Up" class="signup-btn" />
     </form>
 
@@ -71,6 +59,7 @@
       <a href="#"><i class="fab fa-google"></i></a>
       <a href="#"><i class="fab fa-linkedin-in"></i></a>
     </div>
+
   </div>
 
   <div class="signup-right">
@@ -80,6 +69,5 @@
     <img th:src="@{/img/loginicon.png}" alt="Sign up illustration" class="signup-image" />
   </div>
 </div>
-
 </body>
 </html>

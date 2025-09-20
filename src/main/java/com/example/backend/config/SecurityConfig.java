@@ -32,6 +32,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/login",
                                 "/signup",
+                                "/verification",
                                 "/",
                                 "/faq",
                                 "/forgotpassword",
@@ -46,6 +47,7 @@ public class SecurityConfig {
                                 "/api/user/verification-code",
                                 "/api/user/forgotpassword",
                                 "/api/user/create",
+                                "/api/user/complete",
                                 "/api/user/login",
                                 "/api/user/contact"
                         ).permitAll()

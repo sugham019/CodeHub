@@ -6,6 +6,8 @@ import com.example.backend.model.*;
 import com.example.backend.repository.UserRepository;
 import com.example.backend.util.JwtUtil;
 import com.example.backend.util.PasswordUtil;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,6 +38,8 @@ public class UserServiceImpl implements UserService {
 
     private final AuthenticationManager authenticationManager;
 
+    private final ObjectMapper objectMapper;
+
     private final EmailService emailService;
 
     private final StringRedisTemplate redisTemplate;
@@ -49,13 +53,14 @@ public class UserServiceImpl implements UserService {
 
     public UserServiceImpl(UserRepository userRepository, LeaderboardService leaderboardService,
                            EmailService emailService, StringRedisTemplate redisTemplate, AuthenticationManager authenticationManager,
-                           ProblemService problemService){
+                           ProblemService problemService, ObjectMapper objectMapper){
         this.userRepository = userRepository;
         this.leaderboardService = leaderboardService;
         this.emailService = emailService;
         this.redisTemplate = redisTemplate;
         this.authenticationManager = authenticationManager;
         this.problemService = problemService;
+        this.objectMapper = objectMapper;
     }
 
     private void validateSignupInformation(String email, String password, String displayName, LocalDate birthDate){
@@ -77,16 +82,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void createAndSendVerificationCode(String userEmail) {
+    public String createAndSendVerificationCode(String userEmail, boolean storeTemporarily) {
         String verificationCode = PasswordUtil.generateOTP(6);
-        redisTemplate.opsForValue().set(userEmail, verificationCode, Duration.ofMinutes(5));
-
+        if(storeTemporarily){
+            redisTemplate.opsForValue().set(userEmail, verificationCode, Duration.ofMinutes(5));
+        }
         String[] recipient = {userEmail};
         emailService.sendEmail(recipient, "CodeHub Verification Code", verificationCode);
+        return verificationCode;
     }
 
     @Override
-    public void createUserAccount(CreateUserDto createUserDTO, String givenAccessKey) {
+    public void createUserAccount(CreateUserDto createUserDTO, String givenAccessKey) throws JsonProcessingException {
         String email = createUserDTO.getEmail();
         if(userRepository.existsByEmail(email)){
             throw new UserAccountException(email+" is already associated with an account");
@@ -94,16 +101,31 @@ public class UserServiceImpl implements UserService {
         String password = createUserDTO.getPassword();
         String displayName = createUserDTO.getDisplayName();
         LocalDate birthDate = createUserDTO.getBirthDate();
-        String storedVerificationCode = redisTemplate.opsForValue().get(createUserDTO.getEmail());
-        if (!Objects.equals(storedVerificationCode, createUserDTO.getVerificationCode())) {
-            throw new UserAccountException("Invalid verification code");
-        }
         validateSignupInformation(email, password, displayName, birthDate);
 
         String passwordHash = PasswordUtil.hashPassword(password);
         AccessLevel accessLevel = (givenAccessKey != null && givenAccessKey.equals(accessKey))? createUserDTO.getAccessLevel(): AccessLevel.GENERAL;
+        String verificationCode = createAndSendVerificationCode(email, false);
+        createUserDTO.setPassword(passwordHash);
+        createUserDTO.setAccessLevel(accessLevel);
+        createUserDTO.setVerificationCode(verificationCode);
+        String userDataJson = objectMapper.writeValueAsString(createUserDTO);
+        redisTemplate.opsForValue().set(email, userDataJson, Duration.ofMinutes(10));
+    }
+
+    @Override
+    public void completeUserAccountCreation(String email, String verificationCode) throws JsonProcessingException {
+        String userDataJson = redisTemplate.opsForValue().get(email);
+        if(userDataJson == null){
+            throw new UserAccountException("Failed to create account for user: "+ email);
+        }
+        CreateUserDto userDto = objectMapper.readValue(userDataJson, CreateUserDto.class);
+        if(!Objects.equals(userDto.getVerificationCode(), verificationCode)){
+            throw new UserAccountException("The verification code do not match");
+        }
+        User user = new User(userDto.getEmail(), userDto.getDisplayName(), userDto.getPassword(),
+                userDto.getBirthDate(), userDto.getAccessLevel());
         Leaderboard leaderboard = new Leaderboard(0);
-        User user = new User(email, displayName, passwordHash, birthDate, accessLevel);
         leaderboard.setUser(user);
         user.setLeaderboard(leaderboard);
         userRepository.save(user);

@@ -7,6 +7,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class AuthViewController {
@@ -25,6 +26,14 @@ public class AuthViewController {
             return "redirect:/";
         }
         return "signup";
+    }
+
+    @GetMapping("/verification")
+    public String verification(Authentication authentication){
+        if (authentication != null && authentication.isAuthenticated()) {
+            return "redirect:/";
+        }
+        return "verification";
     }
 
     @GetMapping("/forgotpassword")
