@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeViewController {
@@ -80,7 +81,9 @@ public class HomeViewController {
         ProblemCountDto userSolvedProblemsCount = userService.getSolvedProblems(targetUser.getId());
         ProblemCountDto totalProblemsCount = problemService.getTotalProblems();
         List<Problem> problems = problemService.getRecentSolvedProblems(targetUser.getId());
-        Set<Tag> skillTags = userService.getTags(targetUser.getEmail(), TagType.SKILL);
+        Set<Tag> skillTags = userService.getTags(targetUser.getEmail(), TagType.SKILL).stream()
+                .limit(10)
+                .collect(Collectors.toSet());
         Set<Tag> languageTags = userService.getTags(targetUser.getEmail(), TagType.LANGUAGE);
 
         model.addAttribute("currentUser", currentUser);

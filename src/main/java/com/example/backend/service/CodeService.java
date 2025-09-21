@@ -1,6 +1,7 @@
 package com.example.backend.service;
 
 import com.example.backend.dto.CodeResultDto;
+import com.example.backend.exception.CodeSubmissionException;
 import com.example.backend.model.*;
 
 public abstract class CodeService {
@@ -21,7 +22,7 @@ public abstract class CodeService {
     public CodeResultDto submit(String email, Problem problem, String code){
         String bannedLibrary = problem.getBannedLibrary().get(language);
         if(bannedLibrary != null && isUsingLibrary(code, bannedLibrary)){
-            return new CodeResultDto(false, "Cannot use library: " + bannedLibrary, 0, 0);
+            throw new CodeSubmissionException("Cannot use library: " + bannedLibrary);
         }
         CodeResultDto result = compileAndRun(code, problem.getInputType(), problem.getInputs(), problem.getOutputType(), problem.getExpectedOutputs());
         if(result.isAllTestPassed()){
