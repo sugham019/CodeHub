@@ -1,4 +1,3 @@
-/* ================= Global Reset ================= */
 * {
   margin: 0;
   padding: 0;
@@ -7,7 +6,7 @@
 }
 
 body {
-  background: rgb(248,249,250); /* unified very light off-white */
+  background: rgb(248,249,250);
   color: #333;
 }
 
@@ -42,7 +41,6 @@ header nav {
   font-size: 0.9rem;
 }
 
-/* ================= Heading ================= */
 .heading-line {
   margin-top: 100px;
   padding-left: 10rem;
@@ -51,13 +49,11 @@ header nav {
   color: #111827;
 }
 
-/* ================= Layout ================= */
 .layout-main {
   display: flex;
   padding: 2rem;
 }
 
-/* ================= Questions Cards ================= */
 .cards-list {
   margin-left: 100px;
   flex: 2;
@@ -118,7 +114,6 @@ header nav {
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
 }
 
-/* ================= No Questions ================= */
 .no-problems {
   text-align: center;
   padding: 3rem;
@@ -138,7 +133,6 @@ header nav {
   color: #6b7280;
 }
 
-/* ================= Leaderboard ================= */
 .side-panel {
   width: 450px;
   margin-left: 5rem;
@@ -173,7 +167,7 @@ header nav {
   font-size: 1rem;
   display: flex;
   align-items: center;
-  justify-content: flex-start; /* keep rank and user left */
+  justify-content: flex-start;
   background-color: #ffffff;
   border-radius: 12px;
   padding: 0.7rem 1rem;
@@ -195,18 +189,17 @@ header nav {
   text-align: center;
 }
 
-/* ================= Updated Alignment Fix ================= */
 .user-info {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* points move to right */
+  justify-content: space-between;
   flex: 1;
 }
 
 .user-name-container {
   display: flex;
   align-items: center;
-  gap: 10px; /* space between profile picture and name */
+  gap: 10px;
 }
 
 .user-name {
@@ -221,7 +214,6 @@ header nav {
   white-space: nowrap;
 }
 
-/* ================= Leaderboard Empty ================= */
 .leaderboard-empty {
   text-align: center;
   color: #6b7280;
@@ -255,13 +247,13 @@ header nav { margin-left: 390px; }
 .card-meta-tags {
   display: flex;
   align-items: center;
-  gap: 8px; /* space between difficulty and tags */
-  flex-wrap: wrap; /* wraps tags if too many */
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .tags {
   display: flex;
-  gap: 4px; /* space between tags */
+  gap: 4px;
   flex-wrap: wrap;
 }
 

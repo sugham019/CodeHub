@@ -15,7 +15,7 @@ body {
     grid-template-columns: 320px 1fr;
     gap: 28px;
     margin: 100px auto 50px;
-    padding: 0 3%; /* Reduced padding for less space on the sides */
+    padding: 0 3%;
 }
 
 .sidebar-card {
@@ -24,14 +24,14 @@ body {
     box-shadow: 0 4px 12px rgba(0,0,0,0.05);
     text-align: center;
     width: 320px;
-    align-self: start;  /* <-- prevents stretching */
+    align-self: start;
     padding: 70px 24px 70px;
 }
 
 .progress-bar {
     width: 100%;
     height: 20px;
-    background-color: #e0e0e0; /* light gray background */
+    background-color: #e0e0e0;
     border-radius: 10px;
     overflow: hidden;
     margin-top: 20px;
@@ -41,33 +41,33 @@ body {
 .profile-rank {
     margin-top: 20px;
     font-size: 14px;
-    color: #14575d;        /* darker blue-green to highlight rank */
-    font-weight: 600;      /* make it stand out */
-    margin-bottom: 8px;    /* consistent spacing */
-    text-align: left;      /* align like DOB and stats */
+    color: #14575d;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-align: left;
 }
 
 
 .progress-fill-green {
     height: 100%;
-    background-color: #27ae60; /* green fill */
-    width: 0%; /* default, will be set dynamically */
+    background-color: #27ae60;
+    width: 0%;
     border-radius: 10px 0 0 10px;
     transition: width 0.5s ease-in-out;
 }
 
 .progress-fill-orange {
     height: 100%;
-    background-color: #f39c12; /* green fill */
-    width: 0%; /* default, will be set dynamically */
+    background-color: #f39c12;
+    width: 0%;
     border-radius: 10px 0 0 10px;
     transition: width 0.5s ease-in-out;
 }
 
 .progress-fill-red {
     height: 100%;
-    background-color: #e74c3c; /* green fill */
-    width: 0%; /* default, will be set dynamically */
+    background-color: #e74c3c;
+    width: 0%;
     border-radius: 10px 0 0 10px;
     transition: width 0.5s ease-in-out;
 }
@@ -116,7 +116,6 @@ body {
     background: #0f4449;
 }
 
-/* Sidebar Stats */
 .stats-title {
     font-size: 14px;
     font-weight: 600;
@@ -147,23 +146,22 @@ body {
     color: #14575d;
 }
 
-/* Main Content */
 .main-section {
     display: flex;
     flex-direction: column;
-    gap: 32px; /* more spacing between sections */
+    gap: 32px;
 }
 
 .card {
     background: #fff;
     border-radius: 14px;
-    padding: 28px; /* more breathing space */
+    padding: 28px;
     box-shadow: 0 4px 14px rgba(0,0,0,0.05);
 }
 
 .main-section > .card:last-child {
-    height: 450px;  /* fixed height in pixels */
-    overflow-y: auto; /* scroll if too many problems */
+    height: 450px;
+    overflow-y: auto;
 }
 
 .card-title {
@@ -175,16 +173,15 @@ body {
 
 .top-cards {
     display: flex;
-    gap: 32px; /* more spacing between progress and rating */
+    gap: 32px;
 }
 
 .progress-card,
 .rating-card {
     flex: 1;
-    min-height: 180px; /* balanced look */
+    min-height: 180px;
 }
 
-/* Progress */
 .progress-total {
     font-size: 17px;
     font-weight: 500;
@@ -209,7 +206,6 @@ body {
 .medium { color: #f39c12; }
 .hard { color: #e74c3c; }
 
-/* Rating */
 .rating-points {
     font-size: 24px;
     font-weight: 600;
@@ -233,7 +229,6 @@ body {
     margin-bottom: 6px;
 }
 
-/* Recent Problems */
 .recent-problems {
     display: flex;
     flex-direction: column;
@@ -244,7 +239,7 @@ body {
     background: #f8fafc;
     border: 1px solid #e6e9ef;
     border-radius: 10px;
-    padding: 24px 18px; /* Increased top and bottom padding */
+    padding: 24px 18px;
     cursor: pointer;
     transition: background 0.2s, transform 0.1s;
 }
@@ -269,7 +264,6 @@ body {
 .difficulty-medium { color: #f39c12; font-weight: 500; }
 .difficulty-hard { color: #e74c3c; font-weight: 500; }
 
-/* Footer */
 .divider-line {
     height: 1px;
     background: #ddd;
@@ -315,8 +309,8 @@ body {
 .profile-dob {
     font-size: 14px;
     color: #666;
-    margin-bottom: 8px; /* same spacing as email/rank */
-    text-align: left;   /* aligns with other sidebar stats */
+    margin-bottom: 8px;
+    text-align: left;
 }
 
 

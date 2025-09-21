@@ -1,4 +1,3 @@
-/* base resets */
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +12,7 @@ body {
 
 .contact-main {
     max-width: 700px;
-    margin: 120px auto 50px auto; /* space for fixed header */
+    margin: 120px auto 50px auto;
     padding: 20px;
 }
 
@@ -78,7 +77,6 @@ body {
     background-color: #0f4549;
 }
 
-/* success box */
 .contact-success {
     background-color: #d4edda;
     color: #155724;
@@ -94,13 +92,11 @@ body {
     display: none;
 }
 
-/* Disabled state */
 .contact-submit-btn:disabled {
     opacity: 0.7;
     cursor: not-allowed;
 }
 
-/* Optional spinner (before text) */
 .contact-submit-btn.sending::before {
     content: '';
     display: inline-block;

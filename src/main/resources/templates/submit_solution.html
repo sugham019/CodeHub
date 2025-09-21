@@ -50,7 +50,7 @@
             <span th:utext="${#strings.replace(problem.pageDescription, '\n', '<br/>')}"></span>
             <br><br>
             <strong>Input:</strong><br>
-            <span th:utext="${#strings.replace(problem.inputType, '\n', '<br/>')}"></span><br><br>
+            <span th:utext="${#strings.replace(problem.inputType, '_', ' ')}"></span><br><br>
 
             <strong>Input Format:</strong><br>
             <div>
@@ -61,7 +61,7 @@
             <br>
 
             <strong>Output:</strong><br>
-            <span th:utext="${#strings.replace(problem.outputType, '\n', '<br/>')}"></span><br><br>
+            <span th:utext="${#strings.replace(problem.outputType, '_', ' ')}"></span><br><br>
 
             <strong>Output Format:</strong><br>
             <div>
@@ -111,7 +111,7 @@
 
             <div class="editor-container">
                 <div id="lineNumbers" class="line-numbers"></div>
-                <textarea id="editor" name="code" class="code-editor" th:text="${templateCode}"></textarea>
+                <textarea id="editor" name="code" class="code-editor" spellcheck="false" th:text="${templateCode}"></textarea>
             </div>
 
             <div class="controls">

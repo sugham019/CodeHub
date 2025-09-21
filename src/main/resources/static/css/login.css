@@ -12,18 +12,15 @@ html, body {
   flex-direction: column;
 }
 
-/* LOGIN */
 .login-form-wrapper {
   position: relative;
 }
 
-/* If a message exists before h2, give the heading extra margin */
 .login-form-wrapper > .verification-error + h2,
 .login-form-wrapper > .verification-success + h2 {
-  margin-top: 70px; /* creates space under message */
+  margin-top: 70px;
 }
 
-/* SIGNUP */
 .signup-form {
   position: relative;
 }
@@ -126,7 +123,6 @@ header {
   text-align: center;
 }
 
-/* Messages: take full width, wrap properly, never truncate */
 .verification-error,
 .verification-success {
   display: block;
@@ -143,14 +139,12 @@ header {
   box-sizing: border-box;
 }
 
-/* Error look */
 .verification-error {
   background-color: #ffe5e5;
   border: 1px solid #ffb3b3;
   color: #a10000;
 }
 
-/* Success look */
 .verification-success {
   background-color: #e6f9ec;
   border: 1px solid #8ed9a4;

@@ -71,12 +71,11 @@ nav .highlight-link {
     color: whitesmoke;
 }
 
-/* --- Minimal profile badge tweaks (safe selectors) --- */
 
 .header-actions > div {
     display: flex;
-    align-items: center;   /* vertical center all children */
-    gap: 8px;              /* spacing between image, name, and trophy */
+    align-items: center;
+    gap: 8px;
 }
 
 .pfpImageMini {
@@ -85,10 +84,9 @@ nav .highlight-link {
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid #e6e6e6;
-    flex-shrink: 0;        /* prevent shrinking */
+    flex-shrink: 0;
 }
 
-/* Username and rating chip align naturally via flex */
 .header-actions > div > span {
     display: inline-flex;
     align-items: center;

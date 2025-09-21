@@ -14,12 +14,11 @@ import java.util.function.Function;
 
 public class JwtUtil {
 
-    private static final String SECRET = "mysupersecretkeymysupersecretkey123456";
     private final SecretKey key;
     private static final JwtUtil instance = new JwtUtil();
 
     public JwtUtil(){
-        this.key = Keys.hmacShaKeyFor(SECRET.getBytes());
+        this.key = generateKey();
     }
 
     public static String generateToken(String username){

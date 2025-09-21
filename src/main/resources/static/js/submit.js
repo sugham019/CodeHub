@@ -10,16 +10,15 @@ async function loadComments(problemId, orderBy) {
             const commentDiv = document.createElement('div');
             commentDiv.classList.add('comment');
 
-            // Create clickable link for image
             const imgLink = document.createElement('a');
-            imgLink.href = `/user/${comment.userId}`; // Redirect link (user profile for example)
-            imgLink.target = "_blank"; // optional: opens in new tab
+            imgLink.href = `/user/${comment.userId}`;
+            imgLink.target = "_blank";
 
             const img = document.createElement('img');
             img.src = `/api/user/profilePicture/${comment.userId}`;
             img.alt = comment.userDisplayName;
 
-            imgLink.appendChild(img); // wrap image in link
+            imgLink.appendChild(img);
 
             const contentDiv = document.createElement('div');
             contentDiv.classList.add('comment-content');
