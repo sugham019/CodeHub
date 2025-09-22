@@ -4,13 +4,16 @@ import jakarta.persistence.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Document(collection = "problems")
 public class Problem {
 
     @Id
     private String id;
+
 
     private String title;
     private String pageDescription;
@@ -20,16 +23,19 @@ public class Problem {
 
     private String[] inputs;
     private String[] expectedOutputs;
+
     private Difficulty difficulty;
     private LocalDate datePosted;
     private Map<Language, String> bannedLibrary;
+    private String[] skills;
     private String hint;
 
     public Problem(){
 
     }
 
-    public Problem(String title, Difficulty difficulty, String pageDescription, String hint, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType, LocalDate datePosted, Map<Language, String> bannedLibrary){
+    public Problem(String title, Difficulty difficulty, String pageDescription, String[] inputs, DataType inputType, String[] expectedOutputs, DataType outputType,
+                   LocalDate datePosted, Map<Language, String> bannedLibrary, String[] skills, String hint){
         this.title = title;
         this.difficulty = difficulty;
         this.pageDescription = pageDescription;
@@ -40,6 +46,7 @@ public class Problem {
         this.hint = hint;
         this.datePosted = datePosted;
         this.bannedLibrary = bannedLibrary;
+        this.skills = skills;
     }
 
     public String getId(){
@@ -78,6 +85,10 @@ public class Problem {
         return datePosted;
     }
 
+    public int getPoints() {
+        return this.difficulty != null ? this.difficulty.getValue() : 0;
+    }
+
     public Map<Language, String> getBannedLibrary() {
         return bannedLibrary;
     }
@@ -86,4 +97,7 @@ public class Problem {
         return hint;
     }
 
+    public String[] getSkills() {
+        return skills;
+    }
 }

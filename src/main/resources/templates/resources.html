@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Resources</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/nav.css}" />
+    <link rel="stylesheet" th:href="@{/css/resources.css}" />
+    <script th:src="@{/js/extra.js}"></script>
+</head>
+<body>
+
+<header>
+    <div class="brand-logo">Code<span>Hub</span></div>
+    <nav>
+        <a class="nav-link-underline" th:href="@{/}">Home</a>
+        <a class="nav-link-underline" th:href="@{/explore}">Explore</a>
+        <a class="nav-link-underline" th:href="@{/problem}">Editor</a>
+        <a class="highlight-link" href="#">Resources</a>
+    </nav>
+
+    <div class="header-actions">
+        <div th:if="${currentUser != null}">
+            <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini"
+                 data-th-id="${currentUser.id}" onclick="redirectToProfile(this)" style="cursor: pointer;">
+
+            <span th:text="${currentUser.ratings}" ></span>
+
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </div>
+
+</header>
+
+<main class="resources-container">
+    <h1>Resources</h1>
+
+    <!-- Quick Jump Menu -->
+    <nav class="resource-nav">
+        <a href="#java">Java</a>
+        <a href="#python">Python</a>
+        <a href="#c">C</a>
+        <a href="#javascript">JavaScript</a>
+        <a href="#dsa">Data Structures & Algorithms</a>
+    </nav>
+
+    <!-- Java Section -->
+    <section class="resource-section" id="java">
+        <h2>Java</h2>
+        <div class="resource-cards">
+            <a href="https://docs.oracle.com/javase/tutorial/java/nutsandbolts/" target="_blank" class="resource-card">
+                <h3>Basics</h3>
+                <ul>
+                    <li>Variables & Data Types</li>
+                    <li>Operators</li>
+                    <li>Loops & Conditionals</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/object-oriented-programming-oops-concept-in-java/" target="_blank" class="resource-card">
+                <h3>OOP</h3>
+                <ul>
+                    <li>Classes & Objects</li>
+                    <li>Inheritance & Polymorphism</li>
+                    <li>Encapsulation & Abstraction</li>
+                </ul>
+            </a>
+            <a href="https://www.javatpoint.com/exception-handling-in-java" target="_blank" class="resource-card">
+                <h3>Exceptions</h3>
+                <ul>
+                    <li>Try-Catch</li>
+                    <li>Throw & Throws</li>
+                    <li>Custom Exceptions</li>
+                </ul>
+            </a>
+            <a href="https://www.baeldung.com/java-collections" target="_blank" class="resource-card">
+                <h3>Collections</h3>
+                <ul>
+                    <li>List, Set, Map</li>
+                    <li>Iterators</li>
+                    <li>Streams & Lambda</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+
+    <!-- Python Section -->
+    <section class="resource-section" id="python">
+        <h2>Python</h2>
+        <div class="resource-cards">
+            <a href="https://docs.python.org/3/tutorial/introduction.html" target="_blank" class="resource-card">
+                <h3>Basics</h3>
+                <ul>
+                    <li>Variables & Data Types</li>
+                    <li>Operators</li>
+                    <li>Loops & Conditionals</li>
+                </ul>
+            </a>
+            <a href="https://realpython.com/python-functions/" target="_blank" class="resource-card">
+                <h3>Functions</h3>
+                <ul>
+                    <li>Defining Functions</li>
+                    <li>Arguments & Return</li>
+                    <li>Lambda Functions</li>
+                </ul>
+            </a>
+            <a href="https://docs.python.org/3/tutorial/modules.html" target="_blank" class="resource-card">
+                <h3>Modules & Packages</h3>
+                <ul>
+                    <li>Importing Modules</li>
+                    <li>Standard Library</li>
+                    <li>Creating Packages</li>
+                </ul>
+            </a>
+            <a href="https://realpython.com/python3-object-oriented-programming/" target="_blank" class="resource-card">
+                <h3>OOP</h3>
+                <ul>
+                    <li>Classes & Objects</li>
+                    <li>Inheritance & Polymorphism</li>
+                    <li>Magic Methods</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+
+    <!-- C Section -->
+    <section class="resource-section" id="c">
+        <h2>C Programming</h2>
+        <div class="resource-cards">
+            <a href="https://www.tutorialspoint.com/cprogramming/index.htm" target="_blank" class="resource-card">
+                <h3>Basics</h3>
+                <ul>
+                    <li>Variables & Data Types</li>
+                    <li>Operators</li>
+                    <li>Loops & Conditionals</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/functions-in-c/" target="_blank" class="resource-card">
+                <h3>Functions</h3>
+                <ul>
+                    <li>Defining Functions</li>
+                    <li>Arguments & Return</li>
+                    <li>Recursion</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/pointers-in-c-and-their-applications/" target="_blank" class="resource-card">
+                <h3>Pointers</h3>
+                <ul>
+                    <li>Pointer Basics</li>
+                    <li>Pointer Arithmetic</li>
+                    <li>Pointers & Functions</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/structures-c/" target="_blank" class="resource-card">
+                <h3>Structures</h3>
+                <ul>
+                    <li>Defining Structs</li>
+                    <li>Nested Structs</li>
+                    <li>Structs & Functions</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+
+    <!-- JavaScript Section -->
+    <section class="resource-section" id="javascript">
+        <h2>JavaScript</h2>
+        <div class="resource-cards">
+            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Introduction" target="_blank" class="resource-card">
+                <h3>Basics</h3>
+                <ul>
+                    <li>Variables & Data Types</li>
+                    <li>Operators</li>
+                    <li>Loops & Conditionals</li>
+                </ul>
+            </a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions" target="_blank" class="resource-card">
+                <h3>Functions</h3>
+                <ul>
+                    <li>Defining Functions</li>
+                    <li>Arguments & Return</li>
+                    <li>Arrow Functions</li>
+                </ul>
+            </a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes" target="_blank" class="resource-card">
+                <h3>OOP</h3>
+                <ul>
+                    <li>Classes & Objects</li>
+                    <li>Inheritance & Polymorphism</li>
+                    <li>Encapsulation</li>
+                </ul>
+            </a>
+            <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" class="resource-card">
+                <h3>Arrays & Methods</h3>
+                <ul>
+                    <li>Array Operations</li>
+                    <li>Iterators & Methods</li>
+                    <li>Map, Filter, Reduce</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+
+    <!-- DSA Section -->
+    <section class="resource-section" id="dsa">
+        <h2>Data Structures & Algorithms</h2>
+        <div class="resource-cards">
+            <a href="https://www.geeksforgeeks.org/array-data-structure/" target="_blank" class="resource-card">
+                <h3>Arrays</h3>
+                <ul>
+                    <li>Traversal & Manipulation</li>
+                    <li>Two Pointers</li>
+                    <li>Sliding Window</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/string-data-structure/" target="_blank" class="resource-card">
+                <h3>Strings</h3>
+                <ul>
+                    <li>Operations & Manipulation</li>
+                    <li>Pattern Matching</li>
+                    <li>Substrings</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/linked-list-set-1-introduction/" target="_blank" class="resource-card">
+                <h3>Linked Lists</h3>
+                <ul>
+                    <li>Singly & Doubly</li>
+                    <li>Insertion & Deletion</li>
+                    <li>Reverse & Detect Cycle</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/stack-data-structure/" target="_blank" class="resource-card">
+                <h3>Stacks</h3>
+                <ul>
+                    <li>Push & Pop</li>
+                    <li>Applications</li>
+                    <li>Balanced Parentheses</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/queue-data-structure/" target="_blank" class="resource-card">
+                <h3>Queues</h3>
+                <ul>
+                    <li>Enqueue & Dequeue</li>
+                    <li>Circular Queue</li>
+                    <li>Priority Queue</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/binary-tree-data-structure/" target="_blank" class="resource-card">
+                <h3>Trees</h3>
+                <ul>
+                    <li>Binary Trees & BST</li>
+                    <li>Traversal (In/Pre/Post)</li>
+                    <li>Applications</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/graph-data-structure-and-algorithms/" target="_blank" class="resource-card">
+                <h3>Graphs</h3>
+                <ul>
+                    <li>BFS & DFS</li>
+                    <li>Shortest Path</li>
+                    <li>MST</li>
+                </ul>
+            </a>
+            <a href="https://www.geeksforgeeks.org/sorting-algorithms/" target="_blank" class="resource-card">
+                <h3>Sorting & Searching</h3>
+                <ul>
+                    <li>Binary Search</li>
+                    <li>Quick / Merge / Heap Sort</li>
+                    <li>Search Algorithms</li>
+                </ul>
+            </a>
+        </div>
+    </section>
+</main>
+
+</body>
+</html>

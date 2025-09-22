@@ -1,7 +1,9 @@
 package com.example.backend.exception;
 
+import com.example.backend.dto.CodeResultDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -28,14 +30,25 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(exception.getMessage());
     }
 
+    @ExceptionHandler(BadCredentialsException.class)
+    public ResponseEntity<String> handleBadCredentialsException(org.springframework.security.authentication.BadCredentialsException exception) {
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(exception.getMessage());
+    }
+
     @ExceptionHandler(InvalidDateException.class)
     public ResponseEntity<String> handleInvalidDateException(InvalidDateException exception){
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
 
     @ExceptionHandler(CodeSubmissionException.class)
-    public ResponseEntity<String> handleCodeSubmissionException(CodeSubmissionException exception){
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
+    public ResponseEntity<CodeResultDto> handleCodeSubmissionException(CodeSubmissionException exception){
+        CodeResultDto codeResultDto = new CodeResultDto(false, exception.getMessage(), 0, 0);
+        return ResponseEntity.status(HttpStatus.OK).body(codeResultDto);
+    }
+
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<String> handleRuntimeException(RuntimeException exception){
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(exception.getMessage());
     }
 
 }

@@ -1,12 +1,16 @@
 package com.example.backend.service;
 
+import com.example.backend.dto.UserDto;
 import com.example.backend.model.User;
 
-import java.util.Map;
+import java.util.List;
 
 public interface LeaderboardService {
 
-    Map<String, Integer> getTopRankers(int limit);
+    List<UserDto> getTopRankers(int limit);
+
     void updateRating(User user, int offset);
+
+    int getUserRankByRating(int rating);
 
 }

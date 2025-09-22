@@ -16,6 +16,7 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.Arrays;
 import java.util.concurrent.TimeUnit;
 
 @Service("JAVA")
@@ -23,9 +24,8 @@ public class JavaCodeServiceImpl extends CodeService{
 
     private static final int CODE_EXEC_TIMEOUT_SEC = 3;
 
-
-    public JavaCodeServiceImpl(UserService userService, ProblemService problemService){
-        super(Language.JAVA, userService, problemService);
+    public JavaCodeServiceImpl(UserService userService){
+        super(Language.JAVA, userService);
     }
 
     public CodeResultDto compileAndRun(String code, DataType inputType, String[] inputs, DataType outputType, String[] expectedOutputs) {
@@ -91,6 +91,8 @@ public class JavaCodeServiceImpl extends CodeService{
             return "MainIntArrayIntArray";
         }else if(inputType == DataType.STRING && outputType == DataType.STRING){
             return "MainStringString";
+        }else if (inputType == DataType.STRING_ARRAY && outputType == DataType.STRING_ARRAY){
+            return "MainStringArrayStringArray";
         }
         throw new RuntimeException("Invalid Return Type/Param Type");
     }

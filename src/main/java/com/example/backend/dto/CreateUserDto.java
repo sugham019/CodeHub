@@ -17,6 +17,18 @@ public class CreateUserDto {
 
     }
 
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setAccessLevel(AccessLevel accessLevel) {
+        this.accessLevel = accessLevel;
+    }
+
     public String getEmail() {
         return email;
     }

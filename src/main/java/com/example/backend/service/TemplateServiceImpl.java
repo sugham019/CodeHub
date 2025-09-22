@@ -33,15 +33,16 @@ public class TemplateServiceImpl implements TemplateService{
 
     public String generateJavaTemplate(DataType inputType, DataType outputType){
         return """
-               public class Code{
                \n
+               public class Code{
                \n
                \tpublic\s""" +javaTypeMap.get(outputType)+" output("+javaTypeMap.get(inputType)+" input){"+
                 """
                \n
                \t}
                \n
-               }""";
+               }
+               """;
     }
 
 }

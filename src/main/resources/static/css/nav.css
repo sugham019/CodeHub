@@ -1,5 +1,138 @@
+header {
+    box-sizing: border-box;
+    position: fixed;
+    top: 0;
+    left: 0;
+    color: black;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 40px;
+    align-items: center;
+    background-color: white;
+    z-index: 10;
+}
+
+header nav{
+    margin-left: 80px;
+}
+
+.brand-logo {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.brand-logo span {
+    color: #14575d;
+}
+
+nav {
+    display: flex;
+    gap: 30px;
+    justify-content: center;
+    flex-grow: 1;
+    font-size: 16px;
+}
+
+.logo-img{
+    width: 142px;
+    height: 45px;
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+}
+
+nav .highlight-link {
+    color: #075C63;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-actions button {    
+    background-color: transparent;
+    color: black;
+    border: 1px solid black;
+    padding: 4px 11px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.header-actions button:hover {
+    background-color: rgb(57, 54, 54);
+    color: whitesmoke;
+}
 
 
-ul li{
-    display: inline;
+.header-actions > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.pfpImageMini {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #e6e6e6;
+    flex-shrink: 0;
+}
+
+.header-actions > div > span {
+    display: inline-flex;
+    align-items: center;
+}
+
+.header-actions > div > span:nth-of-type(1) {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+    color: #222;
+    background: #fff7d1;
+    padding: 3px 8px;
+    border-radius: 999px;
+    font-weight: 500;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.header-actions > div > span:nth-of-type(1)::before {
+    content: "🏆";
+    margin-right: 4px;
+    display: inline-block;
+    line-height: 1;
+}
+
+.nav-link-underline{
+    position: relative;
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-link-underline::after{
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    transform: translateX(-50%) scaleX(0);
+    transform-origin: center;
+    width: 100%;
+    height: 0.5px;
+    background-color: black;
+    transition: transform 0.4s ease 0.1s;
+}
+
+.nav-link-underline:hover::after {
+    transform: translateX(-50%) scaleX(1);
 }

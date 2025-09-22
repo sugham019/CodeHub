@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeHub FAQ</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/nav.css}" />
+    <link rel="stylesheet" th:href="@{/css/faq.css}" />
+</head>
+<body>
+<div class="background-wrapper">
+    <header>
+        <div class="brand-logo">Code<span>Hub</span></div>
+        <nav>
+            <a class="nav-link-underline" th:href="@{/index.html}">Home</a>
+            <a class="nav-link-underline" th:href="@{/explore}">Explore</a>
+            <a class="nav-link-underline" th:href="@{/problem}">Editor</a>
+            <a class="nav-link-underline" th:href="@{/resources}">Resources</a>
+        </nav>
+
+        <div class="header-actions">
+            <div th:if="${currentUser != null}">
+                <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini"
+                     data-th-id="${currentUser.id}" onclick="redirectToProfile(this)" style="cursor: pointer;">
+                <span th:text="${currentUser.ratings}"></span>
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            </div>
+            <div th:if="${currentUser == null}">
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="logout-btn">Login</button>
+                </form>
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="logout-btn">Sign Up</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <main class="faq-container">
+        <h1>Frequently Asked Questions</h1>
+
+        <div class="faq-accordion">
+
+            <div class="faq-item">
+                <button class="faq-question">How do I create an account?</button>
+                <div class="faq-answer">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce id nisi nec massa vehicula tincidunt.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">How can I reset my password?</button>
+                <div class="faq-answer">
+                    <p>Curabitur sit amet elit vitae ligula facilisis scelerisque. Pellentesque habitant morbi tristique senectus et netus.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">How do I submit my code?</button>
+                <div class="faq-answer">
+                    <p>Morbi nec libero ac lorem fermentum pretium. Sed euismod lectus a diam pulvinar, vitae dignissim ipsum hendrerit.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Can I collaborate with other users?</button>
+                <div class="faq-answer">
+                    <p>Phasellus ut orci vel erat convallis gravida. Quisque lacinia ligula ac sem malesuada, vitae elementum mi feugiat.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">Where can I find resources?</button>
+                <div class="faq-answer">
+                    <p>Donec mollis erat at magna faucibus, vel posuere lectus malesuada. Sed bibendum ligula ac ligula tincidunt, ut tempor leo lacinia.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">What programming languages are supported?</button>
+                <div class="faq-answer">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Integer sed eros euismod, pretium ligula at, fermentum risus.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">How do I track my progress?</button>
+                <div class="faq-answer">
+                    <p>Aliquam erat volutpat. Morbi sed risus ac velit convallis aliquam. Nam luctus dolor a arcu dictum, ac lacinia nulla finibus.</p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+<script>
+    const faqButtons = document.querySelectorAll(".faq-question");
+    faqButtons.forEach(button => {
+        button.addEventListener("click", () => {
+            const answer = button.nextElementSibling;
+            const isOpen = answer.style.maxHeight;
+
+            // Close all other items
+            document.querySelectorAll(".faq-answer").forEach(a => {
+                a.style.maxHeight = null;
+            });
+
+            // Toggle current
+            if (!isOpen) {
+                answer.style.maxHeight = answer.scrollHeight + "px";
+            }
+        });
+    });
+</script>
+</body>
+</html>

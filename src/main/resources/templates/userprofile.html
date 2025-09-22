@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${targetUser.displayName}"></title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    <link rel="stylesheet" th:href="@{/css/nav.css}" />
+    <link rel="stylesheet" th:href="@{/css/userprofile.css}" />
+    <script type="module" th:src="@{/js/userprofile.js}"></script>
+</head>
+<body>
+<div class="background-wrapper">
+    <header>
+        <div class="brand-logo">Code<span>Hub</span></div>
+        <nav>
+            <a class="nav-link-underline" th:href="@{/index.html}">Home</a>
+            <a class="nav-link-underline" th:href="@{/explore}">Explore</a>
+            <a class="nav-link-underline" th:href="@{/problem}">Editor</a>
+            <a class="nav-link-underline" th:href="@{/resources}">Resources</a>
+        </nav>
+
+        <div class="header-actions">
+
+            <div th:if="${currentUser != null}">
+
+                <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini"
+                     data-th-id="${currentUser.id}" onclick="redirectToProfile(this)" style="cursor: pointer;">
+
+                <span th:text="${currentUser.ratings}" ></span>
+
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            </div>
+
+            <div th:if="${currentUser == null}">
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="logout-btn">Login</button>
+                </form>
+
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="logout-btn">Sign Up</button>
+                </form>
+            </div>
+
+        </div>
+
+    </header>
+</div>
+
+<div class="profile-container">
+    <aside class="sidebar-card">
+        <div class="profile-avatar">
+            <img th:src="@{/api/user/profilePicture/{id}(id=${targetUser.id})}" alt="Profile Avatar">
+        </div>
+        <h2 class="profile-name" th:text="${targetUser.displayName}"></h2>
+        <p class="profile-email" th:text="${targetUser.email}"></p>
+
+
+
+        <input type="file" id="profilePictureInput" style="display: none;" accept="image/*">
+
+        <button class="edit-btn"
+                th:if="${targetUser.id == currentUser.id}"
+                onclick="document.getElementById('profilePictureInput').click();">
+            Update Picture
+        </button>
+
+        <p class="profile-rank">
+            🏅 Rank: <span th:text="${rank}"></span>
+        </p>
+
+        <p class="profile-dob">
+            🎂 <span th:text="${targetUser.dob}"></span>
+        </p>
+
+        <div class="community-stats">
+            <h3 class="stats-title">Community Stats</h3>
+            <p>👁 View: <span th:text="${viewsCount}"></span></p>
+            <p>💬 Comments: <span th:text="${commentsCount}"></span></p>
+        </div>
+
+        <div class="language-section" th:if="${!languageTags.isEmpty()}">
+            <h3 class="stats-title">Language</h3>
+            <div class="language-tags">
+                <span class="language-tag" th:each="lang : ${languageTags}" th:text="${lang.name}">JAVA</span>
+            </div>
+        </div>
+    </aside>
+
+    <main class="main-section">
+        <div class="top-cards">
+            <div class="card progress-card">
+                <h3 class="card-title">Progress</h3>
+                <p class="progress-total"><span th:text="${userProb.easy + userProb.medium + userProb.hard}"></span> /
+                    <span th:text="${totalProb.easy + totalProb.medium + totalProb.hard}"></span> Solved</p>
+
+
+                <div class="progress-bar">
+                    <div class="progress-fill-green"
+                         th:style="|width: ${(userProb.easy) * 100.0 / (totalProb.easy)}%|">
+                    </div>
+
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill-orange"
+                         th:style="|width: ${(userProb.medium) * 100.0 / (totalProb.medium)}%|">
+                    </div>
+
+                </div>
+
+                <div class="progress-bar">
+                    <div class="progress-fill-red"
+                         th:style="|width: ${(userProb.hard) * 100.0 / (totalProb.hard)}%|">
+                    </div>
+
+                </div>
+
+                <div class="progress-breakdown">
+                    <span class="easy">Easy <span th:text="${userProb.easy}"></span> / <span th:text="${totalProb.easy}"></span></span>
+                    <span class="medium">Medium <span th:text="${userProb.medium}"></span> / <span th:text="${totalProb.medium}"></span></span>
+                    <span class="hard">Hard <span th:text="${userProb.hard}"></span> / <span th:text="${totalProb.hard}"></span></span>
+                </div>
+            </div>
+
+            <div class="card rating-card">
+                <h3 class="card-title">Rating 🏆</h3>
+                <p class="rating-points"><span th:text="${targetUser.ratings}"></span> pts</p>
+                <div class="skills-section" th:if="${!skillTags.isEmpty()}">
+                    <h3 class="card-title">Skills</h3>
+                    <ul class="skills-list">
+                        <li th:each="skill : ${skillTags}" class="tag-item" th:text="${skill.name}"></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">Recent Problems Solved</h3>
+            <div class="recent-problems">
+                <div class="problem-item" th:each="problem : ${problems}" data-th-id="${problem.id}">
+                    <h4 th:text="${problem.title}">Problem Title</h4>
+                    <div th:switch="${problem.difficulty}">
+                        <p th:case="${T(com.example.backend.model.Difficulty).EASY}"><span class="difficulty-easy">Easy </span>· Score: 10</p>
+                        <p th:case="${T(com.example.backend.model.Difficulty).MEDIUM}"><span class="difficulty-medium">Medium </span>· Score: 20</p>
+                        <p th:case="${T(com.example.backend.model.Difficulty).HARD}"><span class="difficulty-hard">Hard </span>· Score: 30</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

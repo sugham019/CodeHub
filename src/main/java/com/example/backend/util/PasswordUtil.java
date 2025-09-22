@@ -9,7 +9,7 @@ public class PasswordUtil {
 
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder(10);
 
-    private static final String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+    private static final String CHARACTERS = "0123456789";
 
     private static final SecureRandom random = new SecureRandom();
 

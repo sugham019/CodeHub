@@ -1,22 +1,52 @@
 package com.example.backend.service;
 
-import com.example.backend.dto.CreateUserDto;
-import com.example.backend.dto.LoginUserDto;
+import com.example.backend.dto.*;
 import com.example.backend.model.Problem;
-import com.example.backend.model.User;
+import com.example.backend.model.Tag;
+import com.example.backend.model.TagType;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Set;
 
 public interface UserService {
 
-    void createAndSendVerificationCode(String userEmail);
+    String createAndSendVerificationCode(String userEmail, boolean storeTemporarily);
 
-    void createUserAccount(CreateUserDto createUserDTO, String accessKey);
+    void createUserAccount(CreateUserDto createUserDTO, String accessKey) throws JsonProcessingException;
+
+    void completeUserAccountCreation(String email, String verificationCode) throws JsonProcessingException;
 
     String login(LoginUserDto loginUserDTO);
 
-    void changePassword(String username, String oldPassword, String newPassword);
+    void changePassword(String email, String oldPassword, String newPassword);
 
-    User getUser(String email);
+    void resetPassword(String email, String otp, String newPassword);
 
-    void solveProblem(User user, Problem problem);
+    ImageDto getProfilePicture(long id);
+
+    void uploadProfilePicture(String email, MultipartFile profilePictureImage);
+
+    void setRecentProblemId(String email, String problemId);
+
+    UserDto getBasicUserInfo(String email);
+
+    UserDto getBasicUserInfo(long id);
+
+    void solveProblem(String email, Problem problem);
+
+    ProblemCountDto getSolvedProblems(long userId);
+
+    void contact(String name,  String email, String message);
+
+    Set<Tag> getTags(String email, TagType tagType);
+
+    void addTag(String email, TagType tagType, String name);
+
+    int getRatings(String email);
+
+    int getProfileViews(long userId);
+
+    void viewedProfile(long userId);
 
 }

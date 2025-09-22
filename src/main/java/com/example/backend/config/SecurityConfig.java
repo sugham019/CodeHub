@@ -6,7 +6,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -27,17 +26,52 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-        return httpSecurity.csrf(httpSecurityCsrfConfigurer -> httpSecurityCsrfConfigurer.disable())
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/user/verification-code", "/api/user/create", "/api/user/login").permitAll()
-                        .requestMatchers("/admin", "/api/problem/add", "/api/problem/remove").hasRole("ADMIN")
-                        .requestMatchers("/", "/login", "/problems", "/about", "/css/**", "/js/**", "/images/**").permitAll()
+                        .requestMatchers(
+                                "/login",
+                                "/signup",
+                                "/verification",
+                                "/",
+                                "/faq",
+                                "/forgotpassword",
+                                "/resetpassword",
+                                "/contact",
+                                "/css/**",
+                                "/js/**",
+                                "/img/**"
+                        ).permitAll()
+
+                        .requestMatchers(
+                                "/api/user/verification-code",
+                                "/api/user/forgotpassword",
+                                "/api/user/create",
+                                "/api/user/complete",
+                                "/api/user/login",
+                                "/api/user/contact"
+                        ).permitAll()
+
+                        .requestMatchers("/admin").hasRole("ADMIN")
+                        .requestMatchers(
+                                "/api/problem/add",
+                                "/api/problem/remove"
+                        ).hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                .httpBasic(Customizer.withDefaults())
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .deleteCookies("jwt")
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtAuthenticationFilter(userDetailsService), UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthenticationFilter(userDetailsService),
+                        UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 

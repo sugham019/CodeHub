@@ -1,11 +1,12 @@
 package com.example.backend.controller.api;
 
+import com.example.backend.dto.UserDto;
 import com.example.backend.service.LeaderboardService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/leaderboard")
@@ -18,8 +19,7 @@ public class LeaderboardController {
     }
 
     @GetMapping("/getTopRankers")
-    public ResponseEntity<Map<String, Integer>> getTopRankers(@RequestParam(defaultValue = "10") int limit) {
+    public ResponseEntity<List<UserDto>> getTopRankers(@RequestParam(defaultValue = "10") int limit) {
         return new ResponseEntity<>(leaderboardService.getTopRankers(limit), HttpStatus.OK);
     }
-
 }

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Editor</title>
+    <link href="https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/nav.css}" />
+    <link rel="stylesheet" th:href="@{/css/submit.css}" />
+    <script th:src="@{/js/extra.js}"></script>
+    <script th:src="@{/js/submit.js}"></script>
+</head>
+<body>
+
+<header>
+    <div class="brand-logo">Code<span>Hub</span></div>
+    <nav>
+        <a class="nav-link-underline" th:href="@{/}">Home</a>
+        <a class="nav-link-underline" th:href="@{/explore}">Explore</a>
+        <a class="highlight-link" href="#">Editor</a>
+        <a class="nav-link-underline" th:href="@{/resources}">Resources</a>
+    </nav>
+
+    <div class="header-actions">
+        <div th:if="${currentUser != null}">
+            <img th:src="@{/api/user/profilePicture/{id}(id=${currentUser.id})}" alt="Profile Picture" class="pfpImageMini"
+                 data-th-id="${currentUser.id}" onclick="redirectToProfile(this)" style="cursor: pointer;">
+
+            <span th:text="${currentUser.ratings}" id="user-rating"></span>
+
+            <form th:action="@{/logout}" method="post" style="display:inline;">
+                <button type="submit" class="logout-btn">Logout</button>
+            </form>
+        </div>
+    </div>
+
+</header>
+
+<div class="main-container">
+    <div class="panel problem-panel">
+        <div class="problem-title" data-th-id="${problem.id}" th:text="${problem.title}">Problem Title</div>
+        <div class="problem-tags">
+            <span th:each="tag : ${tags}" class="tag-item" th:text="${tag}"></span>
+            <span th:if="${problem.hint != null}" class="tag-item">
+                💡  <span th:text="${problem.hint}"></span>
+            </span>
+        </div>
+        <div class="problem-description">
+            <span th:utext="${#strings.replace(problem.pageDescription, '\n', '<br/>')}"></span>
+            <br><br>
+            <strong>Input:</strong><br>
+            <span th:utext="${#strings.replace(problem.inputType, '\n', '<br/>')}"></span><br><br>
+
+            <strong>Input Format:</strong><br>
+            <div>
+                <div th:each="input, iterStat : ${problem.inputs}" th:if="${iterStat.index < 2}">
+                    <pre th:text="${input}" class="quote-style"></pre>
+                </div>
+            </div>
+            <br>
+
+            <strong>Output:</strong><br>
+            <span th:utext="${#strings.replace(problem.outputType, '\n', '<br/>')}"></span><br><br>
+
+            <strong>Output Format:</strong><br>
+            <div>
+                <div th:each="output, iterStat : ${problem.expectedOutputs}" th:if="${iterStat.index < 2}">
+                    <pre th:text="${output}" class="quote-style"></pre>
+                </div>
+            </div>
+            <br>
+
+            <strong>Banned Libraries:</strong><br>
+            <div class="banned-libraries-list" id="bannedLibrariesList">
+                <div th:each="entry : ${problem.bannedLibrary}">
+                    <div class="language-item">
+                        <div class="language-name" onclick="toggleLibraries(this)">
+                            <span th:text="${entry.key}">Language Name</span>
+                            <span class="arrow">▼</span>
+                        </div>
+                        <ul class="library-sublist">
+                            <li th:text="${entry.value}">Banned Library</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+        <div class="comments-section">
+            <h3>Comments</h3>
+            <div class="comment-input-section">
+                <input type="text" id="newComment" placeholder="Write a comment..." />
+                <button id="submitComment">Post</button>
+            </div>
+            <div id="commentsContainer">
+                <!-- Comments will load dynamically here -->
+            </div>
+        </div>
+    </div>
+
+    <div class="panel code-panel">
+        <div class="submit-error" th:if="${error}" th:text="${error}"></div>
+
+        <form method="post">
+            <label for="language">Choose Language:</label>
+            <select id="language" name="language_id" class="select-language">
+                <option value="JAVA">Java</option>
+            </select>
+
+            <div class="editor-container">
+                <div id="lineNumbers" class="line-numbers"></div>
+                <textarea id="editor" name="code" class="code-editor" th:text="${templateCode}"></textarea>
+            </div>
+
+            <div class="controls">
+                <button class="submit-button">Submit Code</button>
+            </div>
+        </form>
+
+        <div class="testcase-results" id="testcase-dialog">
+            <h3>Output</h3>
+            <div class="testcase-result">
+                <span class="testcase-number"></span>
+                <span class="status passed"></span>
+                <span class="testcase-time"><span></span> MS</span>
+                <span class="testcase-memory"> | Memory: <span></span> KB</span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

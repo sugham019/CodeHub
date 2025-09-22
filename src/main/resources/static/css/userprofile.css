@@ -1,0 +1,359 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Satoshi', 'Verdana', sans-serif;
+}
+
+body {
+    background: rgb(248,249,250); /* unified very light off-white */
+    color: #333;
+}
+
+.profile-container {
+    display: grid;
+    grid-template-columns: 320px 1fr;
+    gap: 28px;
+    margin: 100px auto 50px;
+    padding: 0 3%;
+}
+
+.sidebar-card {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    text-align: center;
+    width: 320px;
+    align-self: start;
+    padding: 70px 24px 70px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #e0e0e0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 20px;
+    margin-bottom:20px
+}
+
+.profile-rank {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #14575d;
+    font-weight: 600;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+
+.progress-fill-green {
+    height: 100%;
+    background-color: #27ae60;
+    width: 0%;
+    border-radius: 10px 0 0 10px;
+    transition: width 0.5s ease-in-out;
+}
+
+.progress-fill-orange {
+    height: 100%;
+    background-color: #f39c12;
+    width: 0%;
+    border-radius: 10px 0 0 10px;
+    transition: width 0.5s ease-in-out;
+}
+
+.progress-fill-red {
+    height: 100%;
+    background-color: #e74c3c;
+    width: 0%;
+    border-radius: 10px 0 0 10px;
+    transition: width 0.5s ease-in-out;
+}
+
+.profile-avatar {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 16px;
+    border: 3px solid #14575d;
+}
+
+.profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.profile-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.profile-email,
+.profile-rank {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+}
+
+.edit-btn {
+    background: #14575d;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    margin: 14px 0 20px;
+    transition: background 0.2s;
+}
+
+.edit-btn:hover {
+    background: #0f4449;
+}
+
+.stats-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #14575d;
+    margin: 18px 0 10px;
+    text-align: left;
+}
+
+.community-stats p {
+    font-size: 13px;
+    margin-bottom: 6px;
+    text-align: left;
+}
+
+.language-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 8px;
+}
+
+.language-tag {
+    background: #eef2f7;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    color: #14575d;
+}
+
+.main-section {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 28px;
+    box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+}
+
+.main-section > .card:last-child {
+    height: 450px;
+    overflow-y: auto;
+}
+
+.card-title {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: #14575d;
+}
+
+.top-cards {
+    display: flex;
+    gap: 32px;
+}
+
+.progress-card,
+.rating-card {
+    flex: 1;
+    min-height: 180px;
+}
+
+.progress-total {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.progress-attempting {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 12px;
+}
+
+.progress-breakdown {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.easy { color: #27ae60; }
+.medium { color: #f39c12; }
+.hard { color: #e74c3c; }
+
+.rating-points {
+    font-size: 24px;
+    font-weight: 600;
+    color: #14575d;
+    margin-bottom: 12px;
+}
+
+.rating-trophy {
+    font-size: 16px;
+    color: #aaa;
+    margin-bottom: 12px;
+}
+
+.skills-list {
+    list-style: none;
+    font-size: 14px;
+    padding-left: 0;
+}
+
+.skills-list li {
+    margin-bottom: 6px;
+}
+
+.recent-problems {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.problem-item {
+    background: #f8fafc;
+    border: 1px solid #e6e9ef;
+    border-radius: 10px;
+    padding: 24px 18px;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.problem-item:hover {
+    background: #eef3f7;
+    transform: translateY(-2px);
+}
+
+.problem-item h4 {
+    font-size: 15px;
+    margin-bottom: 6px;
+    color: #222;
+}
+
+.problem-item p {
+    font-size: 13px;
+    color: #666;
+}
+
+.difficulty-easy { color: #27ae60; font-weight: 500; }
+.difficulty-medium { color: #f39c12; font-weight: 500; }
+.difficulty-hard { color: #e74c3c; font-weight: 500; }
+
+.divider-line {
+    height: 1px;
+    background: #ddd;
+    margin: 40px auto 20px;
+    width: 85%;
+}
+
+.site-footer {
+    background: #fff;
+    padding: 18px 0;
+    border-top: 1px solid #eee;
+}
+
+.footer-main-content {
+    max-width: 900px;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: #777;
+}
+
+.footer-nav-links {
+    list-style: none;
+    display: flex;
+    gap: 18px;
+}
+
+.footer-nav-links li a {
+    text-decoration: none;
+    color: #555;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+.footer-nav-links li a:hover {
+    color: #14575d;
+}
+
+.profile-dob {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+.tag-item {
+    display: inline-block;
+    background-color: #f3f3f3;
+    color: #4a4a4a;
+    border: 1px solid #ccc;
+    padding: 4px 12px;
+    margin: 0 10px 5px 0;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: default;
+    transition: all 0.2s ease-in-out;
+}
+
+.tag-item:hover {
+    background-color: #e0e0e0;
+    border-color: #9e9e9e;
+    color: #222;
+}
+
+.main-section > .card:last-child::-webkit-scrollbar {
+    width: 10px;
+}
+
+.main-section > .card:last-child::-webkit-scrollbar-track {
+    background: #f5f5f5;
+    border-radius: 10px;
+}
+
+.main-section > .card:last-child::-webkit-scrollbar-thumb {
+    background-color: #cccccc;
+    border-radius: 10px;
+    border: 2px solid #f5f5f5;
+}
+
+.main-section > .card:last-child::-webkit-scrollbar-thumb:hover {
+    background-color: #b5b5b5;
+}
+
+.main-section > .card:last-child {
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc #f5f5f5;
+}
+
